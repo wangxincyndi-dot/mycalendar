@@ -1,0 +1,3743 @@
+﻿<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com https://*.tcloudbaseapp.com https://*.tencentcloudapi.com https://*.cloudbase.net https://*.tcb.qcloud.la; connect-src 'self' https://*.tcloudbaseapp.com https://*.tencentcloudapi.com https://*.cloudbase.net https://*.tcb.qcloud.la https://*.qq.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的日记</title>
+  <style>
+    :root {
+      /* ===== 清新蓝调基础色（E2F0F9 / B0DDE4 / 286FB4 / FFFFFF / DF4C73） ===== */
+      --bg: #E2F0F9;
+      --card: #ffffff;
+      --card-soft: #F0F8FC;
+      --text: #1a2a3a;
+      --text-secondary: #4a6a8a;
+      --muted: #7a9ab0;
+      --muted-light: #B0DDE4;
+      --line: #C8E0E8;
+
+      /* ===== UI 元素色 ===== */
+      --primary: #286FB4;
+      --primary-soft: #E2F0F9;
+
+      --danger: #DF4C73;
+      --danger-soft: #FCE8EC;
+
+      /* ===== 今日（薄荷青） ===== */
+      --today-bg: #B0DDE4;
+      --today-border: #7AB8C0;
+      --today-text: #1a4a50;
+
+      /* ===== 节假日 / 调休 ===== */
+      --holiday: #5A9A6A;
+      --holiday-soft: #D8F0E0;
+
+      --workday: #8A8A8A;
+      --workday-soft: #E8E8E8;
+
+      /* ===== 日期徽章（普通） ===== */
+      --normal-badge: #E8E8E8;
+      --normal-text: #666666;
+
+      /* ===== 功能色（清新蓝调协调色系） ===== */
+      /* 日程-旅行玩耍：青绿 */
+      --schedule-travel-bg: #90D0B0;
+      --schedule-travel-text: #1a5a3a;
+
+      /* 日程-行程约会：暖杏 */
+      --schedule-date-bg: #F0D0A0;
+      --schedule-date-text: #6a4a1a;
+
+      /* 日程-学校：淡紫 */
+      --schedule-school-bg: #C8B8E8;
+      --schedule-school-text: #4a2a6a;
+
+      /* 日程-健跑：珊瑚 */
+      --schedule-run-bg: #F0A0A0;
+      --schedule-run-text: #6a1a1a;
+
+      /* 日程-家政：淡黄 */
+      --schedule-housework-bg: #F0E0A0;
+      --schedule-housework-text: #6a5a1a;
+
+      /* 日程-其他：天蓝 */
+      --schedule-other-bg: #90C8F0;
+      --schedule-other-text: #1a4a6a;
+
+      /* 重要事项：金橙 */
+      --important-bg: #F0C080;
+      --important-text: #6a4a1a;
+
+      /* 运动-计划：薄荷 */
+      --plan-bg: #80D8C8;
+      --plan-text: #1a5a4a;
+
+      /* 运动-记录：海蓝 */
+      --record-bg: #70B8E0;
+      --record-text: #1a3a5a;
+
+      /* 医疗健康：青绿 */
+      --health-bg: #90E0D0;
+      --health-border: #60C0B0;
+      --health-text: #1a5a4a;
+
+      /* 行程：天蓝 */
+      --traffic-bg: #80C0E8;
+      --traffic-text: #1a3a5a;
+
+      /* 旅行：薰衣草 */
+      --journey-bg: #B8A8D8;
+      --journey-border: #9888B8;
+      --journey-text: #3a2a5a;
+
+      /* inLove：玫瑰粉 */
+      --love-bg: #F0A8C0;
+      --love-border: #D088A0;
+      --love-text: #6a1a3a;
+
+      /* 运动图表色 */
+      --run-color: #E06060;
+      --trail-color: #D09040;
+      --hike-color: #60A060;
+
+      /* ===== 圆角体系 ===== */
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+
+      /* ===== 阴影（全部取消） ===== */
+      --shadow: none;
+      --modal-shadow: none;
+
+      /* ===== 字体 ===== */
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 36px 24px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1380px;
+    }
+
+    /* ===== 标题区 + 导航（同排，tab 与副标题底部对齐） ===== */
+    .app-top-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .app-header {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-title {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .app-subtitle {
+      margin: 12px 0 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    /* ===== 顶部导航（tab 靠右，与副标题底部对齐） ===== */
+    .top-tabs {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .tab-btn {
+      height: 36px;
+      padding: 0 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: var(--primary-soft);
+      transition: 0.16s ease;
+    }
+
+    .tab-btn.active {
+      background: #286FB4;
+      color: #ffffff;
+      box-shadow: none;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .calendar,
+    .stats-page {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: none;
+      padding: 36px;
+    }
+
+    .calendar-header,
+    .stats-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .month-info,
+    .stats-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .month-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .month-title-row .icon-btn {
+      flex-shrink: 0;
+    }
+
+    .month-title,
+    .stats-title {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--text);
+    }
+
+    .today-text,
+    .stats-subtitle {
+      font-size: 12px;
+      color: var(--muted-light);
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      height: 40px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--text-secondary);
+      transition: 0.16s ease;
+    }
+
+    .today-btn {
+      height: 40px;
+      border-radius: 8px;
+      background: var(--primary-soft);
+      color: var(--text-secondary);
+      transition: 0.16s ease;
+    }
+
+    .icon-btn {
+      width: 40px;
+      font-size: 22px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .today-btn {
+      padding: 0 16px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .icon-btn:hover,
+    .today-btn:hover {
+      background: var(--muted-light);
+      color: var(--text-secondary);
+    }
+
+    .calendar-scroll,
+    .stats-scroll {
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .calendar-grid-inner {
+      min-width: 1050px;
+    }
+
+    .weekdays,
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(140px, 1fr));
+    }
+
+    .weekdays {
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #ffffff;
+      padding-top: 8px;
+    }
+
+    .weekday {
+      padding: 0 0 14px;
+      text-align: center;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .days {
+      gap: 8px;
+      padding-top: 8px;
+    }
+
+    .day {
+      position: relative;
+      min-height: 138px;
+      border-radius: var(--radius-lg);
+      background: #ffffff;
+      border: 1px solid var(--line);
+      transition: background 0.16s ease;
+      overflow: hidden;
+      text-align: left;
+      padding: 0;
+    }
+
+    .day:hover {
+      background: var(--card-soft);
+      border-color: var(--line);
+      transform: none;
+    }
+
+    .day.other-month {
+      opacity: 0.36;
+    }
+
+    .date-zone {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      right: 9px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 3;
+      min-width: 0;
+      pointer-events: none;
+      padding-right: 38px;
+    }
+
+    .date-badge {
+      flex: 0 0 auto;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: var(--normal-badge);
+      color: var(--normal-text);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .important-inline-list {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      gap: 3px 6px;
+      min-width: 0;
+      overflow: visible;
+      flex-wrap: wrap;
+      padding-top: 0;
+    }
+
+    .important-inline-badge {
+      max-width: 100%;
+      min-height: 18px;
+      padding: 1px 0;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      color: var(--important-text);
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 850;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      word-break: break-word;
+      text-shadow: none;
+    }
+
+    .holiday-label {
+      position: absolute;
+      top: 16px;
+      right: 10px;
+      display: none;
+      max-width: 42px;
+      color: var(--holiday);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
+      text-align: right;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .day.weekend .date-badge,
+    .day.holiday .date-badge {
+      background: var(--holiday-soft);
+      color: var(--holiday);
+    }
+
+    .day.holiday .holiday-label {
+      display: block;
+      color: var(--holiday);
+    }
+
+    .day.workday .date-badge {
+      background: var(--workday-soft);
+      color: var(--workday);
+    }
+
+    .day.today {
+      background: var(--today-bg);
+      border-color: var(--today-border);
+      box-shadow: none;
+    }
+
+    .day.today .date-badge {
+      background: var(--today-border);
+      color: #ffffff;
+    }
+
+    .day.today .holiday-label {
+      color: var(--today-text);
+    }
+
+    .event-list {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      top: 45px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .event-badge {
+      width: 100%;
+      min-height: 23px;
+      padding: 5px 7px;
+      border-radius: var(--radius-sm);
+      font-size: 10px;
+      line-height: 1.2;
+      font-weight: 650;
+      text-align: left;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      border: none;
+      transition: 0.16s ease;
+    }
+
+    .event-badge.plan {
+      background: var(--plan-bg);
+      color: var(--plan-text);
+    }
+
+    .event-badge.record {
+      background: var(--record-bg);
+      color: var(--record-text);
+    }
+
+    .event-badge.schedule-travel {
+      background: var(--schedule-travel-bg);
+      color: var(--schedule-travel-text);
+    }
+
+    .event-badge.schedule-date {
+      background: var(--schedule-date-bg);
+      color: var(--schedule-date-text);
+    }
+
+    .event-badge.schedule-school {
+      background: var(--schedule-school-bg);
+      color: var(--schedule-school-text);
+    }
+
+    .event-badge.schedule-run {
+      background: var(--schedule-run-bg);
+      color: var(--schedule-run-text);
+    }
+
+    .event-badge.schedule-housework {
+      background: var(--schedule-housework-bg);
+      color: var(--schedule-housework-text);
+    }
+
+    .event-badge.schedule-other {
+      background: var(--schedule-other-bg);
+      color: var(--schedule-other-text);
+    }
+
+    .event-badge.health {
+      background: var(--health-bg);
+      color: var(--health-text);
+    }
+
+    .event-badge.journey {
+      background: var(--journey-bg);
+      border-color: var(--journey-border);
+      color: var(--journey-text);
+    }
+
+    .event-badge.love {
+      background: var(--love-bg);
+      border-color: var(--love-border);
+      color: var(--love-text);
+    }
+
+    .event-more {
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 650;
+      padding-left: 2px;
+    }
+
+    .calendar-note-block {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: var(--card-soft);
+      border: 1px solid var(--line);
+    }
+
+    .calendar-note-title {
+      margin: 0 0 9px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+
+    .calendar-note {
+      width: 100%;
+      min-height: 86px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      resize: vertical;
+      padding: 12px 13px;
+      line-height: 1.5;
+    }
+
+    .calendar-note:focus {
+      border-color: var(--muted-light);
+      box-shadow: none;
+    }
+
+    .note-helper {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .modal-mask {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 42, 58, 0.3);
+      backdrop-filter: none;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 50;
+    }
+
+    .modal-mask.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 620px;
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      box-shadow: none;
+      padding: 28px;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .modal-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    .modal-date {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .modal-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .add-entry-btn {
+      height: 34px;
+      padding: 0 13px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 750;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .back-list-btn {
+      display: none;
+      height: 34px;
+      padding: 0 13px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 750;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .back-list-btn.show {
+      display: inline-flex;
+    }
+
+    .close-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--text-secondary);
+      font-size: 24px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 2px;
+    }
+
+    .day-record-view {
+      display: block;
+    }
+
+    .day-record-view.hide {
+      display: none;
+    }
+
+    .day-record-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .day-record-count {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .day-record-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      max-height: 58vh;
+      overflow-y: auto;
+      padding-right: 4px;
+      overscroll-behavior: contain;
+    }
+
+    .day-record-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .day-record-list::-webkit-scrollbar-thumb {
+      background: var(--muted-light);
+      border-radius: 999px;
+    }
+
+    .day-record-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .day-record-empty {
+      padding: 28px 16px;
+      border-radius: var(--radius-lg);
+      background: var(--card-soft);
+      border: 1px dashed var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .day-record-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      padding: 13px;
+      border-radius: var(--radius-lg);
+      background: var(--primary-soft);
+      border: 1px solid var(--line);
+    }
+
+    .day-record-main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .day-record-name {
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.4;
+      font-weight: 800;
+      word-break: break-word;
+    }
+
+    .day-record-meta {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .day-record-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .entry-form-wrap {
+      display: none;
+    }
+
+    .entry-form-wrap.show {
+      display: block;
+    }
+
+    .entry-type-tabs {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      margin-bottom: 16px;
+      padding: 5px;
+      border-radius: var(--radius-lg);
+      background: var(--primary-soft);
+      border: 1px solid var(--line);
+    }
+
+    .entry-type-btn {
+      min-height: 38px;
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 750;
+      transition: 0.16s ease;
+      padding: 6px 4px;
+      line-height: 1.15;
+    }
+
+    .entry-type-btn.active {
+      background: #ffffff;
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .small-action-btn {
+      height: 32px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .convert-btn,
+    .edit-btn {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-color: var(--muted-light);
+    }
+
+    .convert-btn:hover,
+    .edit-btn:hover {
+      background: var(--muted-light);
+    }
+
+    .delete-btn {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: var(--danger-soft);
+    }
+
+    .delete-btn:hover {
+      background: #fcdde4;
+    }
+
+    .form {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form.active {
+      display: flex;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field-label {
+      font-size: 13px;
+      font-weight: 650;
+      color: var(--text-secondary);
+    }
+
+    .required {
+      color: var(--danger);
+      margin-left: 2px;
+    }
+
+    .input,
+    .textarea,
+    .select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+      transition: 0.16s ease;
+    }
+
+    .input,
+    .select {
+      height: 46px;
+      padding: 0 13px;
+    }
+
+    .textarea {
+      min-height: 88px;
+      resize: vertical;
+      padding: 12px 13px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .input:focus,
+    .textarea:focus,
+    .select:focus {
+      border-color: var(--muted-light);
+      box-shadow: none;
+    }
+
+    .time-row,
+    .metric-row,
+    .traffic-place-row,
+    .date-range-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .mode-options,
+    .type-options {
+      display: grid;
+      gap: 9px;
+    }
+
+    .mode-options {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .type-options {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .traffic-options {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .radio-card {
+      position: relative;
+    }
+
+    .radio-card input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio-card span {
+      min-height: 42px;
+      padding: 8px 6px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 650;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: 0.16s ease;
+    }
+
+    .radio-card input:checked + span {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-color: var(--muted-light);
+      box-shadow: none;
+    }
+
+    .conditional-fields {
+      display: none;
+      padding: 12px;
+      border-radius: var(--radius-lg);
+      background: var(--card-soft);
+      border: 1px solid var(--line);
+    }
+
+    .conditional-fields.show {
+      display: block;
+    }
+
+    .helper {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .file-input {
+      padding: 11px 13px;
+      height: auto;
+    }
+
+    .error {
+      display: none;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: var(--danger-soft);
+      color: var(--danger);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .error.show {
+      display: block;
+    }
+
+    .form-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding-top: 4px;
+    }
+
+    .submit-btn,
+    .cancel-btn {
+      height: 46px;
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-weight: 700;
+      transition: 0.16s ease;
+    }
+
+    .submit-btn {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .submit-btn:hover {
+      background: #1e5a9a;
+    }
+
+    .cancel-btn {
+      background: var(--primary-soft);
+      color: var(--text-secondary);
+    }
+
+    .cancel-btn:hover {
+      background: var(--muted-light);
+    }
+
+    .stats-card {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: #ffffff;
+      border: 1px solid var(--line);
+      margin-bottom: 18px;
+    }
+
+    .year-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .year-summary-card {
+      padding: 15px;
+      border-radius: var(--radius-lg);
+      background: #ffffff;
+      border: 1px solid var(--line);
+    }
+
+    .year-summary-title {
+      margin: 0 0 11px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .stat-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .stat-line:last-child {
+      border-bottom: none;
+    }
+
+    .stat-line strong {
+      color: var(--text);
+      font-weight: 850;
+    }
+
+    .stat-line.total {
+      margin-top: 4px;
+      padding-top: 9px;
+      border-top: 1px solid var(--line);
+      color: var(--text-secondary);
+      font-weight: 800;
+    }
+
+    .stat-line.total strong {
+      color: var(--primary);
+    }
+
+    .chart-wrap {
+      display: grid;
+      gap: 12px;
+    }
+
+    .chart-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .chart-legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .chart-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .chart-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+    }
+
+    .chart-color.run {
+      background: var(--run-color);
+    }
+
+    .chart-color.trail {
+      background: var(--trail-color);
+    }
+
+    .chart-color.hike {
+      background: var(--hike-color);
+    }
+
+    .year-chart-grid {
+      min-width: 1140px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(360px, 1fr));
+      gap: 14px;
+    }
+
+    .year-chart {
+      min-width: 360px;
+      padding: 14px;
+      border-radius: 20px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+    }
+
+    .year-chart-title {
+      margin: 0 0 10px;
+      font-size: 15px;
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .month-bar-chart {
+      height: 240px;
+      display: grid;
+      grid-template-columns: repeat(12, minmax(18px, 1fr));
+      align-items: end;
+      gap: 5px;
+      padding: 16px 2px 4px;
+      border-radius: var(--radius-lg);
+      background: var(--card-soft);
+      border: 1px solid var(--line);
+    }
+
+    .month-bar-group {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 7px;
+      height: 100%;
+    }
+
+    .month-bar-stack {
+      width: 100%;
+      max-width: 22px;
+      height: 180px;
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: flex-start;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--card-soft);
+      border: none;
+    }
+
+    .bar-segment {
+      width: 100%;
+      min-height: 0;
+      transition: 0.18s ease;
+    }
+
+    .bar-segment.run {
+      background: var(--run-color);
+    }
+
+    .bar-segment.trail {
+      background: var(--trail-color);
+    }
+
+    .bar-segment.hike {
+      background: var(--hike-color);
+    }
+
+    .month-bar-label {
+      color: var(--muted-light);
+      font-size: 10px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .year-total {
+      margin-top: 8px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .monthly-list-card {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: #ffffff;
+      border: 1px solid var(--line);
+    }
+
+    .monthly-list-title {
+      margin: 0 0 12px;
+      color: var(--text-secondary);
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .monthly-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .monthly-year-block {
+      padding: 13px;
+      border-radius: var(--radius-lg);
+      background: var(--card-soft);
+      border: 1px solid var(--line);
+    }
+
+    .monthly-year-title {
+      margin: 0 0 9px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .monthly-item {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .monthly-item:last-child {
+      border-bottom: none;
+    }
+
+    .monthly-month {
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .monthly-meta {
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .monthly-total {
+      margin-top: 4px;
+      color: var(--text-secondary);
+      font-weight: 800;
+    }
+
+    @media (max-width: 900px) {
+      .calendar-grid-inner {
+        min-width: 720px;
+      }
+
+      .weekdays,
+      .days {
+        grid-template-columns: repeat(7, minmax(94px, 1fr));
+      }
+
+      .day {
+        min-height: 96px;
+      }
+
+      .year-summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .year-chart-grid {
+        min-width: 1140px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        align-items: flex-start;
+        padding: 14px;
+      }
+
+      .app-title {
+        font-size: 26px;
+      }
+
+      .app-subtitle {
+        font-size: 12px;
+      }
+
+      .calendar,
+      .stats-page {
+        padding: 20px 14px;
+        border-radius: 22px;
+        box-shadow: none;
+      }
+
+      .calendar-header,
+      .stats-header {
+        margin-bottom: 22px;
+      }
+
+      .month-title-row {
+        gap: 8px;
+      }
+
+      .month-title,
+      .stats-title {
+        font-size: 26px;
+      }
+
+      .today-text,
+      .stats-subtitle {
+        font-size: 11px;
+      }
+
+      .actions {
+        gap: 6px;
+      }
+
+      .icon-btn,
+      .today-btn {
+        height: 36px;
+      }
+
+      .icon-btn {
+        width: 36px;
+        font-size: 20px;
+      }
+
+      .today-btn {
+        padding: 0 12px;
+        font-size: 13px;
+      }
+
+      .calendar-grid-inner {
+        min-width: 680px;
+      }
+
+      .weekdays,
+      .days {
+        grid-template-columns: repeat(7, minmax(88px, 1fr));
+      }
+
+      .days {
+        gap: 5px;
+      }
+
+      .day {
+        min-height: 100px;
+        border-radius: 14px;
+      }
+
+      .date-zone {
+        top: 6px;
+        left: 6px;
+        right: 6px;
+        gap: 5px;
+        padding-right: 34px;
+        align-items: center;
+      }
+
+      .date-badge {
+        min-width: 25px;
+        height: 25px;
+        padding: 0 7px;
+        font-size: 12px;
+      }
+
+      .important-inline-badge {
+        min-height: 16px;
+        font-size: 10px;
+      }
+
+      .holiday-label {
+        top: 13px;
+        right: 7px;
+        max-width: 36px;
+        font-size: 11px;
+      }
+
+      .event-list {
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        top: 43px;
+        gap: 3px;
+      }
+
+      .event-badge {
+        min-height: 20px;
+        padding: 4px 5px;
+        border-radius: 5px;
+        font-size: 9px;
+      }
+
+      .modal-mask {
+        align-items: flex-end;
+        padding: 10px;
+      }
+
+      .modal {
+        max-height: calc(100vh - 20px);
+        border-radius: 24px;
+        padding: 20px 16px;
+      }
+
+      .modal-title {
+        font-size: 20px;
+      }
+
+      .entry-type-tabs {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .type-options,
+      .traffic-options {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .monthly-list {
+        grid-template-columns: 1fr;
+      }
+
+      .day-record-item {
+        grid-template-columns: 1fr;
+      }
+
+      .day-record-actions {
+        justify-content: stretch;
+      }
+
+      .small-action-btn {
+        flex: 1;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .app-title {
+        font-size: 23px;
+      }
+
+      .app-subtitle {
+        font-size: 11px;
+      }
+
+      .calendar,
+      .stats-page {
+        padding: 18px 10px;
+      }
+
+      .month-title-row {
+        gap: 6px;
+      }
+
+      .month-title,
+      .stats-title {
+        font-size: 23px;
+      }
+
+      .today-btn {
+        display: none;
+      }
+
+      .weekday {
+        font-size: 12px;
+      }
+
+      .time-row,
+      .metric-row,
+      .traffic-place-row,
+      .date-range-row,
+      .mode-options {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <script src="https://imgcache.qq.com/qcloud/cloudbase-js-sdk/1.7.1/cloudbase.full.js"></script>
+</head>
+<body>
+  <main class="page">
+    <div class="app">
+      <div class="app-top-row">
+        <header class="app-header">
+          <h1 class="app-title">我的日历</h1>
+          <p class="app-subtitle" id="todayText">今天是 2026 年 6 月 17 日，星期三</p>
+        </header>
+        <nav class="top-tabs">
+          <button class="tab-btn active" type="button" data-tab="calendarPanel">我的日记</button>
+          <button class="tab-btn" type="button" data-tab="statsPanel">跑量统计</button>
+        </nav>
+      </div>
+
+      <section class="panel active" id="calendarPanel">
+        <section class="calendar">
+          <header class="calendar-header">
+            <div class="month-info">
+              <div class="month-title-row">
+                <button class="icon-btn" id="prevBtn" aria-label="上个月">‹</button>
+                <h1 class="month-title" id="monthTitle"></h1>
+                <button class="icon-btn" id="nextBtn" aria-label="下个月">›</button>
+              </div>
+
+            </div>
+
+            <div class="actions">
+              <button class="today-btn" id="todayBtn">回到今天</button>
+            </div>
+          </header>
+
+          <div class="calendar-scroll">
+            <div class="calendar-grid-inner">
+              <div class="weekdays">
+                <div class="weekday">周一</div>
+                <div class="weekday">周二</div>
+                <div class="weekday">周三</div>
+                <div class="weekday">周四</div>
+                <div class="weekday">周五</div>
+                <div class="weekday">周六</div>
+                <div class="weekday">周日</div>
+              </div>
+
+              <div class="days" id="daysGrid"></div>
+            </div>
+          </div>
+
+          <section class="calendar-note-block">
+            <h2 class="calendar-note-title">备注</h2>
+            <textarea class="calendar-note" id="calendarNote" placeholder="可以记录本月训练目标、身体状态、出行安排或其他事项"></textarea>
+            <div class="note-helper">备注内容会保存在当前页面状态中，刷新页面后会清空</div>
+          </section>
+        </section>
+      </section>
+
+      <section class="panel" id="statsPanel">
+        <section class="stats-page">
+          <header class="stats-header">
+            <div class="stats-title-wrap">
+              <div class="month-title-row">
+                <button class="icon-btn" id="statsPrevBtn" aria-label="前移一年">‹</button>
+                <h1 class="stats-title" id="statsTitle">三年跑量统计</h1>
+                <button class="icon-btn" id="statsNextBtn" aria-label="后移一年">›</button>
+              </div>
+              <div class="stats-subtitle" id="statsSubtitle"></div>
+            </div>
+
+            <div class="actions">
+              <button class="today-btn" id="statsCurrentBtn">今年</button>
+            </div>
+          </header>
+
+          <section class="stats-card">
+            <div class="year-summary-grid" id="yearSummaryGrid"></div>
+
+            <div class="chart-wrap">
+              <div class="chart-title">
+                <span>按月堆积柱状图</span>
+                <div class="chart-legend">
+                  <span class="chart-legend-item"><span class="chart-color run"></span>跑步</span>
+                  <span class="chart-legend-item"><span class="chart-color trail"></span>越野跑</span>
+                  <span class="chart-legend-item"><span class="chart-color hike"></span>徒步</span>
+                </div>
+              </div>
+
+              <div class="stats-scroll">
+                <div class="year-chart-grid" id="yearChartGrid"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="monthly-list-card">
+            <h2 class="monthly-list-title">按月列示跑量</h2>
+            <div class="monthly-list" id="monthlyList"></div>
+          </section>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal-mask" id="modalMask">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header class="modal-header">
+        <div class="modal-title-wrap">
+          <h2 class="modal-title" id="modalTitle">当日记录</h2>
+          <div class="modal-date" id="modalDate"></div>
+        </div>
+        <div class="modal-header-actions">
+          <button class="back-list-btn" id="backListBtn" type="button">返回</button>
+          <button class="add-entry-btn" id="addEntryBtn" type="button">新增</button>
+          <button class="close-btn" id="closeModalBtn" aria-label="关闭">×</button>
+        </div>
+      </header>
+
+      <div class="day-record-view" id="dayRecordView">
+        <div class="day-record-header">
+          <div class="day-record-count" id="dayRecordCount"></div>
+        </div>
+        <div class="day-record-list" id="dayRecordList"></div>
+      </div>
+
+      <div class="entry-form-wrap" id="entryFormWrap">
+        <div class="entry-type-tabs">
+          <button class="entry-type-btn active" type="button" data-entry-form="importantForm">重要事项</button>
+          <button class="entry-type-btn" type="button" data-entry-form="scheduleForm">日程</button>
+          <button class="entry-type-btn" type="button" data-entry-form="sportForm">运动</button>
+          <button class="entry-type-btn" type="button" data-entry-form="trafficForm">行程</button>
+          <button class="entry-type-btn" type="button" data-entry-form="healthForm">医疗健康</button>
+          <button class="entry-type-btn" type="button" data-entry-form="loveForm">inLove</button>
+        </div>
+
+        <form class="form active" id="importantForm" data-entry-kind="important">
+          <div class="date-range-row">
+            <div class="field">
+              <label class="field-label" for="importantStartDate">
+                开始日期<span class="required">*</span>
+              </label>
+              <input class="input" id="importantStartDate" type="date" required="">
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="importantEndDate">
+                结束日期<span class="required">*</span>
+              </label>
+              <input class="input" id="importantEndDate" type="date" required="">
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              类别<span class="required">*</span>
+            </div>
+            <div class="type-options">
+              <label class="radio-card">
+                <input type="radio" name="importantCategory" value="纪念日" required="">
+                <span>纪念日</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="importantCategory" value="赛事">
+                <span>赛事</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="importantCategory" value="旅行">
+                <span>旅行</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="importantCategory" value="其他">
+                <span>其他</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="importantNote">
+              备注
+            </label>
+            <textarea class="textarea" id="importantNote" placeholder="可填写纪念日名称、赛事名称、旅行安排等"></textarea>
+          </div>
+
+          <div class="error" id="importantError"></div>
+
+          <div class="form-actions">
+            <button class="submit-btn" type="submit" id="importantSubmitBtn">保存</button>
+            <button class="cancel-btn" type="button" data-cancel-form="">取消</button>
+          </div>
+        </form>
+
+        <form class="form" id="scheduleForm" data-entry-kind="schedule">
+          <div class="field">
+            <label class="field-label" for="scheduleDate">
+              日期<span class="required">*</span>
+            </label>
+            <input class="input" id="scheduleDate" type="date" required="">
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              类别<span class="required">*</span>
+            </div>
+            <div class="type-options">
+              <label class="radio-card">
+                <input type="radio" name="scheduleCategory" value="旅行玩耍" required="">
+                <span>旅行玩耍</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="scheduleCategory" value="行程约会">
+                <span>行程约会</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="scheduleCategory" value="学校">
+                <span>学校</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="scheduleCategory" value="健跑">
+                <span>健跑</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="scheduleCategory" value="家政">
+                <span>家政</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="scheduleCategory" value="其他">
+                <span>其他</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="time-row">
+            <div class="field">
+              <label class="field-label" for="scheduleStartTime">
+                开始时间<span class="required">*</span>
+              </label>
+              <input class="input" id="scheduleStartTime" type="time" required="">
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="scheduleEndTime">
+                结束时间
+              </label>
+              <input class="input" id="scheduleEndTime" type="time">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="scheduleLocation">
+              地点
+            </label>
+            <input class="input" id="scheduleLocation" type="text" list="locationHistory" placeholder="例如：学校、公司、咖啡馆、公园">
+            <div class="helper">地点会和其他记录共用历史候选</div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="scheduleNote">
+              备注
+            </label>
+            <textarea class="textarea" id="scheduleNote" placeholder="可填写具体安排或注意事项"></textarea>
+          </div>
+
+          <div class="error" id="scheduleError"></div>
+
+          <div class="form-actions">
+            <button class="submit-btn" type="submit" id="scheduleSubmitBtn">保存</button>
+            <button class="cancel-btn" type="button" data-cancel-form="">取消</button>
+          </div>
+        </form>
+
+        <form class="form" id="sportForm" data-entry-kind="sport">
+          <div class="field">
+            <label class="field-label" for="sportDate">
+              日期<span class="required">*</span>
+            </label>
+            <input class="input" id="sportDate" type="date" required="">
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              添加类型<span class="required">*</span>
+            </div>
+
+            <div class="mode-options">
+              <label class="radio-card">
+                <input type="radio" name="sportEntryMode" value="plan" checked="">
+                <span>运动计划</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="sportEntryMode" value="record">
+                <span>运动记录</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="sportName">
+              运动名称<span class="required">*</span>
+            </label>
+            <input class="input" id="sportName" type="text" placeholder="例如：晨跑、力量训练、游泳" required="">
+          </div>
+
+          <div class="time-row">
+            <div class="field">
+              <label class="field-label" for="startTime">
+                开始时间<span class="required">*</span>
+              </label>
+              <input class="input" id="startTime" type="time" required="">
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="endTime">
+                结束时间
+              </label>
+              <input class="input" id="endTime" type="time">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="location">
+              地点
+            </label>
+            <input class="input" id="location" type="text" list="locationHistory" placeholder="例如：奥森南园、健身房、小区泳池">
+            <datalist id="locationHistory"></datalist>
+            <div class="helper">输入过的地点会在下次填写时自动出现在候选项中</div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              运动类型<span class="required">*</span>
+            </div>
+
+            <div class="type-options">
+              <label class="radio-card">
+                <input type="radio" name="sportType" value="跑步" required="">
+                <span>跑步</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="sportType" value="越野跑">
+                <span>越野跑</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="sportType" value="游泳">
+                <span>游泳</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="sportType" value="自行车">
+                <span>自行车</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="sportType" value="徒步">
+                <span>徒步</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="sportType" value="力量训练">
+                <span>力量训练</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="sportType" value="射箭">
+                <span>射箭</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="sportType" value="跳绳">
+                <span>跳绳</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="sportType" value="其他">
+                <span>其他</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="conditional-fields" id="distanceClimbFields">
+            <div class="metric-row">
+              <div class="field">
+                <label class="field-label" for="distanceKm">
+                  里程 km<span class="required" id="distanceRequiredMark">*</span>
+                </label>
+                <input class="input" id="distanceKm" type="number" min="0" step="0.01" placeholder="例如：5.20">
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="climbM">
+                  爬升 m
+                </label>
+                <input class="input" id="climbM" type="number" min="0" step="1" placeholder="例如：80">
+              </div>
+            </div>
+          </div>
+
+          <div class="conditional-fields" id="swimFields">
+            <div class="field">
+              <label class="field-label" for="swimDistance">
+                里程 m<span class="required">*</span>
+              </label>
+              <input class="input" id="swimDistance" type="number" min="0" step="1" placeholder="例如：1000">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="sportNote">
+              笔记
+            </label>
+            <textarea class="textarea" id="sportNote" placeholder="记录一下今天的状态、强度、天气或感受"></textarea>
+          </div>
+
+          <div class="error" id="sportError"></div>
+
+          <div class="form-actions">
+            <button class="submit-btn" type="submit" id="sportSubmitBtn">保存</button>
+            <button class="cancel-btn" type="button" data-cancel-form="">取消</button>
+          </div>
+        </form>
+
+        <form class="form" id="trafficForm" data-entry-kind="traffic">
+          <div class="field">
+            <label class="field-label" for="trafficDate">
+              日期<span class="required">*</span>
+            </label>
+            <input class="input" id="trafficDate" type="date" required="">
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              行程方式<span class="required">*</span>
+            </div>
+            <div class="type-options traffic-options">
+              <label class="radio-card">
+                <input type="radio" name="trafficMode" value="飞机" required="">
+                <span>飞机</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="trafficMode" value="高铁">
+                <span>高铁</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="trafficMode" value="火车">
+                <span>火车</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="trafficMode" value="打车">
+                <span>打车</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="trafficMode" value="自驾">
+                <span>自驾</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="trafficMode" value="其他">
+                <span>其他</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="time-row">
+            <div class="field">
+              <label class="field-label" for="trafficStartTime">
+                开始时间
+              </label>
+              <input class="input" id="trafficStartTime" type="time">
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="trafficEndTime">
+                结束时间
+              </label>
+              <input class="input" id="trafficEndTime" type="time">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="trafficNo">
+              航班号 / 高铁号
+            </label>
+            <input class="input" id="trafficNo" type="text" placeholder="例如：CA1234、G88">
+          </div>
+
+          <div class="traffic-place-row">
+            <div class="field">
+              <label class="field-label" for="trafficFrom">
+                出发地
+              </label>
+              <input class="input" id="trafficFrom" type="text" placeholder="例如：北京">
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="trafficTo">
+                到达地
+              </label>
+              <input class="input" id="trafficTo" type="text" placeholder="例如：上海">
+            </div>
+          </div>
+
+          <div class="error" id="trafficError"></div>
+
+          <div class="form-actions">
+            <button class="submit-btn" type="submit" id="trafficSubmitBtn">保存</button>
+            <button class="cancel-btn" type="button" data-cancel-form="">取消</button>
+          </div>
+        </form>
+
+        <form class="form" id="healthForm" data-entry-kind="health">
+          <div class="field">
+            <label class="field-label" for="healthDate">
+              日期<span class="required">*</span>
+            </label>
+            <input class="input" id="healthDate" type="date" required="">
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              类别<span class="required">*</span>
+            </div>
+            <div class="type-options">
+              <label class="radio-card">
+                <input type="radio" name="healthCategory" value="姨妈" required="">
+                <span>姨妈</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="healthCategory" value="心理咨询">
+                <span>心理咨询</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="healthCategory" value="其他">
+                <span>其他</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="healthTime">
+              时间
+            </label>
+            <input class="input" id="healthTime" type="time">
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="healthNote">
+              备注
+            </label>
+            <textarea class="textarea" id="healthNote" placeholder="可填写状态、预约信息或其他健康记录"></textarea>
+          </div>
+
+          <div class="error" id="healthError"></div>
+
+          <div class="form-actions">
+            <button class="submit-btn" type="submit" id="healthSubmitBtn">保存</button>
+            <button class="cancel-btn" type="button" data-cancel-form="">取消</button>
+          </div>
+        </form>
+
+        <form class="form" id="loveForm" data-entry-kind="love">
+          <div class="field">
+            <label class="field-label" for="loveDate">
+              日期<span class="required">*</span>
+            </label>
+            <input class="input" id="loveDate" type="date" required="">
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="loveLocation">
+              地点
+            </label>
+            <input class="input" id="loveLocation" type="text" list="locationHistory" placeholder="例如：咖啡馆、公园、家里">
+            <div class="helper">地点会和其他记录共用历史候选</div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="loveNote">
+              笔记
+            </label>
+            <textarea class="textarea" id="loveNote" placeholder="记录一次在一起的瞬间"></textarea>
+          </div>
+
+          <div class="error" id="loveError"></div>
+
+          <div class="form-actions">
+            <button class="submit-btn" type="submit" id="loveSubmitBtn">保存</button>
+            <button class="cancel-btn" type="button" data-cancel-form="">取消</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // ===== CloudBase 初始化 =====
+    const ENV_ID = "hello-coder-d3geutyjt8abd7eba";
+    const app = cloudbase.init({ env: ENV_ID });
+    const db = app.database();
+    const auth = app.auth({ persistence: "local" });
+
+    // ===== 数据持久化 =====
+    async function initCloudBase() {
+      try {
+        await auth.anonymousAuthProvider().signIn();
+        console.log("CloudBase 匿名登录成功");
+      } catch (e) {
+        console.warn("CloudBase 登录失败，使用本地模式:", e.message);
+      }
+      await loadFromCloud();
+    }
+
+    async function loadFromCloud() {
+      try {
+        // 加载条目
+        const entriesRes = await db.collection("calendar_entries").limit(1000).get();
+        if (entriesRes.data && entriesRes.data.length > 0) {
+          entriesRes.data.forEach((doc) => {
+            allEntries[doc.dateKey] = doc.entries || [];
+          });
+        }
+        // 加载元数据
+        const metaRes = await db.collection("calendar_meta").where({ _id: "app_meta" }).get();
+        if (metaRes.data && metaRes.data.length > 0) {
+          const meta = metaRes.data[0];
+          calendarNoteText = meta.calendarNoteText || "";
+          if (meta.rememberedLocations) {
+            rememberedLocations.length = 0;
+            rememberedLocations.push(...meta.rememberedLocations);
+          }
+        }
+        if (calendarNote) calendarNote.value = calendarNoteText;
+        updateLocationHistory();
+        console.log("从云端加载数据完成");
+      } catch (e) {
+        console.warn("云端数据加载失败:", e.message);
+      }
+    }
+
+    async function saveToCloud() {
+      try {
+        // 保存条目（按日期键逐条 upsert）
+        for (const dateKey in allEntries) {
+          if (allEntries[dateKey] && allEntries[dateKey].length > 0) {
+            const existing = await db.collection("calendar_entries").where({ dateKey }).get();
+            if (existing.data && existing.data.length > 0) {
+              await db.collection("calendar_entries").doc(existing.data[0]._id).update({
+                entries: allEntries[dateKey],
+                updatedAt: new Date()
+              });
+            } else {
+              await db.collection("calendar_entries").add({
+                dateKey,
+                entries: allEntries[dateKey],
+                createdAt: new Date(),
+                updatedAt: new Date()
+              });
+            }
+          }
+        }
+        // 保存元数据
+        const metaData = {
+          calendarNoteText,
+          rememberedLocations: [...rememberedLocations]
+        };
+        const metaRes = await db.collection("calendar_meta").where({ _id: "app_meta" }).get();
+        if (metaRes.data && metaRes.data.length > 0) {
+          await db.collection("calendar_meta").doc(metaRes.data[0]._id).update(metaData);
+        } else {
+          await db.collection("calendar_meta").add({ _id: "app_meta", ...metaData });
+        }
+        console.log("数据已保存到云端");
+      } catch (e) {
+        console.warn("云端保存失败:", e.message);
+      }
+    }
+
+    async function deleteDateFromCloud(dateKey) {
+      try {
+        const existing = await db.collection("calendar_entries").where({ dateKey }).get();
+        if (existing.data && existing.data.length > 0) {
+          await db.collection("calendar_entries").doc(existing.data[0]._id).remove();
+        }
+      } catch (e) {
+        console.warn("云端删除失败:", e.message);
+      }
+    }
+
+    // ===== DOM 元素引用 =====
+    const monthTitle = document.getElementById("monthTitle");
+    const todayText = document.getElementById("todayText");
+    const daysGrid = document.getElementById("daysGrid");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const todayBtn = document.getElementById("todayBtn");
+
+    const calendarNote = document.getElementById("calendarNote");
+
+    const modalMask = document.getElementById("modalMask");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDate = document.getElementById("modalDate");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const addEntryBtn = document.getElementById("addEntryBtn");
+    const backListBtn = document.getElementById("backListBtn");
+    const dayRecordView = document.getElementById("dayRecordView");
+    const dayRecordCount = document.getElementById("dayRecordCount");
+    const dayRecordList = document.getElementById("dayRecordList");
+    const entryFormWrap = document.getElementById("entryFormWrap");
+
+    const entryTypeBtns = document.querySelectorAll(".entry-type-btn");
+    const forms = document.querySelectorAll(".form");
+
+    const sportForm = document.getElementById("sportForm");
+    const sportDateInput = document.getElementById("sportDate");
+    const sportError = document.getElementById("sportError");
+    const sportSubmitBtn = document.getElementById("sportSubmitBtn");
+
+    const sportNameInput = document.getElementById("sportName");
+    const startTimeInput = document.getElementById("startTime");
+    const endTimeInput = document.getElementById("endTime");
+    const locationInput = document.getElementById("location");
+    const locationHistory = document.getElementById("locationHistory");
+    const sportNoteInput = document.getElementById("sportNote");
+    const photoInput = document.getElementById("photo");
+
+    const distanceClimbFields = document.getElementById("distanceClimbFields");
+    const distanceRequiredMark = document.getElementById("distanceRequiredMark");
+    const distanceKmInput = document.getElementById("distanceKm");
+    const climbMInput = document.getElementById("climbM");
+    const swimFields = document.getElementById("swimFields");
+    const swimDistanceInput = document.getElementById("swimDistance");
+
+    const importantForm = document.getElementById("importantForm");
+    const importantStartDateInput = document.getElementById("importantStartDate");
+    const importantEndDateInput = document.getElementById("importantEndDate");
+    const importantNoteInput = document.getElementById("importantNote");
+    const importantError = document.getElementById("importantError");
+    const importantSubmitBtn = document.getElementById("importantSubmitBtn");
+
+    const scheduleForm = document.getElementById("scheduleForm");
+    const scheduleDateInput = document.getElementById("scheduleDate");
+    const scheduleStartTimeInput = document.getElementById("scheduleStartTime");
+    const scheduleEndTimeInput = document.getElementById("scheduleEndTime");
+    const scheduleLocationInput = document.getElementById("scheduleLocation");
+    const scheduleNoteInput = document.getElementById("scheduleNote");
+    const scheduleError = document.getElementById("scheduleError");
+    const scheduleSubmitBtn = document.getElementById("scheduleSubmitBtn");
+
+    const healthForm = document.getElementById("healthForm");
+    const healthDateInput = document.getElementById("healthDate");
+    const healthTimeInput = document.getElementById("healthTime");
+    const healthNoteInput = document.getElementById("healthNote");
+    const healthError = document.getElementById("healthError");
+    const healthSubmitBtn = document.getElementById("healthSubmitBtn");
+
+    const trafficForm = document.getElementById("trafficForm");
+    const trafficDateInput = document.getElementById("trafficDate");
+    const trafficStartTimeInput = document.getElementById("trafficStartTime");
+    const trafficEndTimeInput = document.getElementById("trafficEndTime");
+    const trafficNoInput = document.getElementById("trafficNo");
+    const trafficFromInput = document.getElementById("trafficFrom");
+    const trafficToInput = document.getElementById("trafficTo");
+    const trafficError = document.getElementById("trafficError");
+    const trafficSubmitBtn = document.getElementById("trafficSubmitBtn");
+
+    const loveForm = document.getElementById("loveForm");
+    const loveDateInput = document.getElementById("loveDate");
+    const loveLocationInput = document.getElementById("loveLocation");
+    const loveNoteInput = document.getElementById("loveNote");
+    const loveError = document.getElementById("loveError");
+    const loveSubmitBtn = document.getElementById("loveSubmitBtn");
+
+    const tabBtns = document.querySelectorAll(".top-tabs .tab-btn");
+    const panels = document.querySelectorAll(".panel");
+
+    const statsTitle = document.getElementById("statsTitle");
+    const statsSubtitle = document.getElementById("statsSubtitle");
+    const statsPrevBtn = document.getElementById("statsPrevBtn");
+    const statsNextBtn = document.getElementById("statsNextBtn");
+    const statsCurrentBtn = document.getElementById("statsCurrentBtn");
+    const yearSummaryGrid = document.getElementById("yearSummaryGrid");
+    const yearChartGrid = document.getElementById("yearChartGrid");
+    const monthlyList = document.getElementById("monthlyList");
+
+    let currentDate = new Date();
+    let statsBaseYear = new Date().getFullYear();
+    let selectedDateKey = "";
+    let editingId = null;
+    let editingOriginalDateKey = "";
+    let editingKind = "";
+
+    const allEntries = {};
+    const rememberedLocations = [];
+    let calendarNoteText = "";
+
+    const distanceRequiredTypes = ["跑步", "越野跑", "徒步"];
+    const distanceOptionalTypes = ["自行车"];
+    const runningStatsTypes = ["跑步", "越野跑", "徒步"];
+
+    const chinaHolidays = {
+      "2026-01-01": { type: "holiday", name: "元旦" },
+      "2026-01-02": { type: "holiday", name: "元旦" },
+      "2026-01-03": { type: "holiday", name: "元旦" },
+
+      "2026-02-15": { type: "workday", name: "春节调休" },
+      "2026-02-16": { type: "holiday", name: "春节" },
+      "2026-02-17": { type: "holiday", name: "春节" },
+      "2026-02-18": { type: "holiday", name: "春节" },
+      "2026-02-19": { type: "holiday", name: "春节" },
+      "2026-02-20": { type: "holiday", name: "春节" },
+      "2026-02-21": { type: "holiday", name: "春节" },
+      "2026-02-22": { type: "holiday", name: "春节" },
+      "2026-02-28": { type: "workday", name: "春节调休" },
+
+      "2026-04-04": { type: "holiday", name: "清明" },
+      "2026-04-05": { type: "holiday", name: "清明" },
+      "2026-04-06": { type: "holiday", name: "清明" },
+
+      "2026-04-26": { type: "workday", name: "劳动节调休" },
+      "2026-05-01": { type: "holiday", name: "劳动节" },
+      "2026-05-02": { type: "holiday", name: "劳动节" },
+      "2026-05-03": { type: "holiday", name: "劳动节" },
+      "2026-05-04": { type: "holiday", name: "劳动节" },
+      "2026-05-05": { type: "holiday", name: "劳动节" },
+      "2026-05-09": { type: "workday", name: "劳动节调休" },
+
+      "2026-06-19": { type: "holiday", name: "端午" },
+      "2026-06-20": { type: "holiday", name: "端午" },
+      "2026-06-21": { type: "holiday", name: "端午" },
+
+      "2026-09-25": { type: "holiday", name: "中秋" },
+      "2026-09-26": { type: "holiday", name: "中秋" },
+      "2026-09-27": { type: "holiday", name: "中秋" },
+
+      "2026-09-20": { type: "workday", name: "国庆调休" },
+      "2026-10-01": { type: "holiday", name: "国庆" },
+      "2026-10-02": { type: "holiday", name: "国庆" },
+      "2026-10-03": { type: "holiday", name: "国庆" },
+      "2026-10-04": { type: "holiday", name: "国庆" },
+      "2026-10-05": { type: "holiday", name: "国庆" },
+      "2026-10-06": { type: "holiday", name: "国庆" },
+      "2026-10-07": { type: "holiday", name: "国庆" },
+      "2026-10-10": { type: "workday", name: "国庆调休" }
+    };
+
+    function pad(num) {
+      return String(num).padStart(2, "0");
+    }
+
+    function getDateKey(date) {
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+    }
+
+    function parseDateKey(key) {
+      const [year, month, day] = key.split("-").map(Number);
+      return new Date(year, month - 1, day);
+    }
+
+    function isDateInRange(dateKey, startKey, endKey) {
+      return dateKey >= startKey && dateKey <= endKey;
+    }
+
+    function formatToday(date) {
+      const weekMap = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+      return `今天是 ${date.getFullYear()} 年 ${date.getMonth() + 1} 月 ${date.getDate()} 日，${weekMap[date.getDay()]}`;
+    }
+
+    function formatDateText(key) {
+      const parts = key.split("-");
+      return `${parts[0]} 年 ${Number(parts[1])} 月 ${Number(parts[2])} 日`;
+    }
+
+    function isWeekend(date) {
+      const day = date.getDay();
+      return day === 0 || day === 6;
+    }
+
+    function escapeHtml(text) {
+      return String(text ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function getCheckedValue(name) {
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      return checked ? checked.value : "";
+    }
+
+    function setCheckedValue(name, value) {
+      const input = document.querySelector(`input[name="${name}"][value="${value}"]`);
+      if (input) {
+        input.checked = true;
+      }
+    }
+
+    function ensureDateEntries(dateKey) {
+      if (!allEntries[dateKey]) {
+        allEntries[dateKey] = [];
+      }
+
+      return allEntries[dateKey];
+    }
+
+    function getEntries(dateKey) {
+      return allEntries[dateKey] || [];
+    }
+
+    function getSingleDayEntries(dateKey) {
+      return getEntries(dateKey).filter((entry) => entry.kind !== "important");
+    }
+
+    function getImportantEntriesForDate(dateKey) {
+      const list = [];
+
+      for (const key in allEntries) {
+        getEntries(key).forEach((entry) => {
+          if (
+            entry.kind === "important" &&
+            isDateInRange(dateKey, entry.startDate, entry.endDate)
+          ) {
+            list.push(entry);
+          }
+        });
+      }
+
+      return list;
+    }
+
+    function getAllEntriesForDate(dateKey) {
+      return [
+        ...getImportantEntriesForDate(dateKey),
+        ...getSingleDayEntries(dateKey)
+      ];
+    }
+
+    function findEntryById(id) {
+      for (const key in allEntries) {
+        const found = getEntries(key).find((entry) => entry.id === id);
+        if (found) {
+          return {
+            dateKey: key,
+            entry: found
+          };
+        }
+      }
+
+      return null;
+    }
+
+    function removeEntryById(dateKey, id) {
+      if (!allEntries[dateKey]) return;
+
+      allEntries[dateKey] = allEntries[dateKey].filter((entry) => entry.id !== id);
+
+      if (!allEntries[dateKey].length) {
+        delete allEntries[dateKey];
+      }
+    }
+
+    function sortDateEntries(dateKey) {
+      if (!allEntries[dateKey]) return;
+
+      allEntries[dateKey].sort((a, b) => {
+        const order = {
+          important: 0,
+          traffic: 1,
+          schedule: 2,
+          health: 3,
+          love: 4,
+          sport: 5
+        };
+
+        const orderDiff = (order[a.kind] ?? 9) - (order[b.kind] ?? 9);
+        if (orderDiff !== 0) return orderDiff;
+
+        const aTime = a.startTime || a.time || "";
+        const bTime = b.startTime || b.time || "";
+
+        return aTime.localeCompare(bTime);
+      });
+    }
+
+    function clearMetricFields() {
+      distanceKmInput.value = "";
+      climbMInput.value = "";
+      swimDistanceInput.value = "";
+    }
+
+    function updateConditionalFields(keepValues = false) {
+      const type = getCheckedValue("sportType");
+
+      distanceClimbFields.classList.remove("show");
+      swimFields.classList.remove("show");
+
+      if (!keepValues) {
+        clearMetricFields();
+      }
+
+      if (distanceRequiredTypes.includes(type)) {
+        distanceClimbFields.classList.add("show");
+        distanceRequiredMark.style.display = "inline";
+      }
+
+      if (distanceOptionalTypes.includes(type)) {
+        distanceClimbFields.classList.add("show");
+        distanceRequiredMark.style.display = "none";
+      }
+
+      if (type === "游泳") {
+        swimFields.classList.add("show");
+      }
+    }
+
+    function updateLocationHistory() {
+      locationHistory.innerHTML = rememberedLocations
+        .map((item) => `<option value="${escapeHtml(item)}"></option>`)
+        .join("");
+    }
+
+    function rememberLocation(location) {
+      const value = location.trim();
+      if (!value) return;
+
+      const index = rememberedLocations.indexOf(value);
+      if (index > -1) {
+        rememberedLocations.splice(index, 1);
+      }
+
+      rememberedLocations.unshift(value);
+
+      if (rememberedLocations.length > 8) {
+        rememberedLocations.length = 8;
+      }
+
+      updateLocationHistory();
+    }
+
+    function clearErrors() {
+      document.querySelectorAll(".error").forEach((el) => {
+        el.textContent = "";
+        el.classList.remove("show");
+      });
+    }
+
+    function showError(el, text) {
+      el.textContent = text;
+      el.classList.add("show");
+    }
+
+    function setDefaultFormDates(dateKey) {
+      sportDateInput.value = dateKey;
+      importantStartDateInput.value = dateKey;
+      importantEndDateInput.value = dateKey;
+      scheduleDateInput.value = dateKey;
+      healthDateInput.value = dateKey;
+      trafficDateInput.value = dateKey;
+      loveDateInput.value = dateKey;
+    }
+
+    function resetAllForms(dateKey = selectedDateKey) {
+      forms.forEach((form) => form.reset());
+      clearMetricFields();
+      clearErrors();
+
+      setDefaultFormDates(dateKey || getDateKey(new Date()));
+
+      updateConditionalFields(true);
+
+      sportSubmitBtn.textContent = "保存";
+      importantSubmitBtn.textContent = "保存";
+      scheduleSubmitBtn.textContent = "保存";
+      healthSubmitBtn.textContent = "保存";
+      trafficSubmitBtn.textContent = "保存";
+      loveSubmitBtn.textContent = "保存";
+    }
+
+    function getKindText(kind) {
+      const map = {
+        sport: "运动",
+        important: "重要事项",
+        schedule: "日程",
+        health: "医疗健康",
+        traffic: "行程",
+        love: "inLove"
+      };
+
+      return map[kind] || "内容";
+    }
+
+    function switchEntryForm(formId) {
+      entryTypeBtns.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.entryForm === formId);
+      });
+
+      forms.forEach((form) => {
+        form.classList.toggle("active", form.id === formId);
+      });
+
+      const form = document.getElementById(formId);
+      const kind = form.dataset.entryKind;
+
+      if (!editingId) {
+        modalTitle.textContent = `添加${getKindText(kind)}`;
+      }
+    }
+
+    function showListView() {
+      dayRecordView.classList.remove("hide");
+      entryFormWrap.classList.remove("show");
+      backListBtn.classList.remove("show");
+      addEntryBtn.style.display = "inline-flex";
+      modalTitle.textContent = "当日记录";
+      renderDayRecordList(selectedDateKey);
+    }
+
+    function showFormView(formId = "importantForm") {
+      dayRecordView.classList.add("hide");
+      entryFormWrap.classList.add("show");
+      backListBtn.classList.add("show");
+      addEntryBtn.style.display = "none";
+      switchEntryForm(formId);
+    }
+
+    function openModal(dateKey) {
+      selectedDateKey = dateKey;
+      editingId = null;
+      editingOriginalDateKey = "";
+      editingKind = "";
+
+      modalDate.textContent = formatDateText(dateKey);
+
+      resetAllForms(dateKey);
+      showListView();
+
+      modalMask.classList.add("show");
+    }
+
+    function closeModal() {
+      modalMask.classList.remove("show");
+      selectedDateKey = "";
+      editingId = null;
+      editingOriginalDateKey = "";
+      editingKind = "";
+    }
+
+    function buildSportEntry(existingEntry) {
+      const type = getCheckedValue("sportType");
+      const mode = getCheckedValue("sportEntryMode") || "plan";
+
+      const entry = {
+        id: existingEntry ? existingEntry.id : Date.now(),
+        kind: "sport",
+        date: sportDateInput.value,
+        mode,
+        name: sportNameInput.value.trim(),
+        startTime: startTimeInput.value,
+        endTime: endTimeInput.value,
+        location: locationInput.value.trim(),
+        type,
+        note: sportNoteInput.value.trim()
+      };
+
+      if (distanceRequiredTypes.includes(type) || distanceOptionalTypes.includes(type)) {
+        entry.distanceKm = distanceKmInput.value;
+        entry.climbM = climbMInput.value;
+      }
+
+      if (type === "游泳") {
+        entry.distanceM = swimDistanceInput.value;
+      }
+
+      return entry;
+    }
+
+    function buildImportantEntry(existingEntry) {
+      return {
+        id: existingEntry ? existingEntry.id : Date.now(),
+        kind: "important",
+        date: importantStartDateInput.value,
+        startDate: importantStartDateInput.value,
+        endDate: importantEndDateInput.value,
+        category: getCheckedValue("importantCategory"),
+        note: importantNoteInput.value.trim()
+      };
+    }
+
+    function buildScheduleEntry(existingEntry) {
+      return {
+        id: existingEntry ? existingEntry.id : Date.now(),
+        kind: "schedule",
+        date: scheduleDateInput.value,
+        category: getCheckedValue("scheduleCategory"),
+        startTime: scheduleStartTimeInput.value,
+        endTime: scheduleEndTimeInput.value,
+        location: scheduleLocationInput.value.trim(),
+        note: scheduleNoteInput.value.trim()
+      };
+    }
+
+    function buildHealthEntry(existingEntry) {
+      return {
+        id: existingEntry ? existingEntry.id : Date.now(),
+        kind: "health",
+        date: healthDateInput.value,
+        category: getCheckedValue("healthCategory"),
+        time: healthTimeInput.value,
+        note: healthNoteInput.value.trim()
+      };
+    }
+
+    function buildTrafficEntry(existingEntry) {
+      return {
+        id: existingEntry ? existingEntry.id : Date.now(),
+        kind: "traffic",
+        date: trafficDateInput.value,
+        mode: getCheckedValue("trafficMode"),
+        startTime: trafficStartTimeInput.value,
+        endTime: trafficEndTimeInput.value,
+        no: trafficNoInput.value.trim(),
+        from: trafficFromInput.value.trim(),
+        to: trafficToInput.value.trim()
+      };
+    }
+
+    function buildLoveEntry(existingEntry) {
+      return {
+        id: existingEntry ? existingEntry.id : Date.now(),
+        kind: "love",
+        date: loveDateInput.value,
+        location: loveLocationInput.value.trim(),
+        note: loveNoteInput.value.trim()
+      };
+    }
+
+    function validateSportForm() {
+      const sportName = sportNameInput.value.trim();
+      const startTime = startTimeInput.value;
+      const type = getCheckedValue("sportType");
+
+      if (!sportDateInput.value) return "请选择日期";
+      if (!sportName) return "请填写运动名称";
+      if (!startTime) return "请选择开始时间";
+      if (!type) return "请选择运动类型";
+
+      if (distanceRequiredTypes.includes(type) && !distanceKmInput.value) {
+        return `请填写${type}里程`;
+      }
+
+      if (type === "游泳" && !swimDistanceInput.value) {
+        return "请填写游泳里程";
+      }
+
+      return "";
+    }
+
+    function validateImportantForm() {
+      if (!importantStartDateInput.value) {
+        return "请选择开始日期";
+      }
+
+      if (!importantEndDateInput.value) {
+        return "请选择结束日期";
+      }
+
+      if (importantEndDateInput.value < importantStartDateInput.value) {
+        return "结束日期不能早于开始日期";
+      }
+
+      if (!getCheckedValue("importantCategory")) {
+        return "请选择重要事项类别";
+      }
+
+      return "";
+    }
+
+    function validateScheduleForm() {
+      if (!scheduleDateInput.value) {
+        return "请选择日期";
+      }
+
+      if (!getCheckedValue("scheduleCategory")) {
+        return "请选择日程类别";
+      }
+
+      if (!scheduleStartTimeInput.value) {
+        return "请选择日程开始时间";
+      }
+
+      return "";
+    }
+
+    function validateHealthForm() {
+      if (!healthDateInput.value) {
+        return "请选择日期";
+      }
+
+      if (!getCheckedValue("healthCategory")) {
+        return "请选择医疗健康类别";
+      }
+
+      return "";
+    }
+
+    function validateTrafficForm() {
+      if (!trafficDateInput.value) {
+        return "请选择日期";
+      }
+
+      if (!getCheckedValue("trafficMode")) {
+        return "请选择行程方式";
+      }
+
+      return "";
+    }
+
+    function validateLoveForm() {
+      if (!loveDateInput.value) {
+        return "请选择日期";
+      }
+
+      if (!loveLocationInput.value.trim() && !loveNoteInput.value.trim()) {
+        return "请填写地点或笔记";
+      }
+
+      return "";
+    }
+
+    function saveEntry(kind, builder, validator, errorEl) {
+      const error = validator();
+
+      if (error) {
+        showError(errorEl, error);
+        return;
+      }
+
+      const found = editingId ? findEntryById(editingId) : null;
+      const existingEntry = found ? found.entry : null;
+      const newEntry = builder(existingEntry);
+      const targetDateKey = newEntry.date || selectedDateKey;
+
+      if (editingId && found) {
+        removeEntryById(found.dateKey, editingId);
+      }
+
+      ensureDateEntries(targetDateKey).push(newEntry);
+      sortDateEntries(targetDateKey);
+
+      if (["sport", "schedule", "love"].includes(kind)) {
+        rememberLocation(newEntry.location || "");
+      }
+
+      const oldSelectedDate = selectedDateKey;
+      selectedDateKey = targetDateKey || oldSelectedDate;
+
+      editingId = null;
+      editingOriginalDateKey = "";
+      editingKind = "";
+
+      saveToCloud();
+      renderCalendar();
+      renderStats();
+      showListView();
+    }
+
+    function getEntryTitle(entry) {
+      if (entry.kind === "sport") {
+        const modeText = entry.mode === "record" ? "运动记录" : "运动计划";
+        return `${modeText} · ${entry.date} · ${entry.startTime} ${entry.name}`;
+      }
+
+      if (entry.kind === "important") {
+        const rangeText = entry.startDate === entry.endDate
+          ? entry.startDate
+          : `${entry.startDate} 至 ${entry.endDate}`;
+        return `${entry.category} · ${rangeText}${entry.note ? " · " + entry.note : ""}`;
+      }
+
+      if (entry.kind === "schedule") {
+        const timeText = entry.endTime ? `${entry.startTime}-${entry.endTime}` : entry.startTime;
+        return `${entry.category} · ${entry.date} · ${timeText}${entry.note ? " · " + entry.note : ""}${entry.location ? " · " + entry.location : ""}`;
+      }
+
+      if (entry.kind === "health") {
+        return `${entry.category} · ${entry.date}${entry.time ? " · " + entry.time : ""}${entry.note ? " · " + entry.note : ""}`;
+      }
+
+      if (entry.kind === "traffic") {
+        const route = entry.from || entry.to ? `${entry.from || "出发地"}-${entry.to || "到达地"}` : "";
+        const noText = entry.no ? ` · ${entry.no}` : "";
+        const timeText = entry.startTime ? ` · ${entry.endTime ? entry.startTime + "-" + entry.endTime : entry.startTime}` : "";
+        return `${entry.mode} · ${entry.date}${noText}${route ? " · " + route : ""}${timeText}`;
+      }
+
+      if (entry.kind === "love") {
+        return `inLove · ${entry.date}${entry.location ? " · " + entry.location : ""}${entry.note ? " · " + entry.note : ""}`;
+      }
+
+      return "内容";
+    }
+
+    function getExistingMeta(entry) {
+      if (entry.kind === "sport") {
+        const distance = entry.distanceKm ? ` · ${entry.distanceKm} km` : "";
+        const climb = entry.climbM ? ` · 爬升 ${entry.climbM} m` : "";
+        return `${entry.date} · ${entry.mode === "record" ? "运动记录" : "运动计划"} · ${entry.type}${distance}${climb}${entry.location ? " · " + entry.location : ""}`;
+      }
+
+      if (entry.kind === "important") {
+        const rangeText = entry.startDate === entry.endDate
+          ? entry.startDate
+          : `${entry.startDate} 至 ${entry.endDate}`;
+        return `重要事项 · ${entry.category} · ${rangeText}${entry.note ? " · " + entry.note : ""}`;
+      }
+
+      if (entry.kind === "schedule") {
+        const timeText = entry.endTime ? `${entry.startTime}-${entry.endTime}` : entry.startTime;
+        return `${entry.date} · 日程 · ${entry.category} · ${timeText}${entry.location ? " · " + entry.location : ""}`;
+      }
+
+      if (entry.kind === "health") {
+        return `${entry.date} · 医疗健康 · ${entry.category}${entry.time ? " · " + entry.time : ""}`;
+      }
+
+      if (entry.kind === "traffic") {
+        const route = entry.from || entry.to ? `${entry.from || "出发地"}-${entry.to || "到达地"}` : "";
+        return `${entry.date} · 行程 · ${entry.mode}${entry.no ? " · " + entry.no : ""}${route ? " · " + route : ""}`;
+      }
+
+      if (entry.kind === "love") {
+        return `${entry.date} · inLove${entry.location ? " · " + entry.location : ""}`;
+      }
+
+      return "";
+    }
+
+    function getBadgeText(entry) {
+      if (entry.kind === "sport") {
+        return `${entry.startTime} ${entry.name}`.trim();
+      }
+
+      if (entry.kind === "important") {
+        return entry.note || entry.category || "重要事项";
+      }
+
+      if (entry.kind === "schedule") {
+        const timeText = entry.startTime || "";
+        return `${timeText}${entry.note ? " " + entry.note : ""}${entry.location ? " " + entry.location : ""}`.trim() || "日程";
+      }
+
+      if (entry.kind === "health") {
+        return `${entry.category}${entry.time ? " " + entry.time : ""}${entry.note ? " " + entry.note : ""}`.trim();
+      }
+
+      if (entry.kind === "traffic") {
+        const timeText = entry.startTime ? `${entry.startTime} ` : "";
+        const route = entry.from || entry.to ? `${entry.from || ""}-${entry.to || ""}` : "";
+        const noText = entry.no || "";
+        return `${timeText}${noText}${route ? " " + route : ""}`.trim() || "行程";
+      }
+
+      if (entry.kind === "love") {
+        return `❤️ ${entry.location || ""}${entry.note ? " " + entry.note : ""}`.trim() || "❤️ inLove";
+      }
+
+      return "";
+    }
+
+    function getScheduleBadgeClass(category) {
+      const map = {
+        "旅行玩耍": "schedule-travel",
+        "行程约会": "schedule-date",
+        "学校": "schedule-school",
+        "健跑": "schedule-run",
+        "家政": "schedule-housework",
+        "其他": "schedule-other"
+      };
+
+      return map[category] || "schedule-other";
+    }
+
+    function getEventBadgeClass(entry) {
+      if (entry.kind === "sport") {
+        return entry.mode === "record" ? "record" : "plan";
+      }
+
+      if (entry.kind === "schedule") {
+        return getScheduleBadgeClass(entry.category);
+      }
+
+      if (entry.kind === "health") {
+        return "health";
+      }
+
+      if (entry.kind === "traffic") {
+        return "journey";
+      }
+
+      if (entry.kind === "love") {
+        return "love";
+      }
+
+      return "";
+    }
+
+    function renderImportantInlineBadges(dateKey) {
+      const entries = getImportantEntriesForDate(dateKey);
+
+      if (!entries.length) return "";
+
+      return `
+        <span class="important-inline-list">
+          ${entries.slice(0, 3).map((entry) => `
+            <span class="important-inline-badge" title="${escapeHtml(getEntryTitle(entry))}">
+              ${escapeHtml(getBadgeText(entry))}
+            </span>
+          `).join("")}
+        </span>
+      `;
+    }
+
+    function renderEventBadges(dateKey) {
+      const entries = getAllEntriesForDate(dateKey).filter((entry) => entry.kind !== "important");
+      const visibleEntries = entries.slice(0, 4);
+      const moreCount = entries.length - visibleEntries.length;
+
+      const badges = visibleEntries.map((entry) => {
+        const modeClass = getEventBadgeClass(entry);
+
+        return `<div class="event-badge ${modeClass}" title="${escapeHtml(getEntryTitle(entry))}">
+          ${escapeHtml(getBadgeText(entry))}
+        </div>`;
+      }).join("");
+
+      const more = moreCount > 0
+        ? `<div class="event-more">还有 ${moreCount} 条</div>`
+        : "";
+
+      return `<div class="event-list">${badges}${more}</div>`;
+    }
+
+    function renderDayRecordList(dateKey) {
+      const entries = getAllEntriesForDate(dateKey);
+
+      dayRecordCount.textContent = entries.length
+        ? `共 ${entries.length} 条记录`
+        : "暂无记录";
+
+      if (!entries.length) {
+        dayRecordList.innerHTML = `
+          <div class="day-record-empty">
+            这一天还没有记录<br>
+            点击右上角“新增”开始添加
+          </div>
+        `;
+        return;
+      }
+
+      dayRecordList.innerHTML = entries.map((entry) => {
+        const canConvert = entry.kind === "sport" && entry.mode === "plan";
+
+        return `
+          <div class="day-record-item">
+            <div class="day-record-main">
+              <div class="day-record-name">${escapeHtml(getEntryTitle(entry))}</div>
+              <div class="day-record-meta">${escapeHtml(getExistingMeta(entry))}</div>
+            </div>
+            <div class="day-record-actions">
+              ${
+                canConvert
+                  ? `<button class="small-action-btn convert-btn" type="button" data-id="${entry.id}">转为记录</button>`
+                  : ""
+              }
+              <button class="small-action-btn edit-btn" type="button" data-id="${entry.id}">修改</button>
+              <button class="small-action-btn delete-btn" type="button" data-id="${entry.id}">删除</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      dayRecordList.querySelectorAll(".convert-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const id = Number(this.dataset.id);
+          convertPlanToRecord(id);
+        });
+      });
+
+      dayRecordList.querySelectorAll(".edit-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const id = Number(this.dataset.id);
+          startEditEntry(id);
+        });
+      });
+
+      dayRecordList.querySelectorAll(".delete-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const id = Number(this.dataset.id);
+          deleteEntry(id);
+        });
+      });
+    }
+
+    function convertPlanToRecord(id) {
+      const found = findEntryById(id);
+      if (!found) return;
+
+      const target = found.entry;
+      if (!target || target.kind !== "sport") return;
+
+      target.mode = "record";
+      target.convertedAt = Date.now();
+
+      sortDateEntries(found.dateKey);
+      renderDayRecordList(selectedDateKey);
+      renderCalendar();
+      renderStats();
+    }
+
+    function startEditEntry(id) {
+      const found = findEntryById(id);
+      if (!found) return;
+
+      const target = found.entry;
+
+      resetAllForms(target.date || found.dateKey);
+
+      editingId = id;
+      editingOriginalDateKey = found.dateKey;
+      editingKind = target.kind;
+      selectedDateKey = found.dateKey;
+
+      modalTitle.textContent = `修改${getKindText(target.kind)}`;
+      showFormView(`${target.kind === "traffic" ? "traffic" : target.kind}Form`);
+
+      if (target.kind === "sport") {
+        sportSubmitBtn.textContent = "保存修改";
+        sportDateInput.value = target.date || found.dateKey;
+        setCheckedValue("sportEntryMode", target.mode);
+        sportNameInput.value = target.name || "";
+        startTimeInput.value = target.startTime || "";
+        endTimeInput.value = target.endTime || "";
+        locationInput.value = target.location || "";
+        setCheckedValue("sportType", target.type || "");
+        updateConditionalFields(true);
+        distanceKmInput.value = target.distanceKm || "";
+        climbMInput.value = target.climbM || "";
+        swimDistanceInput.value = target.distanceM || "";
+        sportNoteInput.value = target.note || "";
+        return;
+      }
+
+      if (target.kind === "important") {
+        importantSubmitBtn.textContent = "保存修改";
+        importantStartDateInput.value = target.startDate || found.dateKey;
+        importantEndDateInput.value = target.endDate || target.startDate || found.dateKey;
+        setCheckedValue("importantCategory", target.category || "");
+        importantNoteInput.value = target.note || "";
+        return;
+      }
+
+      if (target.kind === "schedule") {
+        scheduleSubmitBtn.textContent = "保存修改";
+        scheduleDateInput.value = target.date || found.dateKey;
+        setCheckedValue("scheduleCategory", target.category || "");
+        scheduleStartTimeInput.value = target.startTime || "";
+        scheduleEndTimeInput.value = target.endTime || "";
+        scheduleLocationInput.value = target.location || "";
+        scheduleNoteInput.value = target.note || "";
+        return;
+      }
+
+      if (target.kind === "health") {
+        healthSubmitBtn.textContent = "保存修改";
+        healthDateInput.value = target.date || found.dateKey;
+        setCheckedValue("healthCategory", target.category || "");
+        healthTimeInput.value = target.time || "";
+        healthNoteInput.value = target.note || "";
+        return;
+      }
+
+      if (target.kind === "traffic") {
+        trafficSubmitBtn.textContent = "保存修改";
+        trafficDateInput.value = target.date || found.dateKey;
+        setCheckedValue("trafficMode", target.mode || "");
+        trafficStartTimeInput.value = target.startTime || "";
+        trafficEndTimeInput.value = target.endTime || "";
+        trafficNoInput.value = target.no || "";
+        trafficFromInput.value = target.from || "";
+        trafficToInput.value = target.to || "";
+        return;
+      }
+
+      if (target.kind === "love") {
+        loveSubmitBtn.textContent = "保存修改";
+        loveDateInput.value = target.date || found.dateKey;
+        loveLocationInput.value = target.location || "";
+        loveNoteInput.value = target.note || "";
+      }
+    }
+
+    function deleteEntry(id) {
+      const found = findEntryById(id);
+      if (!found) return;
+
+      const target = found.entry;
+      const confirmed = window.confirm(`确认删除「${getEntryTitle(target)}」吗？`);
+      if (!confirmed) return;
+
+      removeEntryById(found.dateKey, id);
+
+      if (!allEntries[found.dateKey] || allEntries[found.dateKey].length === 0) {
+        deleteDateFromCloud(found.dateKey);
+      } else {
+        saveToCloud();
+      }
+
+      if (editingId === id) {
+        editingId = null;
+        editingKind = "";
+        editingOriginalDateKey = "";
+        resetAllForms(selectedDateKey);
+      }
+
+      renderDayRecordList(selectedDateKey);
+      renderCalendar();
+      renderStats();
+    }
+
+    function renderCalendar() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+
+      monthTitle.textContent = `${year} 年 ${month + 1} 月`;
+      todayText.textContent = formatToday(new Date());
+
+      const firstDay = new Date(year, month, 1);
+      const firstWeekday = firstDay.getDay() || 7;
+      const startDate = new Date(year, month, 1 - firstWeekday + 1);
+
+      const todayKey = getDateKey(new Date());
+
+      daysGrid.innerHTML = "";
+
+      for (let i = 0; i < 42; i++) {
+        const dayDate = new Date(startDate);
+        dayDate.setDate(startDate.getDate() + i);
+
+        const key = getDateKey(dayDate);
+        const holiday = chinaHolidays[key];
+
+        const day = document.createElement("button");
+        day.type = "button";
+        day.className = "day";
+        day.dataset.date = key;
+
+        if (dayDate.getMonth() !== month) {
+          day.classList.add("other-month");
+        }
+
+        if (key === todayKey) {
+          day.classList.add("today");
+        }
+
+        if (isWeekend(dayDate)) {
+          day.classList.add("weekend");
+        }
+
+        if (holiday?.type === "holiday") {
+          day.classList.add("holiday");
+        }
+
+        if (holiday?.type === "workday") {
+          day.classList.add("workday");
+        }
+
+        const labelText = holiday?.type === "holiday" ? holiday.name : "";
+
+        day.innerHTML = `
+          <span class="date-zone">
+            <span class="date-badge">${dayDate.getDate()}</span>
+            ${renderImportantInlineBadges(key)}
+          </span>
+          <span class="holiday-label">${labelText}</span>
+          ${renderEventBadges(key)}
+        `;
+
+        day.addEventListener("click", () => {
+          openModal(key);
+        });
+
+        daysGrid.appendChild(day);
+      }
+    }
+
+    function getStatsYears() {
+      return [statsBaseYear - 2, statsBaseYear - 1, statsBaseYear];
+    }
+
+    function getMonthlyStatsForYear(year) {
+      const months = [];
+
+      for (let month = 1; month <= 12; month++) {
+        const item = {
+          year,
+          month,
+          run: 0,
+          trail: 0,
+          hike: 0,
+          runClimb: 0,
+          trailClimb: 0,
+          hikeClimb: 0
+        };
+
+        for (const dateKey in allEntries) {
+          const [entryYear, entryMonth] = dateKey.split("-").map(Number);
+
+          if (entryYear !== year || entryMonth !== month) continue;
+
+          getEntries(dateKey).forEach((entry) => {
+            if (
+              entry.kind !== "sport" ||
+              entry.mode !== "record" ||
+              !runningStatsTypes.includes(entry.type)
+            ) {
+              return;
+            }
+
+            const km = Number(entry.distanceKm || 0);
+            const climb = Number(entry.climbM || 0);
+
+            if (entry.type === "跑步") {
+              item.run += km;
+              item.runClimb += climb;
+            }
+
+            if (entry.type === "越野跑") {
+              item.trail += km;
+              item.trailClimb += climb;
+            }
+
+            if (entry.type === "徒步") {
+              item.hike += km;
+              item.hikeClimb += climb;
+            }
+          });
+        }
+
+        months.push(item);
+      }
+
+      return months;
+    }
+
+    function getThreeYearStats() {
+      const years = getStatsYears();
+
+      return years.map((year) => ({
+        year,
+        months: getMonthlyStatsForYear(year)
+      }));
+    }
+
+    function sumMonthly(data, field) {
+      return data.reduce((sum, yearItem) => {
+        return sum + yearItem.months.reduce((innerSum, monthItem) => innerSum + monthItem[field], 0);
+      }, 0);
+    }
+
+    function sumYear(yearItem, field) {
+      return yearItem.months.reduce((sum, monthItem) => sum + monthItem[field], 0);
+    }
+
+    function formatNumber(num) {
+      const rounded = Math.round(num * 100) / 100;
+      return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
+    }
+
+    function renderStats() {
+      const data = getThreeYearStats();
+      const years = getStatsYears();
+
+      const totalRun = sumMonthly(data, "run");
+      const totalTrail = sumMonthly(data, "trail");
+      const totalHike = sumMonthly(data, "hike");
+      const totalDistance = totalRun + totalTrail + totalHike;
+
+      const totalRunClimb = sumMonthly(data, "runClimb");
+      const totalTrailClimb = sumMonthly(data, "trailClimb");
+      const totalHikeClimb = sumMonthly(data, "hikeClimb");
+      const totalClimb = totalRunClimb + totalTrailClimb + totalHikeClimb;
+
+      statsTitle.textContent = `${years[0]}-${years[2]} 年跑量统计`;
+      statsSubtitle.textContent =
+        `三年总里程 ${formatNumber(totalDistance)} km，三年总爬升 ${formatNumber(totalClimb)} m`;
+
+      renderYearSummary(data);
+      renderYearCharts(data);
+      renderMonthlyList(data);
+    }
+
+    function renderYearSummary(data) {
+      yearSummaryGrid.innerHTML = data.map((yearItem) => {
+        const run = sumYear(yearItem, "run");
+        const trail = sumYear(yearItem, "trail");
+        const hike = sumYear(yearItem, "hike");
+        const totalDistance = run + trail + hike;
+
+        const runClimb = sumYear(yearItem, "runClimb");
+        const trailClimb = sumYear(yearItem, "trailClimb");
+        const hikeClimb = sumYear(yearItem, "hikeClimb");
+        const totalClimb = runClimb + trailClimb + hikeClimb;
+
+        return `
+          <div class="year-summary-card">
+            <h3 class="year-summary-title">${yearItem.year}</h3>
+            <div class="stat-line"><span>跑步里程</span><strong>${formatNumber(run)} km</strong></div>
+            <div class="stat-line"><span>越野跑里程</span><strong>${formatNumber(trail)} km</strong></div>
+            <div class="stat-line"><span>徒步里程</span><strong>${formatNumber(hike)} km</strong></div>
+            <div class="stat-line total"><span>总里程</span><strong>${formatNumber(totalDistance)} km</strong></div>
+            <div class="stat-line"><span>跑步爬升</span><strong>${formatNumber(runClimb)} m</strong></div>
+            <div class="stat-line"><span>越野跑爬升</span><strong>${formatNumber(trailClimb)} m</strong></div>
+            <div class="stat-line"><span>徒步爬升</span><strong>${formatNumber(hikeClimb)} m</strong></div>
+            <div class="stat-line total"><span>总爬升</span><strong>${formatNumber(totalClimb)} m</strong></div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderYearCharts(data) {
+      const maxTotal = Math.max(
+        1,
+        ...data.flatMap((yearItem) =>
+          yearItem.months.map((monthItem) => monthItem.run + monthItem.trail + monthItem.hike)
+        )
+      );
+
+      yearChartGrid.innerHTML = data.map((yearItem) => {
+        const yearRun = sumYear(yearItem, "run");
+        const yearTrail = sumYear(yearItem, "trail");
+        const yearHike = sumYear(yearItem, "hike");
+        const yearTotal = yearRun + yearTrail + yearHike;
+
+        const bars = yearItem.months.map((monthItem) => {
+          const runHeight = (monthItem.run / maxTotal) * 100;
+          const trailHeight = (monthItem.trail / maxTotal) * 100;
+          const hikeHeight = (monthItem.hike / maxTotal) * 100;
+          const total = monthItem.run + monthItem.trail + monthItem.hike;
+
+          const title =
+            `${yearItem.year} 年 ${monthItem.month} 月：` +
+            `跑步 ${formatNumber(monthItem.run)} km，` +
+            `越野跑 ${formatNumber(monthItem.trail)} km，` +
+            `徒步 ${formatNumber(monthItem.hike)} km，` +
+            `总计 ${formatNumber(total)} km`;
+
+          return `
+            <div class="month-bar-group" title="${escapeHtml(title)}">
+              <div class="month-bar-stack">
+                <div class="bar-segment run" style="height:${runHeight}%"></div>
+                <div class="bar-segment trail" style="height:${trailHeight}%"></div>
+                <div class="bar-segment hike" style="height:${hikeHeight}%"></div>
+              </div>
+              <div class="month-bar-label">${monthItem.month}</div>
+            </div>
+          `;
+        }).join("");
+
+        return `
+          <div class="year-chart">
+            <h3 class="year-chart-title">${yearItem.year}</h3>
+            <div class="month-bar-chart">
+              ${bars}
+            </div>
+            <div class="year-total">
+              跑步 ${formatNumber(yearRun)} km ｜ 越野跑 ${formatNumber(yearTrail)} km ｜ 徒步 ${formatNumber(yearHike)} km ｜ 总计 ${formatNumber(yearTotal)} km
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderMonthlyList(data) {
+      monthlyList.innerHTML = data.map((yearItem) => {
+        const rows = yearItem.months.map((monthItem) => {
+          const distanceTotal = monthItem.run + monthItem.trail + monthItem.hike;
+          const climbTotal = monthItem.runClimb + monthItem.trailClimb + monthItem.hikeClimb;
+
+          return `
+            <div class="monthly-item">
+              <div class="monthly-month">${monthItem.month}月</div>
+              <div class="monthly-meta">
+                跑步 ${formatNumber(monthItem.run)} km / ${formatNumber(monthItem.runClimb)} m<br>
+                越野跑 ${formatNumber(monthItem.trail)} km / ${formatNumber(monthItem.trailClimb)} m<br>
+                徒步 ${formatNumber(monthItem.hike)} km / ${formatNumber(monthItem.hikeClimb)} m
+                <div class="monthly-total">总计 ${formatNumber(distanceTotal)} km / ${formatNumber(climbTotal)} m</div>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        const yearDistanceTotal =
+          sumYear(yearItem, "run") +
+          sumYear(yearItem, "trail") +
+          sumYear(yearItem, "hike");
+
+        const yearClimbTotal =
+          sumYear(yearItem, "runClimb") +
+          sumYear(yearItem, "trailClimb") +
+          sumYear(yearItem, "hikeClimb");
+
+        return `
+          <div class="monthly-year-block">
+            <h3 class="monthly-year-title">
+              ${yearItem.year} ｜ 总计 ${formatNumber(yearDistanceTotal)} km / ${formatNumber(yearClimbTotal)} m
+            </h3>
+            ${rows}
+          </div>
+        `;
+      }).join("");
+    }
+
+    document.querySelectorAll('input[name="sportType"]').forEach((input) => {
+      input.addEventListener("change", function () {
+        updateConditionalFields(false);
+      });
+    });
+
+    entryTypeBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        if (editingId) {
+          editingId = null;
+          editingKind = "";
+          editingOriginalDateKey = "";
+          resetAllForms(selectedDateKey);
+        }
+
+        switchEntryForm(this.dataset.entryForm);
+      });
+    });
+
+    sportForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      saveEntry("sport", buildSportEntry, validateSportForm, sportError);
+    });
+
+    importantForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      saveEntry("important", buildImportantEntry, validateImportantForm, importantError);
+    });
+
+    scheduleForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      saveEntry("schedule", buildScheduleEntry, validateScheduleForm, scheduleError);
+    });
+
+    healthForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      saveEntry("health", buildHealthEntry, validateHealthForm, healthError);
+    });
+
+    trafficForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      saveEntry("traffic", buildTrafficEntry, validateTrafficForm, trafficError);
+    });
+
+    loveForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      saveEntry("love", buildLoveEntry, validateLoveForm, loveError);
+    });
+
+    document.querySelectorAll("[data-cancel-form]").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        editingId = null;
+        editingOriginalDateKey = "";
+        editingKind = "";
+        resetAllForms(selectedDateKey);
+        showListView();
+      });
+    });
+
+    addEntryBtn.addEventListener("click", function () {
+      editingId = null;
+      editingOriginalDateKey = "";
+      editingKind = "";
+      resetAllForms(selectedDateKey);
+      showFormView("importantForm");
+      setTimeout(() => {
+        importantNoteInput.focus();
+      }, 50);
+    });
+
+    backListBtn.addEventListener("click", function () {
+      editingId = null;
+      editingOriginalDateKey = "";
+      editingKind = "";
+      resetAllForms(selectedDateKey);
+      showListView();
+    });
+
+    closeModalBtn.addEventListener("click", closeModal);
+
+    modalMask.addEventListener("click", function (event) {
+      if (event.target === modalMask) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && modalMask.classList.contains("show")) {
+        closeModal();
+      }
+    });
+
+    prevBtn.addEventListener("click", function () {
+      currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+      renderCalendar();
+    });
+
+    nextBtn.addEventListener("click", function () {
+      currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+      renderCalendar();
+    });
+
+    todayBtn.addEventListener("click", function () {
+      currentDate = new Date();
+      renderCalendar();
+    });
+
+    statsPrevBtn.addEventListener("click", function () {
+      statsBaseYear -= 1;
+      renderStats();
+    });
+
+    statsNextBtn.addEventListener("click", function () {
+      statsBaseYear += 1;
+      renderStats();
+    });
+
+    statsCurrentBtn.addEventListener("click", function () {
+      statsBaseYear = new Date().getFullYear();
+      renderStats();
+    });
+
+    tabBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const targetId = this.dataset.tab;
+
+        tabBtns.forEach((item) => item.classList.remove("active"));
+        panels.forEach((panel) => panel.classList.remove("active"));
+
+        this.classList.add("active");
+        document.getElementById(targetId).classList.add("active");
+
+        if (targetId === "statsPanel") {
+          renderStats();
+        }
+      });
+    });
+
+    let noteSaveTimer = null;
+    calendarNote.addEventListener("input", function () {
+      calendarNoteText = this.value;
+      clearTimeout(noteSaveTimer);
+      noteSaveTimer = setTimeout(() => saveToCloud(), 2000);
+    });
+
+    // ===== 初始化：先从云端加载数据，再渲染 =====
+    initCloudBase().then(() => {
+      updateLocationHistory();
+      renderCalendar();
+      renderStats();
+    });
+  </script>
+
+
+</body></html>
