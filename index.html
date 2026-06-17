@@ -210,6 +210,30 @@
       box-shadow: none;
     }
 
+    /* ===== 备份按钮 ===== */
+    .backup-btn {
+      height: 36px;
+      padding: 0 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: #F0F0F0;
+      transition: 0.16s ease;
+      white-space: nowrap;
+    }
+    .backup-btn:hover {
+      background: #E0E0E0;
+      color: var(--text);
+    }
+    .backup-btn.export-btn {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+    .backup-btn.export-btn:hover {
+      background: #D0E4F5;
+    }
+
     .panel {
       display: none;
     }
@@ -1585,6 +1609,8 @@
           <p class="app-subtitle" id="todayText">今天是 2026 年 6 月 17 日，星期三</p>
         </header>
         <nav class="top-tabs">
+          <button class="backup-btn export-btn" type="button" id="exportBtn" title="导出数据备份到本地">📥 导出备份</button>
+          <button class="backup-btn" type="button" id="importBtn" title="从备份文件恢复数据">📤 导入恢复</button>
           <button class="tab-btn active" type="button" data-tab="calendarPanel">我的日记</button>
           <button class="tab-btn" type="button" data-tab="statsPanel">跑量统计</button>
         </nav>
@@ -2156,6 +2182,7 @@
       </div>
     </section>
   </div>
+  <input type="file" id="importFileInput" accept=".json" style="display:none;">
 
   <script>
     // ===== CloudBase 初始化 =====
@@ -2249,6 +2276,74 @@
       } catch (e) {
         console.warn("云端删除失败:", e.message);
       }
+    }
+
+    // ===== 数据导出备份 =====
+    function exportBackup() {
+      const backup = {
+        version: "1.0",
+        exportedAt: new Date().toISOString(),
+        entries: { ...allEntries },
+        meta: {
+          calendarNoteText,
+          rememberedLocations: [...rememberedLocations]
+        }
+      };
+      const json = JSON.stringify(backup, null, 2);
+      const blob = new Blob([json], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+      a.download = `mycalendar-backup-${dateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      alert("✅ 备份已下载！\n文件: " + a.download + "\n\n共备份 " + Object.keys(allEntries).length + " 天的记录。");
+    }
+
+    // ===== 数据导入恢复 =====
+    function importBackup(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const backup = JSON.parse(e.target.result);
+          if (!backup.entries || typeof backup.entries !== "object") {
+            throw new Error("备份文件格式无效");
+          }
+          const dayCount = Object.keys(backup.entries).length;
+          if (!confirm(`即将恢复 ${dayCount} 天的记录数据。\n\n⚠️ 这会覆盖当前所有数据，是否继续？`)) {
+            return;
+          }
+          // 覆盖本地数据
+          allEntries = { ...backup.entries };
+          if (backup.meta) {
+            calendarNoteText = backup.meta.calendarNoteText || "";
+            rememberedLocations.length = 0;
+            if (backup.meta.rememberedLocations) {
+              rememberedLocations.push(...backup.meta.rememberedLocations);
+            }
+          }
+          if (calendarNote) calendarNote.value = calendarNoteText;
+          // 同步到云端
+          saveToCloud().then(() => {
+            updateLocationHistory();
+            renderCalendar();
+            renderStats();
+            alert(`✅ 数据已恢复！\n共恢复 ${dayCount} 天的记录。`);
+          }).catch(() => {
+            updateLocationHistory();
+            renderCalendar();
+            renderStats();
+            alert(`✅ 数据已恢复到本地！\n共恢复 ${dayCount} 天的记录。\n（云端同步失败，数据仅在本地）`);
+          });
+        } catch (err) {
+          alert("❌ 导入失败：" + err.message + "\n\n请确认选择的是正确的备份文件（.json 格式）。");
+        }
+      };
+      reader.readAsText(file);
     }
 
     // ===== DOM 元素引用 =====
@@ -3729,6 +3824,18 @@
       calendarNoteText = this.value;
       clearTimeout(noteSaveTimer);
       noteSaveTimer = setTimeout(() => saveToCloud(), 2000);
+    });
+
+    // ===== 导出/导入按钮事件 =====
+    document.getElementById("exportBtn").addEventListener("click", exportBackup);
+    document.getElementById("importBtn").addEventListener("click", () => {
+      document.getElementById("importFileInput").click();
+    });
+    document.getElementById("importFileInput").addEventListener("change", (e) => {
+      if (e.target.files && e.target.files[0]) {
+        importBackup(e.target.files[0]);
+        e.target.value = ""; // 清空以便重复选择同一文件
+      }
     });
 
     // ===== 初始化：先从云端加载数据，再渲染 =====
