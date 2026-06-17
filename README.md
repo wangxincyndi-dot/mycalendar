@@ -4,9 +4,10 @@
 
 ## 部署信息
 
-- **部署平台**：腾讯云 CloudBase
-- **环境 ID**：`hello-coder-d3geutyjt8abd7eba`
-- **访问地址**：[https://hello-coder-d3geutyjt8abd7eba-1441638915.tcloudbaseapp.com/index.html](https://hello-coder-d3geutyjt8abd7eba-1441638915.tcloudbaseapp.com/index.html)
+- **部署平台**：GitHub Pages（免备案）
+- **访问地址**：[https://mycalendar.hello-coder.cn](https://mycalendar.hello-coder.cn)
+- **GitHub 仓库**：[https://github.com/wangxincyndi-dot/mycalendar](https://github.com/wangxincyndi-dot/mycalendar)
+- **数据后端**：CloudBase NoSQL（环境 ID: `hello-coder-d3geutyjt8abd7eba`）
 
 ## 技术架构
 
