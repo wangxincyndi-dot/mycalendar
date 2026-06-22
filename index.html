@@ -2909,6 +2909,7 @@
   <div class="bottom-actions">
     <button class="backup-btn export-btn" type="button" id="exportBtn" title="导出数据备份到本地">📥 导出备份</button>
     <button class="backup-btn" type="button" id="importBtn" title="从备份文件恢复数据">📤 导入恢复</button>
+    <button class="backup-btn" type="button" id="syncCloudBtn" title="从云端同步数据" style="display:none;">🔄 同步云端</button>
   </div>
 
   <input type="file" id="importFileInput" accept=".json" style="display:none;">
@@ -2919,13 +2920,25 @@
     // ===== CloudBase 初始化 =====
     const ENV_ID = "hello-coder-d3geutyjt8abd7eba";
     const PUBLISHABLE_KEY = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjlkMWRjMzFlLWI0ZDAtNDQ4Yi1hNzZmLWIwY2M2M2Q4MTQ5OCJ9.eyJpc3MiOiJodHRwczovL2hlbGxvLWNvZGVyLWQzZ2V1dHlqdDhhYmQ3ZWJhLmFwLXNoYW5naGFpLnRjYi1hcGkudGVuY2VudGNsb3VkYXBpLmNvbSIsInN1YiI6ImFub24iLCJhdWQiOiJoZWxsby1jb2Rlci1kM2dldXR5anQ4YWJkN2ViYSIsImV4cCI6NDA4NTM3NTgwNCwiaWF0IjoxNzgxNjkyNjA0LCJub25jZSI6IkxRWlJibFVTU1lpOWJMa19DYU1qWUEiLCJhdF9oYXNoIjoiTFFaUmJsVVNTWWk5YkxrX0NhTWpZQSIsIm5hbWUiOiJBbm9ueW1vdXMiLCJzY29wZSI6ImFub255bW91cyIsInByb2plY3RfaWQiOiJoZWxsby1jb2Rlci1kM2dldXR5anQ4YWJkN2ViYSIsIm1ldGEiOnsicGxhdGZvcm0iOiJQdWJsaXNoYWJsZUtleSJ9LCJ1c2VyX3R5cGUiOiIiLCJjbGllbnRfdHlwZSI6ImNsaWVudF91c2VyIiwiaXNfc3lzdGVtX2FkbWluIjpmYWxzZX0.CfRaUTgR05XdwOXweR08Poh_pvP2OH0NUv1pn9eqyMPoBYF6uei7J-meiawyU7iA3ItLGwxewSUu1Ha31-CVg5yHIiV-Ig3YcQoL9GgIeFSlAbrPL-fkMar40OHK-E0GK2vJm7Gs70u-IjLMY3D_hgL4aHs-6PKBtaueFVurWxBIBsjVG5DqW9HEZJycJ1xxpCLBlFEymxg84G0qqgyvfy9VbtEJQyUVtsMxYZ8pD4TWMCPCVzu0yxx8IdwKGqtyVncwi36pFw9LnmYsK1l6dBzFM6QoaBgwbaPEsMvSHMmUCsrXav8TI98TcorOPr1zwjvyFpz9jxQFO4qdvSkR2g";
-    const app = cloudbase.init({
-      env: ENV_ID,
-      region: "ap-shanghai",
-      accessKey: PUBLISHABLE_KEY
-    });
-    const db = app.database();
-    const auth = app.auth({ persistence: "local" });
+    let app, db, auth;
+    let cloudBaseReady = false;
+    let lastCloudError = "";
+
+    try {
+      if (typeof cloudbase === "undefined") throw new Error("SDK未加载，请检查网络连接");
+      app = cloudbase.init({
+        env: ENV_ID,
+        region: "ap-shanghai",
+        accessKey: PUBLISHABLE_KEY
+      });
+      db = app.database();
+      auth = app.auth({ persistence: "local" });
+      cloudBaseReady = true;
+    } catch (e) {
+      console.error("CloudBase 初始化失败:", e.message);
+      lastCloudError = e.message;
+      cloudBaseReady = false;
+    }
 
     // ===== 数据持久化 =====
     const LS_KEY_ENTRIES = "mycalendar_entries";
@@ -2971,37 +2984,66 @@
 
     async function initCloudBase() {
       let cloudLoaded = false;
+
+      // SDK 未就绪，直接跳过
+      if (!cloudBaseReady) {
+        showCloudError(lastCloudError || "CloudBase SDK 未初始化");
+        loadFromLocal();
+        if (Object.keys(allEntries).length === 0) showEmptyTip();
+        return;
+      }
+
       const maxRetries = 3;
       for (let attempt = 1; attempt <= maxRetries; attempt++) {
         try {
           const { error } = await auth.signInAnonymously();
-          if (error) throw error;
+          if (error) throw new Error(typeof error === "string" ? error : JSON.stringify(error));
           console.log(`CloudBase 匿名登录成功 (尝试 ${attempt}/${maxRetries})`);
           await loadFromCloud();
           cloudLoaded = true;
+          lastCloudError = "";
+          document.getElementById("syncCloudBtn").style.display = "none";
           break;
         } catch (e) {
-          console.warn(`CloudBase 登录失败 (尝试 ${attempt}/${maxRetries}):`, e.message || e);
+          const msg = e.message || String(e);
+          console.warn(`CloudBase 登录失败 (尝试 ${attempt}/${maxRetries}):`, msg);
+          lastCloudError = msg;
           if (attempt < maxRetries) {
             await new Promise(r => setTimeout(r, 1000 * attempt));
           }
         }
       }
 
-      // 如果云端加载失败或云端没有数据，从 localStorage 兜底
-      if (!cloudLoaded || Object.keys(allEntries).length === 0) {
+      if (!cloudLoaded) {
+        showCloudError(lastCloudError || "云端连接失败");
         loadFromLocal();
       }
 
-      // 如果最终没有任何数据，显示提示
       if (Object.keys(allEntries).length === 0) {
-        const statsEl = document.querySelector(".stats");
-        if (statsEl) {
-          const tip = document.createElement("div");
-          tip.style.cssText = "text-align:center;padding:20px;color:#7a9ab0;font-size:14px;";
-          tip.innerHTML = `📭 暂无数据<br><small>如已在其他设备录入，请确认网络正常后<a href=\"javascript:location.reload()\" style=\"color:#286FB4;\">刷新重试</a></small>`;
-          statsEl.prepend(tip);
-        }
+        showEmptyTip();
+      }
+    }
+
+    function showCloudError(msg) {
+      const btn = document.getElementById("syncCloudBtn");
+      btn.style.display = "inline-block";
+      btn.title = "错误: " + msg;
+      btn.style.background = "#FFF0F0";
+      btn.style.color = "#DF4C73";
+      btn.style.border = "1px solid #DF4C73";
+      console.error("CloudBase 错误:", msg);
+    }
+
+    function showEmptyTip() {
+      const existing = document.getElementById("emptyDataTip");
+      if (existing) return;
+      const statsEl = document.querySelector(".stats");
+      if (statsEl) {
+        const tip = document.createElement("div");
+        tip.id = "emptyDataTip";
+        tip.style.cssText = "text-align:center;padding:20px;color:#7a9ab0;font-size:14px;margin-bottom:8px;";
+        tip.innerHTML = `📭 暂无同步数据<br><small>如已在其他设备录入，请点击底部 <b style=\"color:#286FB4;\">🔄 同步云端</b> 按钮或<a href=\"javascript:location.reload()\" style=\"color:#286FB4;\">刷新页面</a></small>`;
+        statsEl.prepend(tip);
       }
     }
 
@@ -5636,9 +5678,65 @@
       input.focus();
     })();
 
+    // ===== 手动云端同步按钮 =====
+    document.getElementById("syncCloudBtn").addEventListener("click", async function() {
+      if (!cloudBaseReady) {
+        alert("CloudBase SDK 未加载，请检查网络后刷新页面");
+        return;
+      }
+      this.textContent = "⏳ 同步中…";
+      this.style.background = "#D0E4F5";
+      this.style.color = "#286FB4";
+      this.style.border = "1px solid #286FB4";
+      this.disabled = true;
+
+      // 先清空旧数据
+      Object.keys(allEntries).forEach(k => delete allEntries[k]);
+      rememberedLocations.length = 0;
+      calendarNoteText = "";
+
+      // 移除空数据提示
+      const tip = document.getElementById("emptyDataTip");
+      if (tip) tip.remove();
+
+      try {
+        const { error } = await auth.signInAnonymously();
+        if (error) throw new Error(typeof error === "string" ? error : JSON.stringify(error));
+        await loadFromCloud();
+        updateLocationHistory();
+        renderCalendar();
+        renderStats();
+        populateRaceYearOptions();
+        renderRaceList();
+        if (calendarNote) calendarNote.value = calendarNoteText;
+
+        this.textContent = "✅ 同步成功";
+        this.style.background = "#E8F5E9";
+        this.style.color = "#2E7D32";
+        this.style.border = "1px solid #2E7D32";
+        lastCloudError = "";
+
+        // 如果没有数据，显示提示
+        if (Object.keys(allEntries).length === 0) showEmptyTip();
+      } catch (e) {
+        const msg = e.message || String(e);
+        console.error("手动同步失败:", msg);
+        lastCloudError = msg;
+        this.textContent = "❌ 同步失败";
+        this.style.background = "#FFF0F0";
+        this.style.color = "#DF4C73";
+        this.style.border = "1px solid #DF4C73";
+        alert("云端同步失败: " + msg + "\n\n请检查网络后重试");
+      }
+      setTimeout(() => { this.disabled = false; }, 2000);
+    });
+
     // ===== 初始化：先从云端加载数据，再渲染 =====
     initCloudBase().then(() => {
       document.getElementById("loadingSpinner").classList.add("hidden");
+      if (!lastCloudError) {
+        document.getElementById("syncCloudBtn").style.display = "none";
+      }
       updateLocationHistory();
       renderCalendar();
       renderStats();
