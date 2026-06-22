@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com https://*.tcloudbaseapp.com https://*.tencentcloudapi.com https://*.cloudbase.net https://*.tcb.qcloud.la https://imgcache.qq.com https://*.qcloud.com; connect-src 'self' https://*.tcloudbaseapp.com https://*.tencentcloudapi.com https://*.cloudbase.net https://*.tcb.qcloud.la https://*.qq.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self';">
+﻿<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com https://*.tcloudbaseapp.com https://*.tencentcloudapi.com http://*.tencentcloudapi.com https://*.cloudbase.net https://*.tcb.qcloud.la http://*.tcb.qcloud.la https://imgcache.qq.com https://*.qcloud.com https://static.cloudbase.net ws://localhost:* wss://localhost:*; connect-src 'self' https://*.tcloudbaseapp.com https://*.tencentcloudapi.com http://*.tencentcloudapi.com https://*.cloudbase.net https://*.tcb.qcloud.la http://*.tcb.qcloud.la https://*.qq.com https://static.cloudbase.net ws://localhost:* wss://localhost:* http://localhost:*; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self';">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>我的日记</title>
@@ -21,10 +21,10 @@
       --danger: #DF4C73;
       --danger-soft: #FCE8EC;
 
-      /* ===== 今日（薄荷青） ===== */
-      --today-bg: #B0DDE4;
-      --today-border: #7AB8C0;
-      --today-text: #1a4a50;
+      /* ===== 今日（轻盈橙） ===== */
+      --today-bg: rgba(254, 243, 199, 0.6);
+      --today-border: #FCD34D;
+      --today-text: #78350F;
 
       /* ===== 节假日 / 调休 ===== */
       --holiday: #5A9A6A;
@@ -42,20 +42,20 @@
       --schedule-travel-bg: #90D0B0;
       --schedule-travel-text: #1a5a3a;
 
-      /* 日程-行程约会：暖杏 */
-      --schedule-date-bg: #F0D0A0;
-      --schedule-date-text: #6a4a1a;
+      /* 日程-行程约会：金黄色 */
+      --schedule-date-bg: #FFDB6980;
+      --schedule-date-text: #4a3a10;
 
       /* 日程-学校：淡紫 */
       --schedule-school-bg: #C8B8E8;
       --schedule-school-text: #4a2a6a;
 
-      /* 日程-健跑：珊瑚 */
-      --schedule-run-bg: #F0A0A0;
-      --schedule-run-text: #6a1a1a;
+      /* 日程-健跑：深紫 */
+      --schedule-run-bg: #6B3FA0;
+      --schedule-run-text: #ffffff;
 
-      /* 日程-家政：淡黄 */
-      --schedule-housework-bg: #F0E0A0;
+      /* 日程-馒总相关：暖白 */
+      --schedule-housework-bg: #F1E9E1;
       --schedule-housework-text: #6a5a1a;
 
       /* 日程-其他：天蓝 */
@@ -66,13 +66,13 @@
       --important-bg: #F0C080;
       --important-text: #6a4a1a;
 
-      /* 运动-计划：薄荷 */
-      --plan-bg: #80D8C8;
-      --plan-text: #1a5a4a;
+      /* 运动-计划：浅蓝（半透明） */
+      --plan-bg: rgba(147, 197, 253, 0.25);
+      --plan-text: #1E3A5F;
 
-      /* 运动-记录：海蓝 */
-      --record-bg: #70B8E0;
-      --record-text: #1a3a5a;
+      /* 运动-记录：同蓝色（实色） */
+      --record-bg: #93C5FD;
+      --record-text: #1E3A5F;
 
       /* 医疗健康：青绿 */
       --health-bg: #90E0D0;
@@ -83,10 +83,10 @@
       --traffic-bg: #80C0E8;
       --traffic-text: #1a3a5a;
 
-      /* 旅行：薰衣草 */
-      --journey-bg: #B8A8D8;
-      --journey-border: #9888B8;
-      --journey-text: #3a2a5a;
+      /* 行程（journey badge）：桃粉 */
+      --journey-bg: #FFC8A880;
+      --journey-border: #D09080;
+      --journey-text: #4a2015;
 
       /* inLove：玫瑰粉 */
       --love-bg: #F0A8C0;
@@ -94,9 +94,9 @@
       --love-text: #6a1a3a;
 
       /* 运动图表色 */
-      --run-color: #E06060;
-      --trail-color: #D09040;
-      --hike-color: #60A060;
+      --run-color: rgba(141, 155, 106, 0.7);
+      --trail-color: rgba(218, 182, 146, 0.7);
+      --hike-color: rgba(138, 158, 167, 0.7);
 
       /* ===== 圆角体系 ===== */
       --radius-xl: 24px;
@@ -234,6 +234,16 @@
       background: #D0E4F5;
     }
 
+    /* ===== 底部操作栏 ===== */
+    .bottom-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 32px;
+      padding: 24px 0 8px;
+      border-top: 1px solid var(--line);
+    }
+
     .panel {
       display: none;
     }
@@ -266,6 +276,113 @@
       display: flex;
       flex-direction: column;
       gap: 5px;
+    }
+
+    .header-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Badge 下拉筛选 */
+    .badge-filter-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .filter-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 550;
+      cursor: pointer;
+      transition: 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .filter-trigger:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .filter-trigger::after {
+      content: "▾";
+      font-size: 10px;
+      margin-left: 2px;
+      transition: transform 0.18s ease;
+    }
+
+    .badge-filter-dropdown.open .filter-trigger::after {
+      transform: rotate(180deg);
+    }
+
+    .filter-count {
+      background: var(--primary);
+      color: #fff;
+      font-size: 11px;
+      padding: 1px 7px;
+      border-radius: 10px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .filter-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 16px rgba(40, 111, 180, 0.1), 0 2px 6px rgba(0, 0, 0, 0.06);
+      padding: 6px;
+      min-width: 160px;
+      z-index: 100;
+    }
+
+    .badge-filter-dropdown.open .filter-menu {
+      display: block;
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.12s ease;
+      white-space: nowrap;
+    }
+
+    .filter-option:hover {
+      background: var(--card-soft);
+    }
+
+    .filter-option input[type="checkbox"] {
+      accent-color: var(--primary);
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .filter-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--dot-color, #ccc);
+      flex-shrink: 0;
     }
 
     .month-title-row {
@@ -421,6 +538,7 @@
       flex: 0 0 auto;
       min-width: 28px;
       height: 28px;
+      font-weight: 700;
       padding: 0 9px;
       border-radius: 999px;
       background: var(--normal-badge);
@@ -460,6 +578,15 @@
       text-overflow: clip;
       word-break: break-word;
       text-shadow: none;
+    }
+
+    .important-inline-badge.race-badge {
+      padding: 1px 6px;
+      border-radius: 3px;
+      background: #fff0f0;
+      color: #c0392b;
+      font-weight: 800;
+      border-left: 2px solid #e74c3c;
     }
 
     .holiday-label {
@@ -539,11 +666,13 @@
       text-overflow: ellipsis;
       border: none;
       transition: 0.16s ease;
+      pointer-events: auto;
     }
 
     .event-badge.plan {
-      background: var(--plan-bg);
+      background: #ffffff;
       color: var(--plan-text);
+      border: 1.5px solid #93C5FD;
     }
 
     .event-badge.record {
@@ -603,6 +732,54 @@
       font-size: 10px;
       font-weight: 650;
       padding-left: 2px;
+    }
+
+    /* Badge hover tooltip */
+    .badge-tooltip {
+      position: fixed;
+      z-index: 9999;
+      max-width: 280px;
+      padding: 10px 12px;
+      background: #ffffff;
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.5;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 16px rgba(40, 111, 180, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      white-space: pre-line;
+    }
+
+    .badge-tooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .badge-tooltip .tip-row {
+      display: flex;
+      gap: 6px;
+      align-items: baseline;
+    }
+
+    .badge-tooltip .tip-label {
+      color: var(--text-secondary);
+      flex-shrink: 0;
+      min-width: 36px;
+      text-align: right;
+    }
+
+    .badge-tooltip .tip-value {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .badge-tooltip .tip-emoji {
+      font-size: 16px;
+      margin-right: 2px;
     }
 
     .calendar-note-block {
@@ -1052,6 +1229,14 @@
       display: block;
     }
 
+    .race-only-fields {
+      display: none;
+    }
+
+    .race-only-fields.show {
+      display: block;
+    }
+
     .helper {
       font-size: 12px;
       color: var(--muted);
@@ -1119,62 +1304,83 @@
       margin-bottom: 18px;
     }
 
-    .year-summary-grid {
+    .stats-summary-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 18px;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 20px;
     }
 
     .year-summary-card {
-      padding: 15px;
+      padding: 24px 20px;
       border-radius: var(--radius-lg);
-      background: #ffffff;
-      border: 1px solid var(--line);
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
 
     .year-summary-title {
-      margin: 0 0 11px;
-      color: var(--text);
-      font-size: 15px;
-      font-weight: 850;
+      display: none;
     }
 
-    .stat-line {
+    /* summary section (mileage / climb blocks) */
+    .summary-section {
       display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 6px 0;
-      border-bottom: 1px solid var(--line);
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .summary-total {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .summary-total-label {
       color: var(--text-secondary);
-      font-size: 13px;
-      line-height: 1.4;
+      font-size: 14px;
+      font-weight: 600;
+      margin-right: 4px;
     }
 
-    .stat-line:last-child {
-      border-bottom: none;
-    }
-
-    .stat-line strong {
+    .summary-total-value {
       color: var(--text);
-      font-weight: 850;
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.03em;
     }
 
-    .stat-line.total {
-      margin-top: 4px;
-      padding-top: 9px;
-      border-top: 1px solid var(--line);
+    .summary-total-unit {
       color: var(--text-secondary);
-      font-weight: 800;
+      font-size: 14px;
+      font-weight: 600;
     }
 
-    .stat-line.total strong {
-      color: var(--primary);
+    .summary-detail-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+    }
+
+    .summary-detail {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .summary-detail strong {
+      color: var(--text);
+      font-weight: 700;
     }
 
     .chart-wrap {
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
+      min-height: 0;
     }
 
     .chart-title {
@@ -1187,191 +1393,433 @@
       font-weight: 750;
     }
 
-    .chart-legend {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      font-size: 12px;
-      color: var(--text-secondary);
-      font-weight: 600;
+    #chartTitleText {
+      font-size: 16px;
     }
 
-    .chart-legend-item {
-      display: inline-flex;
+    .chart-legend {
+      display: flex;
+      gap: 6px;
       align-items: center;
-      gap: 5px;
+      font-size: 14px;
+      font-weight: 300;
     }
 
     .chart-color {
-      width: 12px;
-      height: 12px;
-      border-radius: 4px;
+      width: 8px;
+      height: 8px;
+      border-radius: 3px;
     }
 
-    .chart-color.run {
-      background: var(--run-color);
-    }
-
-    .chart-color.trail {
-      background: var(--trail-color);
-    }
-
-    .chart-color.hike {
-      background: var(--hike-color);
-    }
+    .chart-color.run { background: #4A90D9; }
+    .chart-color.trail { background: #6DBF4E; }
+    .chart-color.hike { background: #F0A030; }
 
     .year-chart-grid {
-      min-width: 1140px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(360px, 1fr));
-      gap: 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
     }
 
     .year-chart {
-      min-width: 360px;
+      min-width: 480px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       padding: 14px;
       border-radius: 20px;
       background: #ffffff;
       border: 1px solid var(--line);
     }
 
-    .year-chart-title {
-      margin: 0 0 10px;
-      font-size: 15px;
-      color: var(--text);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .month-bar-chart {
-      height: 240px;
-      display: grid;
-      grid-template-columns: repeat(12, minmax(18px, 1fr));
-      align-items: end;
-      gap: 5px;
-      padding: 16px 2px 4px;
-      border-radius: var(--radius-lg);
-      background: var(--card-soft);
-      border: 1px solid var(--line);
-    }
-
-    .month-bar-group {
-      min-width: 0;
+    .combo-chart-wrap {
+      position: relative;
+      flex: 1;
+      aspect-ratio: 3 / 1;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 7px;
+      background: var(--card-soft);
+      border-radius: 12px;
+      overflow: hidden;
+      padding-top: 18px;
+      box-sizing: content-box;
+    }
+
+    .combo-chart-wrap canvas {
+      flex: 1;
+      width: 100%;
       height: 100%;
     }
 
-    .month-bar-stack {
-      width: 100%;
-      max-width: 22px;
-      height: 180px;
-      display: flex;
-      flex-direction: column-reverse;
-      justify-content: flex-start;
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      background: var(--card-soft);
-      border: none;
-    }
-
-    .bar-segment {
-      width: 100%;
-      min-height: 0;
-      transition: 0.18s ease;
-    }
-
-    .bar-segment.run {
-      background: var(--run-color);
-    }
-
-    .bar-segment.trail {
-      background: var(--trail-color);
-    }
-
-    .bar-segment.hike {
-      background: var(--hike-color);
-    }
-
-    .month-bar-label {
-      color: var(--muted-light);
-      font-size: 10px;
+    .y-axis-label {
+      position: absolute;
+      font-size: 14px;
       font-weight: 650;
+      color: var(--text-secondary);
+      pointer-events: none;
       white-space: nowrap;
     }
 
-    .year-total {
-      margin-top: 8px;
-      color: var(--text-secondary);
-      font-size: 12px;
-      line-height: 1.5;
+    .y-axis-label.left {
+      left: 52px;
+      top: 2px;
+      color: #5B9BD5;
     }
 
-    .monthly-list-card {
+    .y-axis-label.right {
+      right: 61px;
+      top: 2px;
+      color: #F08080;
+    }
+
+    .month-stats {
+      position: relative;
+      padding: 4px 61px 4px 52px;
+      border: 1px solid #ddd;
+    }
+
+    .month-stats-row {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 22px;
+      align-items: center;
+      padding: 0 7.5%;
+      box-sizing: border-box;
+      border-bottom: 1px solid #eee;
+    }
+    .month-stats-row:last-child {
+      border-bottom: none;
+    }
+
+    .month-stats-row .row-label {
+      position: absolute;
+      left: 0;
+      width: 44px;
+      text-align: right;
+      font-weight: 700;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .month-stats-row .cell {
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .month-stats-row .row-dist { color: #4A90D9; font-weight: 600; }
+    .month-stats-row .row-climb { color: #F08080; font-weight: 600; }
+
+    .records-list-card {
       padding: 18px;
       border-radius: var(--radius-lg);
       background: #ffffff;
       border: 1px solid var(--line);
     }
 
-    .monthly-list-title {
-      margin: 0 0 12px;
+    .records-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .records-list-title {
+      margin: 0;
       color: var(--text-secondary);
       font-size: 15px;
       font-weight: 750;
     }
 
-    .monthly-list {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .monthly-year-block {
-      padding: 13px;
-      border-radius: var(--radius-lg);
-      background: var(--card-soft);
-      border: 1px solid var(--line);
-    }
-
-    .monthly-year-title {
-      margin: 0 0 9px;
-      color: var(--text);
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .monthly-item {
-      display: grid;
-      grid-template-columns: 42px 1fr;
+    .records-controls {
+      display: flex;
       gap: 8px;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--line);
+      align-items: center;
     }
 
-    .monthly-item:last-child {
-      border-bottom: none;
+    .month-filter-dropdown {
+      position: relative;
+      display: inline-block;
     }
 
-    .monthly-month {
-      color: var(--primary);
+    .month-filter-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 550;
+      cursor: pointer;
+      transition: 0.18s ease;
+      white-space: nowrap;
+      font-family: inherit;
     }
 
-    .monthly-meta {
+    .month-filter-trigger:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .month-filter-trigger::after {
+      content: "▾";
+      font-size: 10px;
+      margin-left: 2px;
+      transition: transform 0.18s ease;
+    }
+
+    .month-filter-dropdown.open .month-filter-trigger::after {
+      transform: rotate(180deg);
+    }
+
+    .month-filter-count {
+      background: var(--primary);
+      color: #fff;
+      font-size: 11px;
+      padding: 1px 7px;
+      border-radius: 10px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .month-filter-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 16px rgba(40, 111, 180, 0.1), 0 2px 6px rgba(0, 0, 0, 0.06);
+      padding: 6px;
+      min-width: 180px;
+      max-height: 320px;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .month-filter-dropdown.open .month-filter-menu {
+      display: block;
+    }
+
+    .month-filter-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.12s ease;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    .month-filter-option:hover {
+      background: var(--card-soft);
+    }
+
+    .month-filter-option input[type="checkbox"] {
+      accent-color: var(--primary);
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .month-filter-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--dot-color, #ccc);
+      flex-shrink: 0;
+    }
+
+    .month-filter-option-all {
+      font-weight: 650;
+    }
+
+    .records-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .records-dropdown-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 550;
+      cursor: pointer;
+      transition: 0.18s ease;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .records-dropdown-trigger:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .records-dropdown-trigger::after {
+      content: "▾";
+      font-size: 10px;
+      margin-left: 2px;
+      transition: transform 0.18s ease;
+    }
+
+    .records-dropdown.open .records-dropdown-trigger::after {
+      transform: rotate(180deg);
+    }
+
+    .records-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 16px rgba(40, 111, 180, 0.1), 0 2px 6px rgba(0, 0, 0, 0.06);
+      padding: 6px;
+      min-width: 130px;
+      z-index: 100;
+    }
+
+    .records-dropdown.open .records-dropdown-menu {
+      display: block;
+    }
+
+    .records-dropdown-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.12s ease;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    .records-dropdown-option:hover {
+      background: var(--card-soft);
+    }
+
+    .records-dropdown-option.selected {
+      color: var(--primary);
+      font-weight: 650;
+      background: var(--card-soft);
+    }
+
+    .records-table-wrap {
+      overflow-x: auto;
+    }
+
+    .records-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .records-table thead th {
+      padding: 9px 10px;
+      text-align: left;
       color: var(--text-secondary);
       font-size: 12px;
-      line-height: 1.45;
+      font-weight: 700;
+      border-bottom: 2px solid var(--line);
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      background: #ffffff;
     }
 
-    .monthly-total {
-      margin-top: 4px;
+    .records-table tbody td {
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--line);
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .records-table tbody tr:hover {
+      background: var(--card-soft);
+    }
+
+    .records-table .td-date {
       color: var(--text-secondary);
+      font-size: 12px;
+    }
+
+    .records-table .td-type {
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .records-table .td-name {
+      color: var(--text-secondary);
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .records-table .td-distance {
       font-weight: 800;
+      color: var(--primary);
+    }
+
+    .records-table .td-climb {
+      font-weight: 700;
+    }
+
+    .records-table .td-time {
+      color: var(--text-secondary);
+      font-size: 12px;
+    }
+
+    .records-table .td-race-name {
+      font-weight: 700;
+      color: #c0392b;
+    }
+
+    .records-table .td-race-group {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .records-table .td-race-note {
+      color: var(--text-secondary);
+      max-width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .records-empty {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      display: none;
+    }
+
+    .records-empty.show {
+      display: block;
     }
 
     @media (max-width: 900px) {
@@ -1388,13 +1836,11 @@
         min-height: 96px;
       }
 
-      .year-summary-grid {
+      .stats-summary-row {
         grid-template-columns: 1fr;
       }
 
-      .year-chart-grid {
-        min-width: 1140px;
-      }
+
     }
 
     @media (max-width: 640px) {
@@ -1405,6 +1851,11 @@
 
       .app-title {
         font-size: 26px;
+      }
+
+      .filter-trigger {
+        padding: 5px 10px;
+        font-size: 12px;
       }
 
       .app-subtitle {
@@ -1420,7 +1871,15 @@
 
       .calendar-header,
       .stats-header {
+        flex-wrap: wrap;
+        gap: 10px;
         margin-bottom: 22px;
+      }
+
+      .header-center {
+        order: 3;
+        width: 100%;
+        justify-content: center;
       }
 
       .month-title-row {
@@ -1495,6 +1954,11 @@
         font-size: 10px;
       }
 
+      .important-inline-badge.race-badge {
+        padding: 1px 4px;
+        font-size: 10px;
+      }
+
       .holiday-label {
         top: 13px;
         right: 7px;
@@ -1539,10 +2003,6 @@
       .type-options,
       .traffic-options {
         grid-template-columns: repeat(2, 1fr);
-      }
-
-      .monthly-list {
-        grid-template-columns: 1fr;
       }
 
       .day-record-item {
@@ -1597,10 +2057,90 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ===== 登录保护 ===== */
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #E2F0F9 0%, #B0DDE4 100%);
+    }
+    .login-overlay.hidden {
+      display: none;
+    }
+    .login-box {
+      background: #fff;
+      border-radius: 16px;
+      padding: 40px 36px;
+      box-shadow: 0 8px 40px rgba(40,111,180,0.15);
+      text-align: center;
+      max-width: 360px;
+      width: 90%;
+    }
+    .login-box h2 {
+      font-size: 22px;
+      color: #286FB4;
+      margin: 0 0 6px;
+      font-weight: 700;
+    }
+    .login-box p {
+      font-size: 13px;
+      color: #7a9ab0;
+      margin: 0 0 20px;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #C8E0E8;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+      box-sizing: border-box;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .login-box input:focus {
+      border-color: #286FB4;
+    }
+    .login-box button {
+      width: 100%;
+      margin-top: 14px;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #286FB4;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .login-box button:hover {
+      background: #1e5a96;
+    }
+    .login-error {
+      color: #DF4C73;
+      font-size: 13px;
+      margin-top: 10px;
+      min-height: 18px;
+    }
   </style>
-  <script src="https://imgcache.qq.com/qcloud/cloudbase-js-sdk/1.7.1/cloudbase.full.js"></script>
+  <script src="https://static.cloudbase.net/cloudbase-js-sdk/2.28.6/cloudbase.full.js"></script>
 </head>
 <body>
+  <!-- 登录保护 -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <h2>🔐 访问验证</h2>
+      <p>请输入密码以继续访问</p>
+      <input type="password" id="loginPwd" placeholder="输入密码" autocomplete="off" />
+      <button id="loginBtn">确 认</button>
+      <div class="login-error" id="loginError"></div>
+    </div>
+  </div>
   <main class="page">
     <div class="app">
       <div class="app-top-row">
@@ -1609,10 +2149,9 @@
           <p class="app-subtitle" id="todayText">今天是 2026 年 6 月 17 日，星期三</p>
         </header>
         <nav class="top-tabs">
-          <button class="backup-btn export-btn" type="button" id="exportBtn" title="导出数据备份到本地">📥 导出备份</button>
-          <button class="backup-btn" type="button" id="importBtn" title="从备份文件恢复数据">📤 导入恢复</button>
           <button class="tab-btn active" type="button" data-tab="calendarPanel">我的日记</button>
           <button class="tab-btn" type="button" data-tab="statsPanel">跑量统计</button>
+          <button class="tab-btn" type="button" data-tab="racePanel">赛事日历</button>
         </nav>
       </div>
 
@@ -1630,6 +2169,20 @@
 
             <div class="actions">
               <button class="today-btn" id="todayBtn">回到今天</button>
+            </div>
+
+            <div class="header-center">
+              <div class="badge-filter-dropdown" id="badgeFilterDropdown">
+                <button class="filter-trigger" id="filterTrigger" type="button">选择可见范围 <span class="filter-count" id="filterCount">4</span></button>
+                <div class="filter-menu" id="filterMenu">
+                  <label class="filter-option"><input type="checkbox" data-filter-kind="all"><span>全部可见</span></label>
+                  <label class="filter-option"><input type="checkbox" data-filter-kind="love"><span class="filter-dot" style="--dot-color:#F0A8C0"></span><span>inLove</span></label>
+                  <label class="filter-option"><input type="checkbox" data-filter-kind="schedule" checked><span class="filter-dot" style="--dot-color:#90D0B0"></span><span>日程</span></label>
+                  <label class="filter-option"><input type="checkbox" data-filter-kind="traffic" checked><span class="filter-dot" style="--dot-color:#FFC8A8"></span><span>行程</span></label>
+                  <label class="filter-option"><input type="checkbox" data-filter-kind="sport" checked><span class="filter-dot" style="--dot-color:#93C5FD"></span><span>运动</span></label>
+                  <label class="filter-option"><input type="checkbox" data-filter-kind="health" checked><span class="filter-dot" style="--dot-color:#90E0D0"></span><span>医疗健康</span></label>
+                </div>
+              </div>
             </div>
           </header>
 
@@ -1652,7 +2205,7 @@
           <section class="calendar-note-block">
             <h2 class="calendar-note-title">备注</h2>
             <textarea class="calendar-note" id="calendarNote" placeholder="可以记录本月训练目标、身体状态、出行安排或其他事项"></textarea>
-            <div class="note-helper">备注内容会保存在当前页面状态中，刷新页面后会清空</div>
+            <div class="note-helper">备注会自动同步到云端，导出备份时也会一并保存</div>
           </section>
         </section>
       </section>
@@ -1663,27 +2216,27 @@
             <div class="stats-title-wrap">
               <div class="month-title-row">
                 <button class="icon-btn" id="statsPrevBtn" aria-label="前移一年">‹</button>
-                <h1 class="stats-title" id="statsTitle">三年跑量统计</h1>
+                <h1 class="stats-title" id="statsTitle">年度跑量统计</h1>
                 <button class="icon-btn" id="statsNextBtn" aria-label="后移一年">›</button>
               </div>
               <div class="stats-subtitle" id="statsSubtitle"></div>
             </div>
 
             <div class="actions">
-              <button class="today-btn" id="statsCurrentBtn">今年</button>
+              <button class="today-btn" id="statsCurrentBtn">回到今年</button>
             </div>
           </header>
 
           <section class="stats-card">
-            <div class="year-summary-grid" id="yearSummaryGrid"></div>
+            <div class="stats-summary-row" id="yearSummaryGrid"></div>
 
             <div class="chart-wrap">
               <div class="chart-title">
-                <span>按月堆积柱状图</span>
+                <span id="chartTitleText"></span>
                 <div class="chart-legend">
-                  <span class="chart-legend-item"><span class="chart-color run"></span>跑步</span>
-                  <span class="chart-legend-item"><span class="chart-color trail"></span>越野跑</span>
-                  <span class="chart-legend-item"><span class="chart-color hike"></span>徒步</span>
+                  <span class="chart-color run"></span>跑步
+                  <span class="chart-color trail"></span>越野跑
+                  <span class="chart-color hike"></span>徒步
                 </div>
               </div>
 
@@ -1693,9 +2246,129 @@
             </div>
           </section>
 
-          <section class="monthly-list-card">
-            <h2 class="monthly-list-title">按月列示跑量</h2>
-            <div class="monthly-list" id="monthlyList"></div>
+          <section class="records-list-card">
+            <div class="records-toolbar">
+              <h2 class="records-list-title">运动记录</h2>
+              <div class="records-controls">
+                <div class="month-filter-dropdown" id="monthFilterDropdown">
+                  <button class="month-filter-trigger" id="monthFilterBtn" type="button">选择月份 <span class="month-filter-count" id="monthFilterCount">12</span></button>
+                  <div class="month-filter-menu" id="monthFilterMenu">
+                    <label class="month-filter-option month-filter-option-all"><input type="checkbox" value="all" checked><span>全部可见</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="1" checked><span class="month-filter-dot" style="--dot-color:#5B9BD5"></span><span>1月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="2" checked><span class="month-filter-dot" style="--dot-color:#6BAED6"></span><span>2月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="3" checked><span class="month-filter-dot" style="--dot-color:#7EC8A0"></span><span>3月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="4" checked><span class="month-filter-dot" style="--dot-color:#90D0A0"></span><span>4月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="5" checked><span class="month-filter-dot" style="--dot-color:#A8D88A"></span><span>5月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="6" checked><span class="month-filter-dot" style="--dot-color:#C0E080"></span><span>6月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="7" checked><span class="month-filter-dot" style="--dot-color:#F4A460"></span><span>7月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="8" checked><span class="month-filter-dot" style="--dot-color:#F08080"></span><span>8月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="9" checked><span class="month-filter-dot" style="--dot-color:#E8A87C"></span><span>9月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="10" checked><span class="month-filter-dot" style="--dot-color:#D4A574"></span><span>10月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="11" checked><span class="month-filter-dot" style="--dot-color:#9B8EC0"></span><span>11月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="12" checked><span class="month-filter-dot" style="--dot-color:#8ECAE6"></span><span>12月</span></label>
+                  </div>
+                </div>
+                <div class="records-dropdown" id="typeFilterDropdown">
+                  <button class="records-dropdown-trigger" id="typeFilterBtn" type="button">全部类型</button>
+                  <div class="records-dropdown-menu" id="typeFilterMenu">
+                    <div class="records-dropdown-option selected" data-value="all">全部类型</div>
+                    <div class="records-dropdown-option" data-value="跑步">跑步</div>
+                    <div class="records-dropdown-option" data-value="越野跑">越野跑</div>
+                    <div class="records-dropdown-option" data-value="徒步">徒步</div>
+                  </div>
+                </div>
+                <div class="records-dropdown" id="sortDropdown">
+                  <button class="records-dropdown-trigger" id="sortBtn" type="button">日期 ↓</button>
+                  <div class="records-dropdown-menu" id="sortMenu">
+                    <div class="records-dropdown-option selected" data-value="date-desc">日期 ↓</div>
+                    <div class="records-dropdown-option" data-value="date-asc">日期 ↑</div>
+                    <div class="records-dropdown-option" data-value="distance-desc">跑量 ↓</div>
+                    <div class="records-dropdown-option" data-value="distance-asc">跑量 ↑</div>
+                    <div class="records-dropdown-option" data-value="climb-desc">爬升 ↓</div>
+                    <div class="records-dropdown-option" data-value="climb-asc">爬升 ↑</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="records-table-wrap">
+              <table class="records-table" id="recordsTable">
+                <thead>
+                  <tr>
+                    <th>日期</th>
+                    <th>类型</th>
+                    <th>名称</th>
+                    <th>跑量</th>
+                    <th>爬升</th>
+                    <th>时间</th>
+                  </tr>
+                </thead>
+                <tbody id="recordsBody"></tbody>
+              </table>
+              <div class="records-empty" id="recordsEmpty">暂无运动记录</div>
+            </div>
+          </section>
+        </section>
+      </section>
+
+      <section class="panel" id="racePanel">
+        <section class="stats-page">
+          <header class="stats-header">
+            <div class="stats-title-wrap">
+              <h1 class="stats-title" id="raceTitle">赛事日历</h1>
+            </div>
+          </header>
+
+          <section class="records-list-card">
+            <div class="records-toolbar">
+              <h2 class="records-list-title" id="raceCount">所有赛事</h2>
+              <div class="records-controls">
+                <div class="records-dropdown" id="raceYearFilterDropdown">
+                  <button class="records-dropdown-trigger" id="raceYearFilterBtn" type="button">全部年份</button>
+                  <div class="records-dropdown-menu" id="raceYearFilterMenu">
+                    <div class="records-dropdown-option selected" data-value="all">全部年份</div>
+                  </div>
+                </div>
+                <div class="month-filter-dropdown" id="raceMonthFilterDropdown">
+                  <button class="month-filter-trigger" id="raceMonthFilterBtn" type="button">选择月份 <span class="month-filter-count" id="raceMonthFilterCount">12</span></button>
+                  <div class="month-filter-menu" id="raceMonthFilterMenu">
+                    <label class="month-filter-option month-filter-option-all"><input type="checkbox" value="all" checked><span>全部可见</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="1" checked><span class="month-filter-dot" style="--dot-color:#5B9BD5"></span><span>1月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="2" checked><span class="month-filter-dot" style="--dot-color:#6BAED6"></span><span>2月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="3" checked><span class="month-filter-dot" style="--dot-color:#7EC8A0"></span><span>3月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="4" checked><span class="month-filter-dot" style="--dot-color:#90D0A0"></span><span>4月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="5" checked><span class="month-filter-dot" style="--dot-color:#A8D88A"></span><span>5月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="6" checked><span class="month-filter-dot" style="--dot-color:#C0E080"></span><span>6月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="7" checked><span class="month-filter-dot" style="--dot-color:#F4A460"></span><span>7月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="8" checked><span class="month-filter-dot" style="--dot-color:#F08080"></span><span>8月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="9" checked><span class="month-filter-dot" style="--dot-color:#E8A87C"></span><span>9月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="10" checked><span class="month-filter-dot" style="--dot-color:#D4A574"></span><span>10月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="11" checked><span class="month-filter-dot" style="--dot-color:#9B8EC0"></span><span>11月</span></label>
+                    <label class="month-filter-option"><input type="checkbox" value="12" checked><span class="month-filter-dot" style="--dot-color:#8ECAE6"></span><span>12月</span></label>
+                  </div>
+                </div>
+                <div class="records-dropdown" id="raceSortDropdown">
+                  <button class="records-dropdown-trigger" id="raceSortBtn" type="button">日期 ↓</button>
+                  <div class="records-dropdown-menu" id="raceSortMenu">
+                    <div class="records-dropdown-option selected" data-value="date-desc">日期 ↓</div>
+                    <div class="records-dropdown-option" data-value="date-asc">日期 ↑</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="records-table-wrap">
+              <table class="records-table" id="raceTable">
+                <thead>
+                  <tr>
+                    <th>日期</th>
+                    <th>赛事名称</th>
+                    <th>组别</th>
+                    <th>备注</th>
+                  </tr>
+                </thead>
+                <tbody id="raceBody"></tbody>
+              </table>
+              <div class="records-empty" id="raceEmpty">暂无赛事记录</div>
+            </div>
           </section>
         </section>
       </section>
@@ -1774,11 +2447,25 @@
             </div>
           </div>
 
+          <div class="field race-only-fields" id="importantRaceFields">
+            <label class="field-label" for="importantRaceName">
+              赛事名称
+            </label>
+            <input class="input" id="importantRaceName" type="text" placeholder="例如：北京马拉松">
+          </div>
+
+          <div class="field race-only-fields" id="importantRaceGroupField">
+            <label class="field-label" for="importantRaceGroup">
+              报名组别
+            </label>
+            <input class="input" id="importantRaceGroup" type="text" placeholder="例如：全程马拉松">
+          </div>
+
           <div class="field">
             <label class="field-label" for="importantNote">
               备注
             </label>
-            <textarea class="textarea" id="importantNote" placeholder="可填写纪念日名称、赛事名称、旅行安排等"></textarea>
+            <textarea class="textarea" id="importantNote" placeholder="可填写纪念日名称、旅行安排等补充信息"></textarea>
           </div>
 
           <div class="error" id="importantError"></div>
@@ -1795,6 +2482,13 @@
               日期<span class="required">*</span>
             </label>
             <input class="input" id="scheduleDate" type="date" required="">
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="scheduleName">
+              日程名称
+            </label>
+            <input class="input" id="scheduleName" type="text" placeholder="例如：早课、小组讨论、周会">
           </div>
 
           <div class="field">
@@ -1819,8 +2513,8 @@
                 <span>健跑</span>
               </label>
               <label class="radio-card">
-                <input type="radio" name="scheduleCategory" value="家政">
-                <span>家政</span>
+                <input type="radio" name="scheduleCategory" value="馒总相关">
+                <span>馒总相关</span>
               </label>
               <label class="radio-card">
                 <input type="radio" name="scheduleCategory" value="其他">
@@ -2182,24 +2876,86 @@
       </div>
     </section>
   </div>
+
+  <div class="bottom-actions">
+    <button class="backup-btn export-btn" type="button" id="exportBtn" title="导出数据备份到本地">📥 导出备份</button>
+    <button class="backup-btn" type="button" id="importBtn" title="从备份文件恢复数据">📤 导入恢复</button>
+  </div>
+
   <input type="file" id="importFileInput" accept=".json" style="display:none;">
+
+  <div id="badgeTooltip" class="badge-tooltip"></div>
 
   <script>
     // ===== CloudBase 初始化 =====
     const ENV_ID = "hello-coder-d3geutyjt8abd7eba";
-    const app = cloudbase.init({ env: ENV_ID });
+    const PUBLISHABLE_KEY = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjlkMWRjMzFlLWI0ZDAtNDQ4Yi1hNzZmLWIwY2M2M2Q4MTQ5OCJ9.eyJpc3MiOiJodHRwczovL2hlbGxvLWNvZGVyLWQzZ2V1dHlqdDhhYmQ3ZWJhLmFwLXNoYW5naGFpLnRjYi1hcGkudGVuY2VudGNsb3VkYXBpLmNvbSIsInN1YiI6ImFub24iLCJhdWQiOiJoZWxsby1jb2Rlci1kM2dldXR5anQ4YWJkN2ViYSIsImV4cCI6NDA4NTM3NTgwNCwiaWF0IjoxNzgxNjkyNjA0LCJub25jZSI6IkxRWlJibFVTU1lpOWJMa19DYU1qWUEiLCJhdF9oYXNoIjoiTFFaUmJsVVNTWWk5YkxrX0NhTWpZQSIsIm5hbWUiOiJBbm9ueW1vdXMiLCJzY29wZSI6ImFub255bW91cyIsInByb2plY3RfaWQiOiJoZWxsby1jb2Rlci1kM2dldXR5anQ4YWJkN2ViYSIsIm1ldGEiOnsicGxhdGZvcm0iOiJQdWJsaXNoYWJsZUtleSJ9LCJ1c2VyX3R5cGUiOiIiLCJjbGllbnRfdHlwZSI6ImNsaWVudF91c2VyIiwiaXNfc3lzdGVtX2FkbWluIjpmYWxzZX0.CfRaUTgR05XdwOXweR08Poh_pvP2OH0NUv1pn9eqyMPoBYF6uei7J-meiawyU7iA3ItLGwxewSUu1Ha31-CVg5yHIiV-Ig3YcQoL9GgIeFSlAbrPL-fkMar40OHK-E0GK2vJm7Gs70u-IjLMY3D_hgL4aHs-6PKBtaueFVurWxBIBsjVG5DqW9HEZJycJ1xxpCLBlFEymxg84G0qqgyvfy9VbtEJQyUVtsMxYZ8pD4TWMCPCVzu0yxx8IdwKGqtyVncwi36pFw9LnmYsK1l6dBzFM6QoaBgwbaPEsMvSHMmUCsrXav8TI98TcorOPr1zwjvyFpz9jxQFO4qdvSkR2g";
+    const app = cloudbase.init({
+      env: ENV_ID,
+      region: "ap-shanghai",
+      accessKey: PUBLISHABLE_KEY
+    });
     const db = app.database();
     const auth = app.auth({ persistence: "local" });
 
     // ===== 数据持久化 =====
-    async function initCloudBase() {
+    const LS_KEY_ENTRIES = "mycalendar_entries";
+    const LS_KEY_META = "mycalendar_meta";
+
+    function saveToLocal() {
       try {
-        await auth.anonymousAuthProvider().signIn();
-        console.log("CloudBase 匿名登录成功");
+        localStorage.setItem(LS_KEY_ENTRIES, JSON.stringify(allEntries));
+        localStorage.setItem(LS_KEY_META, JSON.stringify({
+          calendarNoteText,
+          rememberedLocations
+        }));
       } catch (e) {
-        console.warn("CloudBase 登录失败，使用本地模式:", e.message);
+        console.warn("localStorage 保存失败:", e.message);
       }
-      await loadFromCloud();
+    }
+
+    function loadFromLocal() {
+      try {
+        const entriesJson = localStorage.getItem(LS_KEY_ENTRIES);
+        if (entriesJson) {
+          const parsed = JSON.parse(entriesJson);
+          Object.keys(parsed).forEach(key => {
+            allEntries[key] = parsed[key];
+          });
+        }
+        const metaJson = localStorage.getItem(LS_KEY_META);
+        if (metaJson) {
+          const meta = JSON.parse(metaJson);
+          calendarNoteText = meta.calendarNoteText || "";
+          if (meta.rememberedLocations) {
+            rememberedLocations.length = 0;
+            rememberedLocations.push(...meta.rememberedLocations);
+          }
+        }
+        if (calendarNote) calendarNote.value = calendarNoteText;
+        updateLocationHistory();
+        console.log("从本地存储加载数据完成");
+      } catch (e) {
+        console.warn("localStorage 加载失败:", e.message);
+      }
+    }
+
+    async function initCloudBase() {
+      let cloudLoaded = false;
+      try {
+        const { error } = await auth.signInAnonymously();
+        if (error) throw error;
+        console.log("CloudBase 匿名登录成功");
+        await loadFromCloud();
+        cloudLoaded = true;
+      } catch (e) {
+        console.warn("CloudBase 登录失败，使用本地模式:", e.message || e);
+      }
+
+      // 如果云端加载失败或云端没有数据，从 localStorage 兜底
+      if (!cloudLoaded || Object.keys(allEntries).length === 0) {
+        loadFromLocal();
+      }
     }
 
     async function loadFromCloud() {
@@ -2226,6 +2982,7 @@
         console.log("从云端加载数据完成");
       } catch (e) {
         console.warn("云端数据加载失败:", e.message);
+        throw e; // 向上抛出以便 initCloudBase 判断
       }
     }
 
@@ -2262,8 +3019,10 @@
           await db.collection("calendar_meta").add({ _id: "app_meta", ...metaData });
         }
         console.log("数据已保存到云端");
+        saveToLocal(); // 同时保存到本地，防止刷新丢失
       } catch (e) {
-        console.warn("云端保存失败:", e.message);
+        console.error("云端保存失败:", e.message);
+        saveToLocal(); // 即使云端失败，也要保存到本地
       }
     }
 
@@ -2276,6 +3035,7 @@
       } catch (e) {
         console.warn("云端删除失败:", e.message);
       }
+      saveToLocal(); // 删除后同步本地存储
     }
 
     // ===== 数据导出备份 =====
@@ -2318,7 +3078,8 @@
             return;
           }
           // 覆盖本地数据
-          allEntries = { ...backup.entries };
+          Object.keys(allEntries).forEach(k => delete allEntries[k]);
+          Object.assign(allEntries, backup.entries);
           if (backup.meta) {
             calendarNoteText = backup.meta.calendarNoteText || "";
             rememberedLocations.length = 0;
@@ -2334,6 +3095,7 @@
             renderStats();
             alert(`✅ 数据已恢复！\n共恢复 ${dayCount} 天的记录。`);
           }).catch(() => {
+            saveToLocal(); // 即使云端失败也保存本地
             updateLocationHistory();
             renderCalendar();
             renderStats();
@@ -2394,11 +3156,32 @@
     const importantStartDateInput = document.getElementById("importantStartDate");
     const importantEndDateInput = document.getElementById("importantEndDate");
     const importantNoteInput = document.getElementById("importantNote");
+    const importantRaceFields = document.getElementById("importantRaceFields");
+    const importantRaceGroupField = document.getElementById("importantRaceGroupField");
+    const importantRaceNameInput = document.getElementById("importantRaceName");
+    const importantRaceGroupInput = document.getElementById("importantRaceGroup");
     const importantError = document.getElementById("importantError");
     const importantSubmitBtn = document.getElementById("importantSubmitBtn");
 
+    const raceBody = document.getElementById("raceBody");
+    const raceEmpty = document.getElementById("raceEmpty");
+    const raceCount = document.getElementById("raceCount");
+    const racePanel = document.getElementById("racePanel");
+    const raceMonthFilterDropdown = document.getElementById("raceMonthFilterDropdown");
+    const raceMonthFilterBtn = document.getElementById("raceMonthFilterBtn");
+    const raceMonthFilterCount = document.getElementById("raceMonthFilterCount");
+    const raceMonthFilterMenu = document.getElementById("raceMonthFilterMenu");
+    const raceSortDropdown = document.getElementById("raceSortDropdown");
+    const raceSortBtn = document.getElementById("raceSortBtn");
+    const raceSortMenu = document.getElementById("raceSortMenu");
+    const raceYearFilterDropdown = document.getElementById("raceYearFilterDropdown");
+    const raceYearFilterBtn = document.getElementById("raceYearFilterBtn");
+    const raceYearFilterMenu = document.getElementById("raceYearFilterMenu");
+    let raceYearValue = "all";
+
     const scheduleForm = document.getElementById("scheduleForm");
     const scheduleDateInput = document.getElementById("scheduleDate");
+    const scheduleNameInput = document.getElementById("scheduleName");
     const scheduleStartTimeInput = document.getElementById("scheduleStartTime");
     const scheduleEndTimeInput = document.getElementById("scheduleEndTime");
     const scheduleLocationInput = document.getElementById("scheduleLocation");
@@ -2440,10 +3223,28 @@
     const statsCurrentBtn = document.getElementById("statsCurrentBtn");
     const yearSummaryGrid = document.getElementById("yearSummaryGrid");
     const yearChartGrid = document.getElementById("yearChartGrid");
-    const monthlyList = document.getElementById("monthlyList");
+    const chartTitleText = document.getElementById("chartTitleText");
+    const recordsBody = document.getElementById("recordsBody");
+    const recordsEmpty = document.getElementById("recordsEmpty");
+    const typeFilterDropdown = document.getElementById("typeFilterDropdown");
+    const typeFilterBtn = document.getElementById("typeFilterBtn");
+    const typeFilterMenu = document.getElementById("typeFilterMenu");
+    let typeFilterValue = "all";
+    const sortDropdown = document.getElementById("sortDropdown");
+    const sortBtn = document.getElementById("sortBtn");
+    const sortMenu = document.getElementById("sortMenu");
+    let sortValue = "date-desc";
+    const monthFilterDropdown = document.getElementById("monthFilterDropdown");
+    const monthFilterBtn = document.getElementById("monthFilterBtn");
+    const monthFilterMenu = document.getElementById("monthFilterMenu");
+    const monthFilterCount = document.getElementById("monthFilterCount");
+    const monthFilterCheckboxes = monthFilterMenu.querySelectorAll('input[type="checkbox"]');
+
+    let raceSortValue = "date-desc";
 
     let currentDate = new Date();
     let statsBaseYear = new Date().getFullYear();
+    let _comboChartData = null;
     let selectedDateKey = "";
     let editingId = null;
     let editingOriginalDateKey = "";
@@ -2544,6 +3345,14 @@
         .replaceAll("'", "&#039;");
     }
 
+    function escapeAttr(text) {
+      return String(text ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+
     function getCheckedValue(name) {
       const checked = document.querySelector(`input[name="${name}"]:checked`);
       return checked ? checked.value : "";
@@ -2626,11 +3435,11 @@
       allEntries[dateKey].sort((a, b) => {
         const order = {
           important: 0,
-          traffic: 1,
+          love: 1,
           schedule: 2,
-          health: 3,
-          love: 4,
-          sport: 5
+          traffic: 3,
+          sport: 4,
+          health: 5
         };
 
         const orderDiff = (order[a.kind] ?? 9) - (order[b.kind] ?? 9);
@@ -2730,6 +3539,8 @@
       updateConditionalFields(true);
 
       sportSubmitBtn.textContent = "保存";
+      importantRaceFields.classList.remove("show");
+      importantRaceGroupField.classList.remove("show");
       importantSubmitBtn.textContent = "保存";
       scheduleSubmitBtn.textContent = "保存";
       healthSubmitBtn.textContent = "保存";
@@ -2843,6 +3654,8 @@
         startDate: importantStartDateInput.value,
         endDate: importantEndDateInput.value,
         category: getCheckedValue("importantCategory"),
+        raceName: importantRaceNameInput.value.trim(),
+        raceGroup: importantRaceGroupInput.value.trim(),
         note: importantNoteInput.value.trim()
       };
     }
@@ -2853,6 +3666,7 @@
         kind: "schedule",
         date: scheduleDateInput.value,
         category: getCheckedValue("scheduleCategory"),
+        name: scheduleNameInput.value.trim(),
         startTime: scheduleStartTimeInput.value,
         endTime: scheduleEndTimeInput.value,
         location: scheduleLocationInput.value.trim(),
@@ -3035,12 +3849,15 @@
         const rangeText = entry.startDate === entry.endDate
           ? entry.startDate
           : `${entry.startDate} 至 ${entry.endDate}`;
-        return `${entry.category} · ${rangeText}${entry.note ? " · " + entry.note : ""}`;
+        const raceExtra = entry.category === "赛事" && entry.raceName
+          ? ` · ${entry.raceName}${entry.raceGroup ? " · " + entry.raceGroup : ""}`
+          : "";
+        return `${entry.category} · ${rangeText}${raceExtra}${entry.note ? " · " + entry.note : ""}`;
       }
 
       if (entry.kind === "schedule") {
         const timeText = entry.endTime ? `${entry.startTime}-${entry.endTime}` : entry.startTime;
-        return `${entry.category} · ${entry.date} · ${timeText}${entry.note ? " · " + entry.note : ""}${entry.location ? " · " + entry.location : ""}`;
+        return `${entry.category}${entry.name ? " · " + entry.name : ""} · ${entry.date} · ${timeText}${entry.note ? " · " + entry.note : ""}${entry.location ? " · " + entry.location : ""}`;
       }
 
       if (entry.kind === "health") {
@@ -3055,7 +3872,7 @@
       }
 
       if (entry.kind === "love") {
-        return `inLove · ${entry.date}${entry.location ? " · " + entry.location : ""}${entry.note ? " · " + entry.note : ""}`;
+        return `inLove · ${entry.date}${entry.note ? " · " + entry.note : ""}${entry.location ? " · " + entry.location : ""}`;
       }
 
       return "内容";
@@ -3072,12 +3889,15 @@
         const rangeText = entry.startDate === entry.endDate
           ? entry.startDate
           : `${entry.startDate} 至 ${entry.endDate}`;
-        return `重要事项 · ${entry.category} · ${rangeText}${entry.note ? " · " + entry.note : ""}`;
+        const raceExtra = entry.category === "赛事" && entry.raceName
+          ? ` · ${entry.raceName}${entry.raceGroup ? " · " + entry.raceGroup : ""}`
+          : "";
+        return `重要事项 · ${entry.category} · ${rangeText}${raceExtra}${entry.note ? " · " + entry.note : ""}`;
       }
 
       if (entry.kind === "schedule") {
         const timeText = entry.endTime ? `${entry.startTime}-${entry.endTime}` : entry.startTime;
-        return `${entry.date} · 日程 · ${entry.category} · ${timeText}${entry.location ? " · " + entry.location : ""}`;
+        return `${entry.date} · 日程 · ${entry.category}${entry.name ? " · " + entry.name : ""} · ${timeText}${entry.location ? " · " + entry.location : ""}`;
       }
 
       if (entry.kind === "health") {
@@ -3098,16 +3918,53 @@
 
     function getBadgeText(entry) {
       if (entry.kind === "sport") {
-        return `${entry.startTime} ${entry.name}`.trim();
+        const type = entry.type || "";
+        const parts = [];
+
+        // 跑步：显示里程
+        if (type === "跑步") {
+          if (entry.distanceKm) parts.push(`${entry.distanceKm}km`);
+        }
+        // 越野跑、徒步：显示里程 + 爬升
+        else if (type === "越野跑" || type === "徒步") {
+          if (entry.distanceKm) parts.push(`${entry.distanceKm}km`);
+          if (entry.climbM) parts.push(`↑${entry.climbM}m`);
+        }
+        // 游泳：显示里程（米）
+        else if (type === "游泳") {
+          if (entry.distanceM) parts.push(`${entry.distanceM}m`);
+        }
+        // 自行车：显示里程
+        else if (type === "自行车") {
+          if (entry.distanceKm) parts.push(`${entry.distanceKm}km`);
+        }
+
+        // 如果没有任何数据显示，回退到原有格式
+        if (parts.length === 0) {
+          return `${entry.startTime || ""} ${type}${entry.name ? " " + entry.name : ""}`.trim();
+        }
+
+        // 跑步、越野跑、徒步：类型后追加运动名称
+        const namePart = (type === "跑步" || type === "越野跑" || type === "徒步") && entry.name ? " " + entry.name : "";
+
+        return `${entry.startTime || ""} ${type}${namePart} ${parts.join(" · ")}`.trim();
       }
 
       if (entry.kind === "important") {
+        // 赛事：优先显示赛事名称 + 组别
+        if (entry.category === "赛事" && entry.raceName) {
+          return `${entry.raceName}${entry.raceGroup ? " " + entry.raceGroup : ""}`;
+        }
         return entry.note || entry.category || "重要事项";
       }
 
       if (entry.kind === "schedule") {
-        const timeText = entry.startTime || "";
-        return `${timeText}${entry.note ? " " + entry.note : ""}${entry.location ? " " + entry.location : ""}`.trim() || "日程";
+        const parts = [];
+        if (entry.startTime) parts.push(entry.startTime);
+        if (entry.name) parts.push(entry.name);
+        if (entry.location) parts.push(entry.location);
+        if (entry.note) parts.push(entry.note);
+        return parts.join(" ") || "日程";
       }
 
       if (entry.kind === "health") {
@@ -3115,14 +3972,16 @@
       }
 
       if (entry.kind === "traffic") {
+        const modeEmoji = { "飞机": "✈️", "高铁": "🚄", "火车": "🚂", "打车": "🚕", "自驾": "🚗", "其他": "🚌" };
         const timeText = entry.startTime ? `${entry.startTime} ` : "";
+        const emoji = modeEmoji[entry.mode] || "";
         const route = entry.from || entry.to ? `${entry.from || ""}-${entry.to || ""}` : "";
         const noText = entry.no || "";
-        return `${timeText}${noText}${route ? " " + route : ""}`.trim() || "行程";
+        return `${timeText}${emoji} ${noText}${route ? " " + route : ""}`.trim() || "行程";
       }
 
       if (entry.kind === "love") {
-        return `❤️ ${entry.location || ""}${entry.note ? " " + entry.note : ""}`.trim() || "❤️ inLove";
+        return `❤️ ${entry.note || ""}${entry.location ? " · " + entry.location : ""}`.trim() || "❤️ inLove";
       }
 
       return "";
@@ -3134,6 +3993,7 @@
         "行程约会": "schedule-date",
         "学校": "schedule-school",
         "健跑": "schedule-run",
+        "馒总相关": "schedule-housework",
         "家政": "schedule-housework",
         "其他": "schedule-other"
       };
@@ -3172,24 +4032,73 @@
 
       return `
         <span class="important-inline-list">
-          ${entries.slice(0, 3).map((entry) => `
-            <span class="important-inline-badge" title="${escapeHtml(getEntryTitle(entry))}">
+          ${entries.slice(0, 3).map((entry) => {
+            const isRace = entry.category === "赛事";
+            return `<span class="important-inline-badge${isRace ? " race-badge" : ""}" title="${escapeHtml(getEntryTitle(entry))}">
               ${escapeHtml(getBadgeText(entry))}
-            </span>
-          `).join("")}
+            </span>`;
+          }).join("")}
         </span>
       `;
     }
 
+    /**
+     * 自动缩放重要事项 badge 文字，使其不超过 2 行
+     */
+    function autoFitBadgeText() {
+      const badges = daysGrid.querySelectorAll(".important-inline-badge");
+      badges.forEach((badge) => {
+        const cs = getComputedStyle(badge);
+        const origFontSize = parseFloat(cs.fontSize);
+        const origLineHeight = parseFloat(cs.lineHeight);
+        const maxAllowed = 2 * origLineHeight;
+
+        // 暂移除 line-clamp，测量自然高度
+        badge.style.webkitLineClamp = "unset";
+        badge.style.overflow = "visible";
+
+        const natural = badge.scrollHeight;
+
+        if (natural <= maxAllowed) {
+          // 已经合规，恢复
+          badge.style.webkitLineClamp = "2";
+          badge.style.overflow = "hidden";
+          return;
+        }
+
+        // 按比例缩小字号
+        let target = Math.floor(origFontSize * maxAllowed / natural);
+        if (target < 7) target = 7;
+        badge.style.fontSize = target + "px";
+
+        badge.style.webkitLineClamp = "2";
+        badge.style.overflow = "hidden";
+      });
+    }
+
+    /** 防抖 helper */
+    let resizeTimer = 0;
+    function onResizeDebounced(fn, ms = 160) {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(fn, ms);
+    }
+
+    const badgeVisibility = { love: false, schedule: true, traffic: true, sport: true, health: true };
+
+    const badgeKindOrder = { love: 0, schedule: 1, traffic: 2, sport: 3, health: 4 };
+
     function renderEventBadges(dateKey) {
-      const entries = getAllEntriesForDate(dateKey).filter((entry) => entry.kind !== "important");
+      const entries = getAllEntriesForDate(dateKey)
+        .filter((entry) => entry.kind !== "important" && badgeVisibility[entry.kind] !== false)
+        .sort((a, b) => (badgeKindOrder[a.kind] ?? 9) - (badgeKindOrder[b.kind] ?? 9));
       const visibleEntries = entries.slice(0, 4);
       const moreCount = entries.length - visibleEntries.length;
 
       const badges = visibleEntries.map((entry) => {
         const modeClass = getEventBadgeClass(entry);
+        const tipHtml = escapeAttr(buildTooltipHTML(entry));
 
-        return `<div class="event-badge ${modeClass}" title="${escapeHtml(getEntryTitle(entry))}">
+        return `<div class="event-badge ${modeClass}" data-entry-id="${entry.id}" data-tooltip="${tipHtml}">
           ${escapeHtml(getBadgeText(entry))}
         </div>`;
       }).join("");
@@ -3199,6 +4108,117 @@
         : "";
 
       return `<div class="event-list">${badges}${more}</div>`;
+    }
+
+    const badgeTooltip = document.getElementById("badgeTooltip");
+
+    function buildTooltipHTML(entry) {
+      const rows = [];
+
+      if (entry.kind === "sport") {
+        rows.push({ label: "类型", value: `${entry.type}${entry.name ? " · " + entry.name : ""}` });
+        if (entry.distanceKm) rows.push({ label: "跑量", value: `${entry.distanceKm} km` });
+        if (entry.distanceM) rows.push({ label: "距离", value: `${entry.distanceM} m` });
+        if (entry.climbM) rows.push({ label: "爬升", value: `${entry.climbM} m` });
+        if (entry.startTime) rows.push({ label: "时间", value: entry.startTime });
+        if (entry.location) rows.push({ label: "地点", value: entry.location });
+        return rows.map((r) => `<div class="tip-row"><span class="tip-label">${r.label}</span><span class="tip-value">${r.value}</span></div>`).join("");
+      }
+
+      if (entry.kind === "schedule") {
+        rows.push({ label: "类别", value: entry.category });
+        if (entry.name) rows.push({ label: "名称", value: entry.name });
+        const timeText = entry.endTime ? `${entry.startTime} - ${entry.endTime}` : entry.startTime;
+        if (timeText) rows.push({ label: "时间", value: timeText });
+        if (entry.location) rows.push({ label: "地点", value: entry.location });
+        if (entry.note) rows.push({ label: "备注", value: entry.note });
+        return rows.map((r) => `<div class="tip-row"><span class="tip-label">${r.label}</span><span class="tip-value">${r.value}</span></div>`).join("");
+      }
+
+      if (entry.kind === "traffic") {
+        const modeEmoji = { "飞机": "✈️", "高铁": "🚄", "火车": "🚂", "打车": "🚕", "自驾": "🚗", "其他": "🚌" };
+        const emoji = modeEmoji[entry.mode] || "";
+        rows.push({ label: "方式", value: `${emoji} ${entry.mode}` });
+        if (entry.no) rows.push({ label: "车次", value: entry.no });
+        const timeText = entry.endTime ? `${entry.startTime} - ${entry.endTime}` : entry.startTime;
+        if (timeText) rows.push({ label: "时间", value: timeText });
+        if (entry.from || entry.to) rows.push({ label: "路线", value: `${entry.from || "出发地"} → ${entry.to || "到达地"}` });
+        return rows.map((r) => `<div class="tip-row"><span class="tip-label">${r.label}</span><span class="tip-value">${r.value}</span></div>`).join("");
+      }
+
+      if (entry.kind === "health") {
+        rows.push({ label: "类别", value: entry.category });
+        if (entry.time) rows.push({ label: "时间", value: entry.time });
+        if (entry.note) rows.push({ label: "备注", value: entry.note });
+        return rows.map((r) => `<div class="tip-row"><span class="tip-label">${r.label}</span><span class="tip-value">${r.value}</span></div>`).join("");
+      }
+
+      if (entry.kind === "love") {
+        if (entry.note) rows.push({ label: "记录", value: entry.note });
+        if (entry.location) rows.push({ label: "地点", value: entry.location });
+        return rows.map((r) => `<div class="tip-row"><span class="tip-label">${r.label}</span><span class="tip-value">${r.value}</span></div>`).join("");
+      }
+
+      return escapeHtml(getEntryTitle(entry));
+    }
+
+    function showTooltip(e, entry) {
+      if (!badgeTooltip) return;
+      try {
+        badgeTooltip.innerHTML = buildTooltipHTML(entry);
+      } catch (err) {
+        return;
+      }
+      if (!e || !e.target) return;
+      const rect = e.target.getBoundingClientRect();
+      let left = rect.right + 8;
+      let top = rect.top;
+
+      // Prevent overflow on the right side
+      if (left + 280 > window.innerWidth) {
+        left = rect.left - 288;
+      }
+      // Prevent overflow at bottom
+      if (top + 200 > window.innerHeight) {
+        top = window.innerHeight - 210;
+      }
+      // Prevent overflow at top
+      if (top < 0) top = 4;
+
+      badgeTooltip.style.left = left + "px";
+      badgeTooltip.style.top = top + "px";
+      badgeTooltip.classList.add("visible");
+    }
+
+    let tooltipTimer = null;
+    let activeEntryId = null;
+
+    function tooltipShow(id, e) {
+      if (id === activeEntryId) return;
+      const found = findEntryById(id);
+      if (!found) return;
+      clearTimeout(tooltipTimer);
+      tooltipTimer = null;
+      activeEntryId = id;
+      showTooltip(e, found.entry);
+    }
+
+    function tooltipHideDelayed() {
+      if (!badgeTooltip) return;
+      clearTimeout(tooltipTimer);
+      tooltipTimer = setTimeout(() => {
+        badgeTooltip.classList.remove("visible");
+        tooltipTimer = null;
+        activeEntryId = null;
+      }, 200);
+    }
+
+    function hideTooltip() {
+      if (!badgeTooltip) return;
+      clearTimeout(tooltipTimer);
+      tooltipTimer = null;
+      activeEntryId = null;
+      badgeTooltip.classList.remove("visible");
     }
 
     function renderDayRecordList(dateKey) {
@@ -3316,6 +4336,11 @@
         importantStartDateInput.value = target.startDate || found.dateKey;
         importantEndDateInput.value = target.endDate || target.startDate || found.dateKey;
         setCheckedValue("importantCategory", target.category || "");
+        importantRaceNameInput.value = target.raceName || "";
+        importantRaceGroupInput.value = target.raceGroup || "";
+        const isRace = (target.category || "") === "赛事";
+        importantRaceFields.classList.toggle("show", isRace);
+        importantRaceGroupField.classList.toggle("show", isRace);
         importantNoteInput.value = target.note || "";
         return;
       }
@@ -3450,12 +4475,35 @@
           openModal(key);
         });
 
+        // 给当天所有 badge 绑定 hover tooltip 事件
+        day.querySelectorAll(".event-badge").forEach((badge) => {
+          const tipHtml = badge.dataset.tooltip;
+          if (!tipHtml) return;
+          badge.addEventListener("mouseenter", function (e) {
+            if (!badgeTooltip || !e || !e.currentTarget) return;
+            badgeTooltip.innerHTML = tipHtml;
+            const rect = e.currentTarget.getBoundingClientRect();
+            let left = rect.right + 8;
+            let top = rect.top;
+            if (left + 280 > window.innerWidth) left = rect.left - 288;
+            if (top + 200 > window.innerHeight) top = window.innerHeight - 210;
+            if (top < 0) top = 4;
+            badgeTooltip.style.left = left + "px";
+            badgeTooltip.style.top = top + "px";
+            badgeTooltip.classList.add("visible");
+          });
+          badge.addEventListener("mouseleave", function () {
+            if (!badgeTooltip) return;
+            badgeTooltip.classList.remove("visible");
+          });
+        });
+
         daysGrid.appendChild(day);
       }
     }
 
     function getStatsYears() {
-      return [statsBaseYear - 2, statsBaseYear - 1, statsBaseYear];
+      return [statsBaseYear];
     }
 
     function getMonthlyStatsForYear(year) {
@@ -3534,7 +4582,9 @@
 
     function formatNumber(num) {
       const rounded = Math.round(num * 100) / 100;
-      return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
+      const [intPart, decPart] = String(rounded).split(".");
+      const formatted = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return decPart !== undefined ? `${formatted}.${decPart}` : formatted;
     }
 
     function renderStats() {
@@ -3551,13 +4601,13 @@
       const totalHikeClimb = sumMonthly(data, "hikeClimb");
       const totalClimb = totalRunClimb + totalTrailClimb + totalHikeClimb;
 
-      statsTitle.textContent = `${years[0]}-${years[2]} 年跑量统计`;
-      statsSubtitle.textContent =
-        `三年总里程 ${formatNumber(totalDistance)} km，三年总爬升 ${formatNumber(totalClimb)} m`;
+      statsTitle.textContent = `${years[0]} 年跑量统计`;
+      chartTitleText.textContent = "";
+      statsSubtitle.textContent = "";
 
       renderYearSummary(data);
       renderYearCharts(data);
-      renderMonthlyList(data);
+      renderRecordList();
     }
 
     function renderYearSummary(data) {
@@ -3574,116 +4624,510 @@
 
         return `
           <div class="year-summary-card">
-            <h3 class="year-summary-title">${yearItem.year}</h3>
-            <div class="stat-line"><span>跑步里程</span><strong>${formatNumber(run)} km</strong></div>
-            <div class="stat-line"><span>越野跑里程</span><strong>${formatNumber(trail)} km</strong></div>
-            <div class="stat-line"><span>徒步里程</span><strong>${formatNumber(hike)} km</strong></div>
-            <div class="stat-line total"><span>总里程</span><strong>${formatNumber(totalDistance)} km</strong></div>
-            <div class="stat-line"><span>跑步爬升</span><strong>${formatNumber(runClimb)} m</strong></div>
-            <div class="stat-line"><span>越野跑爬升</span><strong>${formatNumber(trailClimb)} m</strong></div>
-            <div class="stat-line"><span>徒步爬升</span><strong>${formatNumber(hikeClimb)} m</strong></div>
-            <div class="stat-line total"><span>总爬升</span><strong>${formatNumber(totalClimb)} m</strong></div>
+            <div class="summary-section">
+              <div class="summary-total">
+                <span class="summary-total-label">总跑量</span>
+                <span class="summary-total-value">${formatNumber(totalDistance)}</span>
+                <span class="summary-total-unit">km</span>
+              </div>
+              <div class="summary-detail-row">
+                <span class="summary-detail">跑步 <strong>${formatNumber(run)}</strong> km</span>
+                <span class="summary-detail">越野跑 <strong>${formatNumber(trail)}</strong> km</span>
+                <span class="summary-detail">徒步 <strong>${formatNumber(hike)}</strong> km</span>
+              </div>
+            </div>
+          </div>
+          <div class="year-summary-card">
+            <div class="summary-section">
+              <div class="summary-total">
+                <span class="summary-total-label">总爬升</span>
+                <span class="summary-total-value">${formatNumber(totalClimb)}</span>
+                <span class="summary-total-unit">m</span>
+              </div>
+              <div class="summary-detail-row">
+                <span class="summary-detail">跑步 <strong>${formatNumber(runClimb)}</strong> m</span>
+                <span class="summary-detail">越野跑 <strong>${formatNumber(trailClimb)}</strong> m</span>
+                <span class="summary-detail">徒步 <strong>${formatNumber(hikeClimb)}</strong> m</span>
+              </div>
+            </div>
           </div>
         `;
       }).join("");
     }
 
     function renderYearCharts(data) {
-      const maxTotal = Math.max(
+      const globalMaxDist = Math.max(
         1,
         ...data.flatMap((yearItem) =>
-          yearItem.months.map((monthItem) => monthItem.run + monthItem.trail + monthItem.hike)
+          yearItem.months.map((m) => m.run + m.trail + m.hike)
+        )
+      );
+      const globalMaxClimb = Math.max(
+        1,
+        ...data.flatMap((yearItem) =>
+          yearItem.months.map((m) => m.runClimb + m.trailClimb + m.hikeClimb)
         )
       );
 
-      yearChartGrid.innerHTML = data.map((yearItem) => {
+      const RUN_COLOR = "#4A90D9";
+      const TRAIL_COLOR = "#6DBF4E";
+      const HIKE_COLOR = "#F0A030";
+      const CLIMB_LINE_COLOR = "#F08080"; // 珊瑚红
+      const CLIMB_DOT_COLOR = "#E57373";  // 珊瑚深色
+
+      yearChartGrid.innerHTML = data.map((yearItem, yearIdx) => {
         const yearRun = sumYear(yearItem, "run");
         const yearTrail = sumYear(yearItem, "trail");
         const yearHike = sumYear(yearItem, "hike");
         const yearTotal = yearRun + yearTrail + yearHike;
+        const yearTotalClimb = sumYear(yearItem, "runClimb") + sumYear(yearItem, "trailClimb") + sumYear(yearItem, "hikeClimb");
+        const canvasId = `comboChart${yearIdx}`;
 
-        const bars = yearItem.months.map((monthItem) => {
-          const runHeight = (monthItem.run / maxTotal) * 100;
-          const trailHeight = (monthItem.trail / maxTotal) * 100;
-          const hikeHeight = (monthItem.hike / maxTotal) * 100;
-          const total = monthItem.run + monthItem.trail + monthItem.hike;
-
-          const title =
-            `${yearItem.year} 年 ${monthItem.month} 月：` +
-            `跑步 ${formatNumber(monthItem.run)} km，` +
-            `越野跑 ${formatNumber(monthItem.trail)} km，` +
-            `徒步 ${formatNumber(monthItem.hike)} km，` +
-            `总计 ${formatNumber(total)} km`;
-
-          return `
-            <div class="month-bar-group" title="${escapeHtml(title)}">
-              <div class="month-bar-stack">
-                <div class="bar-segment run" style="height:${runHeight}%"></div>
-                <div class="bar-segment trail" style="height:${trailHeight}%"></div>
-                <div class="bar-segment hike" style="height:${hikeHeight}%"></div>
-              </div>
-              <div class="month-bar-label">${monthItem.month}</div>
-            </div>
-          `;
+        // Build monthly stats table
+        const monthLabels = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+        const getMonth = (i) => yearItem.months.find(m => m.month === i + 1) || { run:0,trail:0,hike:0,runClimb:0,trailClimb:0,hikeClimb:0 };
+        const distCells = monthLabels.map((_, i) => {
+          const m = getMonth(i);
+          const d = m.run + m.trail + m.hike;
+          return `<span class="cell row-dist">${d > 0 ? formatNumber(Math.round(d)) : "-"}</span>`;
+        }).join("");
+        const climbCells = monthLabels.map((_, i) => {
+          const m = getMonth(i);
+          const c = m.runClimb + m.trailClimb + m.hikeClimb;
+          return `<span class="cell row-climb">${c > 0 ? formatNumber(Math.round(c)) : "-"}</span>`;
         }).join("");
 
         return `
           <div class="year-chart">
-            <h3 class="year-chart-title">${yearItem.year}</h3>
-            <div class="month-bar-chart">
-              ${bars}
+            <div class="combo-chart-wrap">
+              <span class="y-axis-label left">跑量 (km)</span>
+              <span class="y-axis-label right">爬升 (m)</span>
+              <canvas id="${canvasId}"></canvas>
             </div>
-            <div class="year-total">
-              跑步 ${formatNumber(yearRun)} km ｜ 越野跑 ${formatNumber(yearTrail)} km ｜ 徒步 ${formatNumber(yearHike)} km ｜ 总计 ${formatNumber(yearTotal)} km
+            <div class="month-stats">
+              <div class="month-stats-row"><span class="row-label">跑量</span>${distCells}</div>
+              <div class="month-stats-row"><span class="row-label">爬升</span>${climbCells}</div>
             </div>
           </div>
         `;
       }).join("");
+
+      // Draw canvases after DOM is ready
+      requestAnimationFrame(() => {
+        data.forEach((yearItem, yearIdx) => {
+          const canvas = document.getElementById(`comboChart${yearIdx}`);
+          if (!canvas) return;
+          drawComboChart(canvas, yearItem.months, globalMaxDist, globalMaxClimb, RUN_COLOR, TRAIL_COLOR, HIKE_COLOR, CLIMB_LINE_COLOR, CLIMB_DOT_COLOR);
+        });
+      });
+
+      function drawComboChart(canvas, months, maxDist, maxClimb, runColor, trailColor, hikeColor, lineColor, dotColor) {
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.parentElement.getBoundingClientRect();
+        const W = rect.width;
+        const H = Math.round(W / 3);
+
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.width = W + "px";
+        canvas.style.height = H + "px";
+
+        const ctx = canvas.getContext("2d");
+        ctx.scale(dpr, dpr);
+
+        const pad = { top: 20, right: 61, bottom: 32, left: 52 };
+        const chartW = W - pad.left - pad.right;
+        const chartH = H - pad.top - pad.bottom;
+
+        // Background - rounded rect
+        ctx.fillStyle = "#f8faf9";
+        const bgRadius = 16;
+        roundRect(ctx, 0, 0, W, H, bgRadius, true, false);
+
+        // Y-axis grid lines (distance)
+        const ySteps = 4;
+        const distStep = niceCeil(maxDist / ySteps);
+        const distMax = distStep * ySteps;
+
+        ctx.strokeStyle = "#e8e8e8";
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= ySteps; i++) {
+          const y = pad.top + chartH - (i / ySteps) * chartH;
+          ctx.beginPath();
+          ctx.moveTo(pad.left, y);
+          ctx.lineTo(W - pad.right, y);
+          ctx.stroke();
+
+          // Left axis label
+          ctx.fillStyle = runColor;
+          ctx.font = "14px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+          ctx.textAlign = "right";
+          ctx.textBaseline = "middle";
+          ctx.fillText(Math.round(distMax * i / ySteps), pad.left - 8, y);
+        }
+
+        // Y-axis grid lines (climb) — right side
+        const climbStep = niceCeil(maxClimb / ySteps);
+        const climbMax = climbStep * ySteps;
+
+        ctx.fillStyle = lineColor;
+        ctx.textAlign = "left";
+        for (let i = 0; i <= ySteps; i++) {
+          const y = pad.top + chartH - (i / ySteps) * chartH;
+          ctx.fillText(Math.round(climbMax * i / ySteps), W - pad.right + 8, y);
+        }
+
+        // X-axis labels
+        const barTotalWidth = chartW * 0.85;
+        const barOffsetX = pad.left + (chartW - barTotalWidth) / 2;
+        const barWidth = barTotalWidth / months.length;
+        const barGap = barWidth * 0.45;
+        const singleBarW = barWidth - barGap;
+
+        ctx.fillStyle = "#888";
+        ctx.font = "14px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        const monthLabels = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+        months.forEach((m, idx) => {
+          const x = barOffsetX + idx * barWidth + barWidth / 2;
+          ctx.fillText(monthLabels[m.month - 1] || m.month, x, pad.top + chartH + 6);
+        });
+
+        // === Draw stacked bars (distance) ===
+        const stackTypes = [
+          { key: "run", color: runColor },
+          { key: "trail", color: trailColor },
+          { key: "hike", color: hikeColor }
+        ];
+
+        months.forEach((m, idx) => {
+          const total = m.run + m.trail + m.hike;
+          const totalBarH = (total / distMax) * chartH;
+          const x = barOffsetX + idx * barWidth + barGap / 2;
+          let bottomY = pad.top + chartH;
+
+          stackTypes.forEach((st) => {
+            const val = m[st.key] || 0;
+            if (val <= 0) return;
+            const segH = (val / distMax) * chartH;
+            const segY = bottomY - segH;
+
+            ctx.fillStyle = st.color;
+            ctx.globalAlpha = 0.5;
+
+            // Only top segment gets rounded top corners
+            if (Math.abs(segY - (pad.top + chartH - totalBarH)) < 1) {
+              // Top segment: rounded top corners
+              ctx.beginPath();
+              const r = 3;
+              const w = singleBarW;
+              ctx.moveTo(x + r, segY);
+              ctx.lineTo(x + w - r, segY);
+              ctx.quadraticCurveTo(x + w, segY, x + w, segY + r);
+              ctx.lineTo(x + w, bottomY);
+              ctx.lineTo(x, bottomY);
+              ctx.lineTo(x, segY + r);
+              ctx.quadraticCurveTo(x, segY, x + r, segY);
+              ctx.closePath();
+              ctx.fill();
+            } else {
+              ctx.fillRect(x, segY, singleBarW, segH);
+            }
+
+            ctx.globalAlpha = 1;
+
+            bottomY = segY;
+          });
+
+        });
+
+        // === Draw climb line ===
+        const climbPoints = months.map((m, idx) => {
+          const climb = m.runClimb + m.trailClimb + m.hikeClimb;
+          const cx = barOffsetX + idx * barWidth + barWidth / 2;
+          const cy = pad.top + chartH - (climb / climbMax) * chartH;
+          return { cx, cy, climb };
+        });
+
+        // Build line path — connect only where both sides have climb > 0
+        ctx.strokeStyle = lineColor;
+        ctx.lineWidth = 1.5;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+
+        let drawing = false;
+        climbPoints.forEach((pt, idx) => {
+          if (pt.climb > 0) {
+            if (!drawing) {
+              ctx.beginPath();
+              ctx.moveTo(pt.cx, pt.cy);
+              drawing = true;
+            } else {
+              ctx.lineTo(pt.cx, pt.cy);
+            }
+          } else {
+            if (drawing) {
+              ctx.stroke();
+              drawing = false;
+            }
+          }
+          // If last point and still drawing, ensure we stroke
+          if (idx === climbPoints.length - 1 && drawing) {
+            ctx.stroke();
+          }
+        });
+
+        // Climb dots + values (only when climb > 0)
+        climbPoints.forEach((pt, i) => {
+          if (pt.climb === 0) return; // 爬升为0隐藏打点
+
+          // Dot
+          ctx.beginPath();
+          ctx.fillStyle = dotColor;
+          ctx.arc(pt.cx, pt.cy, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = "#fff";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+        });
+
+        // Axis lines
+        ctx.strokeStyle = "#bbb";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, pad.top);
+        ctx.lineTo(pad.left, pad.top + chartH);
+        ctx.lineTo(W - pad.right, pad.top + chartH);
+        ctx.stroke();
+      }
+
+      function roundRect(ctx, x, y, w, h, r, fill, stroke) {
+        if (h < r) r = h;
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h);
+        ctx.lineTo(x, y + h);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+        if (fill) ctx.fill();
+        if (stroke) ctx.stroke();
+      }
+
+      function niceCeil(val) {
+        if (val <= 0) return 1;
+        const mag = Math.pow(10, Math.floor(Math.log10(val)));
+        const norm = val / mag;
+        let nice;
+        if (norm <= 1) nice = 1;
+        else if (norm <= 2) nice = 2;
+        else if (norm <= 5) nice = 5;
+        else nice = 10;
+        return nice * mag;
+      }
     }
 
-    function renderMonthlyList(data) {
-      monthlyList.innerHTML = data.map((yearItem) => {
-        const rows = yearItem.months.map((monthItem) => {
-          const distanceTotal = monthItem.run + monthItem.trail + monthItem.hike;
-          const climbTotal = monthItem.runClimb + monthItem.trailClimb + monthItem.hikeClimb;
+    function getRawRecords() {
+      const year = statsBaseYear;
+      const records = [];
 
-          return `
-            <div class="monthly-item">
-              <div class="monthly-month">${monthItem.month}月</div>
-              <div class="monthly-meta">
-                跑步 ${formatNumber(monthItem.run)} km / ${formatNumber(monthItem.runClimb)} m<br>
-                越野跑 ${formatNumber(monthItem.trail)} km / ${formatNumber(monthItem.trailClimb)} m<br>
-                徒步 ${formatNumber(monthItem.hike)} km / ${formatNumber(monthItem.hikeClimb)} m
-                <div class="monthly-total">总计 ${formatNumber(distanceTotal)} km / ${formatNumber(climbTotal)} m</div>
-              </div>
-            </div>
-          `;
-        }).join("");
+      for (const dateKey in allEntries) {
+        const [entryYear] = dateKey.split("-").map(Number);
+        if (entryYear !== year) continue;
 
-        const yearDistanceTotal =
-          sumYear(yearItem, "run") +
-          sumYear(yearItem, "trail") +
-          sumYear(yearItem, "hike");
+        getEntries(dateKey).forEach((entry) => {
+          if (
+            entry.kind !== "sport" ||
+            entry.mode !== "record" ||
+            !runningStatsTypes.includes(entry.type)
+          ) {
+            return;
+          }
 
-        const yearClimbTotal =
-          sumYear(yearItem, "runClimb") +
-          sumYear(yearItem, "trailClimb") +
-          sumYear(yearItem, "hikeClimb");
+          const [, monthNum, dayNum] = dateKey.split("-").map(Number);
+          records.push({
+            dateKey,
+            dateLabel: `${monthNum}月${dayNum}日`,
+            type: entry.type,
+            name: entry.name || "",
+            distanceKm: Number(entry.distanceKm || 0),
+            climbM: Number(entry.climbM || 0),
+            startTime: entry.startTime || "",
+            rawDate: dateKey // for sorting
+          });
+        });
+      }
 
+      return records;
+    }
+
+    function renderRecordList() {
+      let records = getRawRecords();
+
+      // filter by type
+      if (typeFilterValue !== "all") {
+        records = records.filter((r) => r.type === typeFilterValue);
+      }
+
+      // filter by month
+      const selectedMonths = getSelectedMonths();
+      if (selectedMonths !== null) {
+        records = records.filter((r) => {
+          const m = Number(r.rawDate.split("-")[1]);
+          return selectedMonths.includes(m);
+        });
+      }
+
+      // sort
+      const sortVal = sortValue;
+      records.sort((a, b) => {
+        switch (sortVal) {
+          case "date-asc":
+            return a.rawDate.localeCompare(b.rawDate);
+          case "date-desc":
+            return b.rawDate.localeCompare(a.rawDate);
+          case "distance-desc":
+            return b.distanceKm - a.distanceKm || b.rawDate.localeCompare(a.rawDate);
+          case "distance-asc":
+            return a.distanceKm - b.distanceKm || a.rawDate.localeCompare(b.rawDate);
+          case "climb-desc":
+            return b.climbM - a.climbM || b.rawDate.localeCompare(a.rawDate);
+          case "climb-asc":
+            return a.climbM - b.climbM || a.rawDate.localeCompare(b.rawDate);
+          default:
+            return b.rawDate.localeCompare(a.rawDate);
+        }
+      });
+
+      if (records.length === 0) {
+        recordsBody.innerHTML = "";
+        recordsEmpty.classList.add("show");
+        return;
+      }
+
+      recordsEmpty.classList.remove("show");
+      recordsBody.innerHTML = records.map((r) => `
+        <tr>
+          <td class="td-date">${r.dateLabel}</td>
+          <td class="td-type">${r.type}</td>
+          <td class="td-name">${r.name || "-"}</td>
+          <td class="td-distance">${formatNumber(r.distanceKm)} km</td>
+          <td class="td-climb">${formatNumber(r.climbM)} m</td>
+          <td class="td-time">${r.startTime || "-"}</td>
+        </tr>
+      `).join("");
+    }
+
+    function getAllRaceEntries() {
+      const races = [];
+      Object.values(allEntries).forEach((entries) => {
+        entries.forEach((entry) => {
+          if (entry.kind === "important" && entry.category === "赛事") {
+            races.push(entry);
+          }
+        });
+      });
+      // 排序
+      if (raceSortValue === "date-asc") {
+        races.sort((a, b) => a.startDate.localeCompare(b.startDate));
+      } else {
+        races.sort((a, b) => b.startDate.localeCompare(a.startDate));
+      }
+      return races;
+    }
+
+    /** 获取当前选中的月份集合；返回 null 表示"全部" */
+    function getRaceActiveMonths() {
+      const allCb = raceMonthFilterMenu.querySelector('input[value="all"]');
+      if (allCb.checked) return null;
+      const selected = new Set();
+      raceMonthFilterMenu.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+        if (cb.value !== "all" && cb.checked) selected.add(parseInt(cb.value));
+      });
+      return selected;
+    }
+
+    /** 赛事覆盖了哪些月份（跨月则两个月份均可筛到） */
+    function getRaceCoveredMonths(entry) {
+      const months = new Set();
+      const s = new Date(entry.startDate);
+      const e = new Date(entry.endDate);
+      const cur = new Date(s.getFullYear(), s.getMonth(), 1);
+      while (cur <= e) {
+        months.add(cur.getMonth() + 1);
+        cur.setMonth(cur.getMonth() + 1);
+      }
+      return months;
+    }
+
+    function renderRaceList() {
+      const races = getAllRaceEntries();
+      const activeMonths = getRaceActiveMonths();
+
+      // 年度筛选
+      let filtered = races;
+      if (raceYearValue !== "all") {
+        const year = parseInt(raceYearValue);
+        filtered = filtered.filter((r) => {
+          const s = new Date(r.startDate);
+          const e = new Date(r.endDate);
+          return s.getFullYear() <= year && e.getFullYear() >= year;
+        });
+      }
+
+      // 月份筛选：跨月赛事只要命中任一选中月份即显示
+      if (activeMonths !== null) {
+        filtered = filtered.filter((r) => {
+          const covered = getRaceCoveredMonths(r);
+          for (const m of activeMonths) {
+            if (covered.has(m)) return true;
+          }
+          return false;
+        });
+      }
+
+      raceCount.textContent = filtered.length ? `共 ${filtered.length} 场赛事` : "所有赛事";
+
+      if (!filtered.length) {
+        raceBody.innerHTML = "";
+        raceEmpty.classList.add("show");
+        return;
+      }
+
+      raceEmpty.classList.remove("show");
+      raceBody.innerHTML = filtered.map((r) => {
+        const rangeText = r.startDate === r.endDate
+          ? r.startDate
+          : `${r.startDate} 至 ${r.endDate}`;
         return `
-          <div class="monthly-year-block">
-            <h3 class="monthly-year-title">
-              ${yearItem.year} ｜ 总计 ${formatNumber(yearDistanceTotal)} km / ${formatNumber(yearClimbTotal)} m
-            </h3>
-            ${rows}
-          </div>
-        `;
+        <tr>
+          <td class="td-date">${rangeText}</td>
+          <td class="td-race-name">${escapeHtml(r.raceName || "-")}</td>
+          <td class="td-race-group">${escapeHtml(r.raceGroup || "-")}</td>
+          <td class="td-race-note">${escapeHtml(r.note || "-")}</td>
+        </tr>`;
       }).join("");
     }
 
     document.querySelectorAll('input[name="sportType"]').forEach((input) => {
       input.addEventListener("change", function () {
         updateConditionalFields(false);
+      });
+    });
+
+    document.querySelectorAll('input[name="importantCategory"]').forEach((input) => {
+      input.addEventListener("change", function () {
+        const isRace = this.value === "赛事";
+        importantRaceFields.classList.toggle("show", isRace);
+        importantRaceGroupField.classList.toggle("show", isRace);
+        if (!isRace) {
+          importantRaceNameInput.value = "";
+          importantRaceGroupInput.value = "";
+        }
       });
     });
 
@@ -3788,6 +5232,51 @@
       renderCalendar();
     });
 
+    /* Badge 下拉筛选 */
+    const filterTrigger = document.getElementById("filterTrigger");
+    const filterMenu = document.getElementById("filterMenu");
+    const filterDropdown = document.getElementById("badgeFilterDropdown");
+    const filterCountEl = document.getElementById("filterCount");
+    const filterAllCheckbox = filterMenu.querySelector('[data-filter-kind="all"]');
+    const filterKindCheckboxes = filterMenu.querySelectorAll('[data-filter-kind]:not([data-filter-kind="all"])');
+
+    function updateFilterState() {
+      const checkedCount = Array.from(filterKindCheckboxes).filter((cb) => cb.checked).length;
+      const total = filterKindCheckboxes.length;
+      filterCountEl.textContent = checkedCount;
+      filterAllCheckbox.checked = checkedCount === total;
+    }
+
+    filterTrigger.addEventListener("click", function (e) {
+      e.stopPropagation();
+      filterDropdown.classList.toggle("open");
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!filterDropdown.contains(e.target)) {
+        filterDropdown.classList.remove("open");
+      }
+    });
+
+    filterKindCheckboxes.forEach((cb) => {
+      cb.addEventListener("change", function () {
+        const kind = this.dataset.filterKind;
+        badgeVisibility[kind] = this.checked;
+        updateFilterState();
+        renderCalendar();
+      });
+    });
+
+    filterAllCheckbox.addEventListener("change", function () {
+      const checked = this.checked;
+      filterKindCheckboxes.forEach((cb) => {
+        cb.checked = checked;
+        badgeVisibility[cb.dataset.filterKind] = checked;
+      });
+      updateFilterState();
+      renderCalendar();
+    });
+
     statsPrevBtn.addEventListener("click", function () {
       statsBaseYear -= 1;
       renderStats();
@@ -3798,9 +5287,212 @@
       renderStats();
     });
 
+    // ---- Month multi-select filter ----
+    function getSelectedMonths() {
+      const allCb = monthFilterMenu.querySelector('input[value="all"]');
+      if (allCb.checked) return null; // null means "show all"
+      const checked = [];
+      monthFilterCheckboxes.forEach(cb => {
+        if (cb.value !== "all" && cb.checked) checked.push(Number(cb.value));
+      });
+      return checked;
+    }
+
+    function updateMonthFilterCount() {
+      const allCb = monthFilterMenu.querySelector('input[value="all"]');
+      if (allCb.checked) {
+        monthFilterCount.textContent = "12";
+      } else {
+        let count = 0;
+        monthFilterCheckboxes.forEach(cb => {
+          if (cb.value !== "all" && cb.checked) count++;
+        });
+        monthFilterCount.textContent = count;
+        if (count === 0) monthFilterCount.textContent = "0";
+      }
+    }
+
+    monthFilterBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      monthFilterDropdown.classList.toggle("open");
+    });
+
+    // Click outside to close
+    document.addEventListener("click", (e) => {
+      if (!monthFilterDropdown.contains(e.target)) {
+        monthFilterDropdown.classList.remove("open");
+      }
+      if (!typeFilterDropdown.contains(e.target)) {
+        typeFilterDropdown.classList.remove("open");
+      }
+      if (!sortDropdown.contains(e.target)) {
+        sortDropdown.classList.remove("open");
+      }
+      if (!raceMonthFilterDropdown.contains(e.target)) {
+        raceMonthFilterDropdown.classList.remove("open");
+      }
+      if (!raceSortDropdown.contains(e.target)) {
+        raceSortDropdown.classList.remove("open");
+      }
+      if (!raceYearFilterDropdown.contains(e.target)) {
+        raceYearFilterDropdown.classList.remove("open");
+      }
+    });
+
+    monthFilterCheckboxes.forEach(cb => {
+      cb.addEventListener("change", function () {
+        const allCb = monthFilterMenu.querySelector('input[value="all"]');
+        const monthCbs = monthFilterMenu.querySelectorAll('input[type="checkbox"]:not([value="all"])');
+        if (this.value === "all") {
+          // "全部" 开关：全选/全不选
+          monthCbs.forEach((mc) => { mc.checked = this.checked; });
+        } else {
+          // 单个月份变化时，同步 "全部" 状态
+          const allChecked = [...monthCbs].every((mc) => mc.checked);
+          allCb.checked = allChecked;
+        }
+        updateMonthFilterCount();
+        renderRecordList();
+      });
+    });
+
+    // ---- Type filter dropdown ----
+    typeFilterBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      sortDropdown.classList.remove("open");
+      typeFilterDropdown.classList.toggle("open");
+    });
+
+    typeFilterMenu.querySelectorAll(".records-dropdown-option").forEach(opt => {
+      opt.addEventListener("click", function () {
+        typeFilterValue = this.dataset.value;
+        typeFilterBtn.textContent = this.textContent;
+        typeFilterMenu.querySelectorAll(".records-dropdown-option").forEach(o => o.classList.remove("selected"));
+        this.classList.add("selected");
+        typeFilterDropdown.classList.remove("open");
+        renderRecordList();
+      });
+    });
+
+    // ---- Sort dropdown ----
+    sortBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      typeFilterDropdown.classList.remove("open");
+      sortDropdown.classList.toggle("open");
+    });
+
+    sortMenu.querySelectorAll(".records-dropdown-option").forEach(opt => {
+      opt.addEventListener("click", function () {
+        sortValue = this.dataset.value;
+        sortBtn.textContent = this.textContent;
+        sortMenu.querySelectorAll(".records-dropdown-option").forEach(o => o.classList.remove("selected"));
+        this.classList.add("selected");
+        sortDropdown.classList.remove("open");
+        renderRecordList();
+      });
+    });
+
     statsCurrentBtn.addEventListener("click", function () {
       statsBaseYear = new Date().getFullYear();
       renderStats();
+    });
+
+    // ===== 赛事日历：月份筛选 =====
+    raceMonthFilterBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      raceSortDropdown.classList.remove("open");
+      raceYearFilterDropdown.classList.remove("open");
+      raceMonthFilterDropdown.classList.toggle("open");
+    });
+
+    function updateRaceMonthUI() {
+      const allCb = raceMonthFilterMenu.querySelector('input[value="all"]');
+      const monthCbs = raceMonthFilterMenu.querySelectorAll('input[type="checkbox"]:not([value="all"])');
+      const checkedMonths = [...monthCbs].filter((cb) => cb.checked);
+      let count = allCb.checked ? 12 : checkedMonths.length;
+      raceMonthFilterCount.textContent = count;
+    }
+
+    raceMonthFilterMenu.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+      cb.addEventListener("change", function (e) {
+        e.stopPropagation();
+        const allCb = raceMonthFilterMenu.querySelector('input[value="all"]');
+        const monthCbs = raceMonthFilterMenu.querySelectorAll('input[type="checkbox"]:not([value="all"])');
+        if (this.value === "all") {
+          // "全部" 开关：全选/全不选
+          monthCbs.forEach((mc) => { mc.checked = this.checked; });
+        } else {
+          // 单个月份变化时，同步 "全部" 状态
+          const allChecked = [...monthCbs].every((mc) => mc.checked);
+          const noneChecked = [...monthCbs].every((mc) => !mc.checked);
+          allCb.checked = allChecked;
+        }
+        updateRaceMonthUI();
+        renderRaceList();
+      });
+    });
+
+    // ===== 赛事日历：排序 =====
+    raceSortBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      raceMonthFilterDropdown.classList.remove("open");
+      raceYearFilterDropdown.classList.remove("open");
+      raceSortDropdown.classList.toggle("open");
+    });
+
+    raceSortMenu.querySelectorAll(".records-dropdown-option").forEach((opt) => {
+      opt.addEventListener("click", function () {
+        raceSortValue = this.dataset.value;
+        raceSortBtn.textContent = this.textContent;
+        raceSortMenu.querySelectorAll(".records-dropdown-option").forEach((o) => o.classList.remove("selected"));
+        this.classList.add("selected");
+        raceSortDropdown.classList.remove("open");
+        renderRaceList();
+      });
+    });
+
+    // ===== 赛事日历：年度筛选 =====
+    function getRaceAvailableYears() {
+      const years = new Set();
+      Object.values(allEntries).forEach((entries) => {
+        entries.forEach((entry) => {
+          if (entry.kind === "important" && entry.category === "赛事") {
+            const s = new Date(entry.startDate);
+            const e = new Date(entry.endDate);
+            for (let y = s.getFullYear(); y <= e.getFullYear(); y++) {
+              years.add(y);
+            }
+          }
+        });
+      });
+      return [...years].sort((a, b) => a - b);
+    }
+
+    function populateRaceYearOptions() {
+      const years = getRaceAvailableYears();
+      raceYearFilterMenu.innerHTML = `<div class="records-dropdown-option${raceYearValue === "all" ? " selected" : ""}" data-value="all">全部年份</div>`;
+      years.forEach((y) => {
+        raceYearFilterMenu.innerHTML += `<div class="records-dropdown-option${raceYearValue === String(y) ? " selected" : ""}" data-value="${y}">${y}年</div>`;
+      });
+    }
+
+    raceYearFilterBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      populateRaceYearOptions();
+      raceMonthFilterDropdown.classList.remove("open");
+      raceSortDropdown.classList.remove("open");
+      raceYearFilterDropdown.classList.toggle("open");
+    });
+
+    raceYearFilterMenu.addEventListener("click", function (e) {
+      const opt = e.target.closest(".records-dropdown-option");
+      if (!opt) return;
+      raceYearValue = opt.dataset.value;
+      raceYearFilterBtn.textContent = opt.textContent;
+      raceYearFilterMenu.querySelectorAll(".records-dropdown-option").forEach((o) => o.classList.remove("selected"));
+      opt.classList.add("selected");
+      raceYearFilterDropdown.classList.remove("open");
+      renderRaceList();
     });
 
     tabBtns.forEach((btn) => {
@@ -3813,15 +5505,36 @@
         this.classList.add("active");
         document.getElementById(targetId).classList.add("active");
 
+        localStorage.setItem("mycalendar_activeTab", targetId);
+
         if (targetId === "statsPanel") {
           renderStats();
+        }
+        if (targetId === "racePanel") {
+          renderRaceList();
         }
       });
     });
 
+    // 恢复上次激活的 tab
+    (function restoreActiveTab() {
+      const savedTab = localStorage.getItem("mycalendar_activeTab");
+      if (savedTab && savedTab !== "calendarPanel") {
+        tabBtns.forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.dataset.tab === savedTab) btn.classList.add("active");
+        });
+        panels.forEach((p) => p.classList.remove("active"));
+        const targetPanel = document.getElementById(savedTab);
+        if (targetPanel) targetPanel.classList.add("active");
+        if (savedTab === "racePanel") renderRaceList();
+      }
+    })();
+
     let noteSaveTimer = null;
     calendarNote.addEventListener("input", function () {
       calendarNoteText = this.value;
+      saveToLocal(); // 立即保存到本地，防止刷新丢失
       clearTimeout(noteSaveTimer);
       noteSaveTimer = setTimeout(() => saveToCloud(), 2000);
     });
@@ -3838,13 +5551,52 @@
       }
     });
 
+    // ===== 登录保护 =====
+    (function() {
+      const EXPECTED_HASH = "77a9bf43a3062d5da33b427ed41239b86714153cbff37e53b9aa25ed1d231bb5";
+      const overlay = document.getElementById("loginOverlay");
+      const input = document.getElementById("loginPwd");
+      const btn = document.getElementById("loginBtn");
+      const errEl = document.getElementById("loginError");
+
+      if (sessionStorage.getItem("_authed") === "1") {
+        overlay.classList.add("hidden");
+        return;
+      }
+
+      async function hashText(text) {
+        const enc = new TextEncoder().encode(text);
+        const buf = await crypto.subtle.digest("SHA-256", enc);
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+      }
+
+      async function tryLogin() {
+        const val = input.value.trim();
+        if (!val) { errEl.textContent = "请输入密码"; return; }
+        const h = await hashText(val);
+        if (h === EXPECTED_HASH) {
+          sessionStorage.setItem("_authed", "1");
+          overlay.classList.add("hidden");
+        } else {
+          errEl.textContent = "密码不正确，请重试";
+          input.value = "";
+          input.focus();
+        }
+      }
+
+      btn.addEventListener("click", tryLogin);
+      input.addEventListener("keydown", e => { if (e.key === "Enter") tryLogin(); });
+      input.focus();
+    })();
+
     // ===== 初始化：先从云端加载数据，再渲染 =====
     initCloudBase().then(() => {
       updateLocationHistory();
       renderCalendar();
       renderStats();
+      populateRaceYearOptions();
+      renderRaceList();
     });
   </script>
-
 
 </body></html>
