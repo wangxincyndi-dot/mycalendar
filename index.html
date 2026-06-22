@@ -2127,10 +2127,39 @@
       margin-top: 10px;
       min-height: 18px;
     }
+    /* ===== 加载状态 ===== */
+    .loading-spinner {
+      position: fixed;
+      inset: 0;
+      z-index: 99998;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.85);
+      flex-direction: column;
+      gap: 12px;
+      font-size: 15px;
+      color: #286FB4;
+    }
+    .loading-spinner.hidden { display: none; }
+    .loading-spinner .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid #C8E0E8;
+      border-top-color: #286FB4;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
   <script src="https://static.cloudbase.net/cloudbase-js-sdk/2.28.6/cloudbase.full.js"></script>
 </head>
 <body>
+  <!-- 数据加载中 -->
+  <div class="loading-spinner" id="loadingSpinner">
+    <div class="spinner"></div>
+    <span>加载数据中…</span>
+  </div>
   <!-- 登录保护 -->
   <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
@@ -2942,19 +2971,37 @@
 
     async function initCloudBase() {
       let cloudLoaded = false;
-      try {
-        const { error } = await auth.signInAnonymously();
-        if (error) throw error;
-        console.log("CloudBase 匿名登录成功");
-        await loadFromCloud();
-        cloudLoaded = true;
-      } catch (e) {
-        console.warn("CloudBase 登录失败，使用本地模式:", e.message || e);
+      const maxRetries = 3;
+      for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+          const { error } = await auth.signInAnonymously();
+          if (error) throw error;
+          console.log(`CloudBase 匿名登录成功 (尝试 ${attempt}/${maxRetries})`);
+          await loadFromCloud();
+          cloudLoaded = true;
+          break;
+        } catch (e) {
+          console.warn(`CloudBase 登录失败 (尝试 ${attempt}/${maxRetries}):`, e.message || e);
+          if (attempt < maxRetries) {
+            await new Promise(r => setTimeout(r, 1000 * attempt));
+          }
+        }
       }
 
       // 如果云端加载失败或云端没有数据，从 localStorage 兜底
       if (!cloudLoaded || Object.keys(allEntries).length === 0) {
         loadFromLocal();
+      }
+
+      // 如果最终没有任何数据，显示提示
+      if (Object.keys(allEntries).length === 0) {
+        const statsEl = document.querySelector(".stats");
+        if (statsEl) {
+          const tip = document.createElement("div");
+          tip.style.cssText = "text-align:center;padding:20px;color:#7a9ab0;font-size:14px;";
+          tip.innerHTML = `📭 暂无数据<br><small>如已在其他设备录入，请确认网络正常后<a href=\"javascript:location.reload()\" style=\"color:#286FB4;\">刷新重试</a></small>`;
+          statsEl.prepend(tip);
+        }
       }
     }
 
@@ -5591,6 +5638,7 @@
 
     // ===== 初始化：先从云端加载数据，再渲染 =====
     initCloudBase().then(() => {
+      document.getElementById("loadingSpinner").classList.add("hidden");
       updateLocationHistory();
       renderCalendar();
       renderStats();
