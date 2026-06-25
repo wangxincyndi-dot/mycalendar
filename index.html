@@ -2993,24 +2993,20 @@
         return;
       }
 
+      const pagePwd = sessionStorage.getItem("_pwd") || "";
       const maxRetries = 3;
+
       for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        try {
-          const { error } = await auth.signInAnonymously();
-          if (error) throw new Error(typeof error === "string" ? error : JSON.stringify(error));
-          console.log(`CloudBase 匿名登录成功 (尝试 ${attempt}/${maxRetries})`);
+        const loggedIn = await doCloudLogin(pagePwd, attempt, maxRetries);
+        if (loggedIn) {
           await loadFromCloud();
           cloudLoaded = true;
           lastCloudError = "";
           document.getElementById("syncCloudBtn").style.display = "none";
           break;
-        } catch (e) {
-          const msg = e.message || String(e);
-          console.warn(`CloudBase 登录失败 (尝试 ${attempt}/${maxRetries}):`, msg);
-          lastCloudError = msg;
-          if (attempt < maxRetries) {
-            await new Promise(r => setTimeout(r, 1000 * attempt));
-          }
+        }
+        if (attempt < maxRetries) {
+          await new Promise(r => setTimeout(r, 1000 * attempt));
         }
       }
 
@@ -3021,6 +3017,64 @@
 
       if (Object.keys(allEntries).length === 0) {
         showEmptyTip();
+      }
+    }
+
+    // 共享的 CloudBase 登录逻辑（用户名密码 > 注册 > 匿名回退）
+    async function doCloudLogin(pagePwd, attempt, maxRetries) {
+      const SHARED_USERNAME = "owner";
+      const tag = maxRetries ? ` (${attempt}/${maxRetries})` : "";
+
+      if (!pagePwd) {
+        try {
+          const { error } = await auth.signInAnonymously();
+          if (error) throw new Error(typeof error === "string" ? error : JSON.stringify(error));
+          console.log("匿名登录成功");
+          return true;
+        } catch (e) {
+          lastCloudError = e.message || String(e);
+          return false;
+        }
+      }
+
+      // 用户名密码登录
+      try {
+        const loginRes = await auth.signIn({ username: SHARED_USERNAME, password: pagePwd });
+        if (loginRes && loginRes.error) throw new Error(typeof loginRes.error === "string" ? loginRes.error : JSON.stringify(loginRes.error));
+        console.log("用户名密码登录成功" + tag);
+        return true;
+      } catch (e) {
+        const errMsg = (e && (e.message || e.code)) || String(e);
+        // 用户不存在 -> 注册
+        if (errMsg.includes("not found") || errMsg.includes("not exist") || errMsg.includes("UserNotExist") || errMsg.includes("not registered")) {
+          try {
+            const signUpRes = await auth.signUp({ username: SHARED_USERNAME, password: pagePwd });
+            if (signUpRes && signUpRes.error) throw new Error("注册失败: " + (typeof signUpRes.error === "string" ? signUpRes.error : JSON.stringify(signUpRes.error)));
+            console.log("注册成功，自动登录...");
+            const reLoginRes = await auth.signIn({ username: SHARED_USERNAME, password: pagePwd });
+            if (reLoginRes && reLoginRes.error) throw new Error("登录失败: " + (typeof reLoginRes.error === "string" ? reLoginRes.error : JSON.stringify(reLoginRes.error)));
+            console.log("用户名密码登录成功" + tag);
+            return true;
+          } catch (regErr) {
+            lastCloudError = "注册失败: " + (regErr.message || String(regErr));
+            console.warn("用户注册失败" + tag + ":", lastCloudError);
+          }
+        } else {
+          lastCloudError = "登录失败: " + errMsg;
+          console.warn("用户名密码登录失败" + tag + ":", lastCloudError);
+        }
+      }
+
+      // 回退匿名登录
+      try {
+        const { error } = await auth.signInAnonymously();
+        if (error) throw new Error(typeof error === "string" ? error : JSON.stringify(error));
+        console.log("匿名登录成功（回退）" + tag);
+        return true;
+      } catch (anonErr) {
+        lastCloudError = anonErr.message || String(anonErr);
+        console.warn("匿名登录也失败" + tag + ":", lastCloudError);
+        return false;
       }
     }
 
@@ -5665,6 +5719,7 @@
         const h = await hashText(val);
         if (h === EXPECTED_HASH) {
           sessionStorage.setItem("_authed", "1");
+          sessionStorage.setItem("_pwd", val);  // 暂存明文密码供 CloudBase 登录
           overlay.classList.add("hidden");
         } else {
           errEl.textContent = "密码不正确，请重试";
@@ -5699,9 +5754,19 @@
       const tip = document.getElementById("emptyDataTip");
       if (tip) tip.remove();
 
+      const pagePwd = sessionStorage.getItem("_pwd") || "";
+      const loggedIn = await doCloudLogin(pagePwd, 0, 0);
+
+      if (!loggedIn) {
+        this.textContent = "❌ 同步失败";
+        this.style.background = "#FFF0F0";
+        this.style.color = "#DF4C73";
+        this.style.border = "1px solid #DF4C73";
+        setTimeout(() => { this.disabled = false; }, 2000);
+        return;
+      }
+
       try {
-        const { error } = await auth.signInAnonymously();
-        if (error) throw new Error(typeof error === "string" ? error : JSON.stringify(error));
         await loadFromCloud();
         updateLocationHistory();
         renderCalendar();
@@ -5716,7 +5781,6 @@
         this.style.border = "1px solid #2E7D32";
         lastCloudError = "";
 
-        // 如果没有数据，显示提示
         if (Object.keys(allEntries).length === 0) showEmptyTip();
       } catch (e) {
         const msg = e.message || String(e);
