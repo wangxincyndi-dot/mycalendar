@@ -1847,6 +1847,15 @@
     .records-table .td-race-name {
       font-weight: 700;
       color: #c0392b;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: transparent;
+      transition: text-decoration-color 0.15s;
+    }
+
+    .records-table .td-race-name:hover {
+      text-decoration-color: #c0392b;
     }
 
     .records-table .td-race-group {
@@ -1859,6 +1868,23 @@
       max-width: 180px;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .records-table .td-countdown {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .records-table .td-countdown.countdown-upcoming {
+      color: #e67e22;
+    }
+
+    .records-table .td-countdown.countdown-today {
+      color: #e74c3c;
+    }
+
+    .records-table .td-countdown.countdown-ended {
+      color: #95a5a6;
     }
 
     .records-empty {
@@ -2441,6 +2467,8 @@
                 <thead>
                   <tr>
                     <th>日期</th>
+                    <th>开赛倒计时</th>
+                    <th>赛事类别</th>
                     <th>赛事名称</th>
                     <th>组别</th>
                     <th>备注</th>
@@ -2540,6 +2568,26 @@
               报名组别
             </label>
             <input class="input" id="importantRaceGroup" type="text" placeholder="例如：全程马拉松">
+          </div>
+
+          <div class="field race-only-fields" id="importantRaceTypeField">
+            <div class="field-label">
+              赛事类别
+            </div>
+            <div class="type-options">
+              <label class="radio-card">
+                <input type="radio" name="importantRaceType" value="路跑">
+                <span>路跑</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="importantRaceType" value="越野">
+                <span>越野</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="importantRaceType" value="其他">
+                <span>其他</span>
+              </label>
+            </div>
           </div>
 
           <div class="field">
@@ -3598,6 +3646,7 @@
     const importantRaceGroupField = document.getElementById("importantRaceGroupField");
     const importantRaceNameInput = document.getElementById("importantRaceName");
     const importantRaceGroupInput = document.getElementById("importantRaceGroup");
+    const importantRaceTypeField = document.getElementById("importantRaceTypeField");
     const importantError = document.getElementById("importantError");
     const importantSubmitBtn = document.getElementById("importantSubmitBtn");
 
@@ -3979,6 +4028,7 @@
       sportSubmitBtn.textContent = "保存";
       importantRaceFields.classList.remove("show");
       importantRaceGroupField.classList.remove("show");
+      importantRaceTypeField.classList.remove("show");
       importantSubmitBtn.textContent = "保存";
       scheduleSubmitBtn.textContent = "保存";
       healthSubmitBtn.textContent = "保存";
@@ -4094,6 +4144,7 @@
         category: getCheckedValue("importantCategory"),
         raceName: importantRaceNameInput.value.trim(),
         raceGroup: importantRaceGroupInput.value.trim(),
+        raceType: getCheckedValue("importantRaceType"),
         note: importantNoteInput.value.trim()
       };
     }
@@ -4784,9 +4835,11 @@
         setCheckedValue("importantCategory", target.category || "");
         importantRaceNameInput.value = target.raceName || "";
         importantRaceGroupInput.value = target.raceGroup || "";
+        setCheckedValue("importantRaceType", target.raceType || "");
         const isRace = (target.category || "") === "赛事";
         importantRaceFields.classList.toggle("show", isRace);
         importantRaceGroupField.classList.toggle("show", isRace);
+        importantRaceTypeField.classList.toggle("show", isRace);
         importantNoteInput.value = target.note || "";
         return;
       }
@@ -5551,10 +5604,29 @@
         const rangeText = r.startDate === r.endDate
           ? r.startDate
           : `${r.startDate} 至 ${r.endDate}`;
+        // 计算开赛倒计时
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const start = new Date(r.startDate + "T00:00:00");
+        const diffMs = start - today;
+        const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+        let countdownText, countdownClass;
+        if (diffDays < 0) {
+          countdownText = "已结束";
+          countdownClass = "countdown-ended";
+        } else if (diffDays === 0) {
+          countdownText = "今天";
+          countdownClass = "countdown-today";
+        } else {
+          countdownText = `还有 ${diffDays} 天`;
+          countdownClass = "countdown-upcoming";
+        }
         return `
         <tr>
           <td class="td-date">${rangeText}</td>
-          <td class="td-race-name">${escapeHtml(r.raceName || "-")}</td>
+          <td class="td-countdown ${countdownClass}">${countdownText}</td>
+          <td class="td-race-type">${escapeHtml(r.raceType || "-")}</td>
+          <td class="td-race-name" data-id="${r.id}" title="点击编辑该赛事">${escapeHtml(r.raceName || "-")}</td>
           <td class="td-race-group">${escapeHtml(r.raceGroup || "-")}</td>
           <td class="td-race-note">${escapeHtml(r.note || "-")}</td>
         </tr>`;
@@ -5572,9 +5644,11 @@
         const isRace = this.value === "赛事";
         importantRaceFields.classList.toggle("show", isRace);
         importantRaceGroupField.classList.toggle("show", isRace);
+        importantRaceTypeField.classList.toggle("show", isRace);
         if (!isRace) {
           importantRaceNameInput.value = "";
           importantRaceGroupInput.value = "";
+          setCheckedValue("importantRaceType", "");
         }
       });
     });
@@ -5897,6 +5971,27 @@
         raceSortDropdown.classList.remove("open");
         renderRaceList();
       });
+    });
+
+    // ===== 赛事日历：点击赛事名称直接编辑 =====
+    raceBody.addEventListener("click", function (e) {
+      const nameCell = e.target.closest(".td-race-name");
+      if (!nameCell) return;
+      const id = Number(nameCell.dataset.id);
+      if (!id) return;
+
+      // 切换到"我的日记"tab
+      tabBtns.forEach((item) => item.classList.remove("active"));
+      panels.forEach((panel) => panel.classList.remove("active"));
+      const calendarTab = document.querySelector('[data-tab="calendarPanel"]');
+      if (calendarTab) calendarTab.classList.add("active");
+      const calendarPanelEl = document.getElementById("calendarPanel");
+      if (calendarPanelEl) calendarPanelEl.classList.add("active");
+      localStorage.setItem("mycalendar_activeTab", "calendarPanel");
+
+      // 打开弹窗并编辑
+      modalMask.classList.add("show");
+      startEditEntry(id);
     });
 
     // ===== 赛事日历：年度筛选 =====
