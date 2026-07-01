@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com https://*.tcloudbaseapp.com https://*.tencentcloudapi.com http://*.tencentcloudapi.com https://*.cloudbase.net https://*.tcb.qcloud.la http://*.tcb.qcloud.la https://imgcache.qq.com https://*.qcloud.com https://static.cloudbase.net ws://localhost:* wss://localhost:*; connect-src 'self' https://*.tcloudbaseapp.com https://*.tencentcloudapi.com http://*.tencentcloudapi.com https://*.cloudbase.net https://*.tcb.qcloud.la http://*.tcb.qcloud.la https://*.qq.com https://static.cloudbase.net ws://localhost:* wss://localhost:* http://localhost:*; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self';">
+<!DOCTYPE html><html lang="zh-CN"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>我的日记</title>
@@ -74,10 +74,10 @@
       --record-bg: #93C5FD;
       --record-text: #1E3A5F;
 
-      /* 医疗健康：青绿 */
-      --health-bg: #90E0D0;
-      --health-border: #60C0B0;
-      --health-text: #1a5a4a;
+      /* 医疗健康：浅灰 */
+      --health-bg: #E0E0E0;
+      --health-border: #C0C0C0;
+      --health-text: #555555;
 
       /* 行程：天蓝 */
       --traffic-bg: #80C0E8;
@@ -176,6 +176,22 @@
       letter-spacing: -0.03em;
       color: var(--text);
       line-height: 1.2;
+    }
+
+    .offline-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 2px 10px;
+      border-radius: 20px;
+      background: #FFF3E0;
+      color: #E65100;
+      border: 1px solid #FFCC80;
+      font-weight: 500;
+      vertical-align: middle;
+      margin-left: 8px;
+      white-space: nowrap;
     }
 
     .app-subtitle {
@@ -439,8 +455,8 @@
     .icon-btn {
       width: 40px;
       font-size: 22px;
-      line-height: 1;
-      display: flex;
+      line-height: 0;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       padding: 0;
@@ -2174,7 +2190,7 @@
     <div class="app">
       <div class="app-top-row">
         <header class="app-header">
-          <h1 class="app-title">我的日历</h1>
+          <h1 class="app-title">我的日历 <span class="offline-badge" id="offlineBadge" style="display:none;"></span></h1>
           <p class="app-subtitle" id="todayText">今天是 2026 年 6 月 17 日，星期三</p>
         </header>
         <nav class="top-tabs">
@@ -2914,9 +2930,50 @@
 
   <input type="file" id="importFileInput" accept=".json" style="display:none;">
 
+  <!-- ★ 数据状态指示器（始终可见） -->
+  <div id="dataStatusBar" style="position:fixed;bottom:0;left:0;right:0;background:#1a2a3a;color:#fff;padding:6px 16px;font-size:12px;z-index:99998;display:flex;align-items:center;justify-content:space-between;gap:12px;opacity:0.95;">
+    <span style="display:flex;align-items:center;gap:8px;">
+      <span id="dsbStatus">⌛ 正在初始化…</span>
+      <span style="color:#aaa;">|</span>
+      <span>v25.6.30</span>
+    </span>
+    <span style="display:flex;align-items:center;gap:8px;">
+      <button onclick="if(window.exportBackup)exportBackup()" style="background:#286FB4;color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;">📥 导出备份</button>
+    </span>
+  </div>
+
   <div id="badgeTooltip" class="badge-tooltip"></div>
 
   <script>
+    // ===== 在线状态追踪 =====
+    let isOnline = navigator.onLine;
+    let pendingCloudSync = false;
+    let cloudLoggedIn = false;
+    window.addEventListener("online", () => {
+      isOnline = true;
+      updateOfflineIndicator();
+      if (pendingCloudSync) fullCloudSync();
+    });
+    window.addEventListener("offline", () => {
+      isOnline = false;
+      updateOfflineIndicator();
+    });
+
+    function updateOfflineIndicator() {
+      const el = document.getElementById("offlineBadge");
+      if (!el) return;
+      if (isOnline) {
+        el.style.display = "none";
+      } else {
+        el.style.display = "inline-flex";
+        if (pendingCloudSync) {
+          el.textContent = "📴 离线（有未同步数据）";
+        } else {
+          el.textContent = "📴 离线模式";
+        }
+      }
+    }
+
     // ===== CloudBase 初始化 =====
     const ENV_ID = "hello-coder-d3geutyjt8abd7eba";
     const PUBLISHABLE_KEY = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjlkMWRjMzFlLWI0ZDAtNDQ4Yi1hNzZmLWIwY2M2M2Q4MTQ5OCJ9.eyJpc3MiOiJodHRwczovL2hlbGxvLWNvZGVyLWQzZ2V1dHlqdDhhYmQ3ZWJhLmFwLXNoYW5naGFpLnRjYi1hcGkudGVuY2VudGNsb3VkYXBpLmNvbSIsInN1YiI6ImFub24iLCJhdWQiOiJoZWxsby1jb2Rlci1kM2dldXR5anQ4YWJkN2ViYSIsImV4cCI6NDA4NTM3NTgwNCwiaWF0IjoxNzgxNjkyNjA0LCJub25jZSI6IkxRWlJibFVTU1lpOWJMa19DYU1qWUEiLCJhdF9oYXNoIjoiTFFaUmJsVVNTWWk5YkxrX0NhTWpZQSIsIm5hbWUiOiJBbm9ueW1vdXMiLCJzY29wZSI6ImFub255bW91cyIsInByb2plY3RfaWQiOiJoZWxsby1jb2Rlci1kM2dldXR5anQ4YWJkN2ViYSIsIm1ldGEiOnsicGxhdGZvcm0iOiJQdWJsaXNoYWJsZUtleSJ9LCJ1c2VyX3R5cGUiOiIiLCJjbGllbnRfdHlwZSI6ImNsaWVudF91c2VyIiwiaXNfc3lzdGVtX2FkbWluIjpmYWxzZX0.CfRaUTgR05XdwOXweR08Poh_pvP2OH0NUv1pn9eqyMPoBYF6uei7J-meiawyU7iA3ItLGwxewSUu1Ha31-CVg5yHIiV-Ig3YcQoL9GgIeFSlAbrPL-fkMar40OHK-E0GK2vJm7Gs70u-IjLMY3D_hgL4aHs-6PKBtaueFVurWxBIBsjVG5DqW9HEZJycJ1xxpCLBlFEymxg84G0qqgyvfy9VbtEJQyUVtsMxYZ8pD4TWMCPCVzu0yxx8IdwKGqtyVncwi36pFw9LnmYsK1l6dBzFM6QoaBgwbaPEsMvSHMmUCsrXav8TI98TcorOPr1zwjvyFpz9jxQFO4qdvSkR2g";
@@ -2943,28 +3000,120 @@
     // ===== 数据持久化 =====
     const LS_KEY_ENTRIES = "mycalendar_entries";
     const LS_KEY_META = "mycalendar_meta";
+    const LS_KEY_BACKUP = "mycalendar_entries_backup";  // ★ 兜底备份
 
     function saveToLocal() {
       try {
-        localStorage.setItem(LS_KEY_ENTRIES, JSON.stringify(allEntries));
-        localStorage.setItem(LS_KEY_META, JSON.stringify({
-          calendarNoteText,
-          rememberedLocations
-        }));
+        // ★ 每次保存先备份上一次的内容（用于 localStorage 异常时恢复）
+        const prev = localStorage.getItem(LS_KEY_ENTRIES);
+        if (prev) localStorage.setItem(LS_KEY_BACKUP, prev);
+
+        const entriesJson = JSON.stringify(allEntries);
+        const metaJson = JSON.stringify({ calendarNoteText, rememberedLocations });
+        localStorage.setItem(LS_KEY_ENTRIES, entriesJson);
+        localStorage.setItem(LS_KEY_META, metaJson);
+        // ★ 验证保存是否成功
+        const verifyEntries = localStorage.getItem(LS_KEY_ENTRIES);
+        if (verifyEntries !== entriesJson) {
+          throw new Error("localStorage 保存验证失败：写入值与读取值不一致");
+        }
+        // ★ 兜底：再写一份到 sessionStorage（防止 localStorage 配额满/被清空）
+        try { sessionStorage.setItem(LS_KEY_ENTRIES, entriesJson); } catch (_) {}
+        const cnt = Object.keys(allEntries).length;
+        console.log("💾 本地保存成功，共 " + cnt + " 天记录，大小 " + (entriesJson.length / 1024).toFixed(1) + "KB");
+        // ★ 更新底部状态栏
+        updateDataStatusBar("saved", cnt, new Date());
+        return true;
       } catch (e) {
-        console.warn("localStorage 保存失败:", e.message);
+        console.error("❌ localStorage 保存失败:", e.message);
+        // ★ 紧急兜底：尝试 sessionStorage
+        try {
+          sessionStorage.setItem(LS_KEY_ENTRIES, JSON.stringify(allEntries));
+          console.warn("⚠️ localStorage 写入失败，已转存 sessionStorage（仅本次会话有效）");
+        } catch (_) {}
+        // 显示错误提示给用户
+        const existingToast = document.getElementById("saveErrorToast");
+        if (!existingToast) {
+          const toast = document.createElement("div");
+          toast.id = "saveErrorToast";
+          toast.style.cssText = "position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#DF4C73;color:#fff;padding:10px 20px;border-radius:8px;z-index:99999;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.2);";
+          toast.textContent = "⚠️ 数据保存失败，请检查浏览器存储空间！刷新前请先备份。";
+          document.body.appendChild(toast);
+          setTimeout(() => { if (toast.parentNode) toast.remove(); }, 5000);
+        }
+        return false;
       }
     }
 
+    // ★ 保存成功提示
+    let _saveToastTimer = null;
+    function showSaveToast() {
+      const existing = document.getElementById("saveOkToast");
+      if (existing) {
+        existing.style.opacity = "1";
+        if (_saveToastTimer) clearTimeout(_saveToastTimer);
+        _saveToastTimer = setTimeout(() => { existing.style.opacity = "0"; }, 1500);
+        return;
+      }
+      const toast = document.createElement("div");
+      toast.id = "saveOkToast";
+      toast.style.cssText = "position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#2E7D32;color:#fff;padding:8px 16px;border-radius:6px;z-index:99999;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,0.15);transition:opacity 0.3s;pointer-events:none;";
+      toast.textContent = "✅ 数据已保存";
+      document.body.appendChild(toast);
+      _saveToastTimer = setTimeout(() => { toast.style.opacity = "0"; }, 1500);
+    }
+
+    // ★ 更新底部数据状态栏
+    function updateDataStatusBar(status, count, date) {
+      const el = document.getElementById("dsbStatus");
+      if (!el) return;
+      const timeStr = date ? date.toLocaleTimeString("zh-CN") : "";
+      if (status === "saved") {
+        el.innerHTML = `✅ 已保存 <b>${count}</b> 天记录 (${timeStr})`;
+        el.style.color = "#90D0B0";
+      } else if (status === "loaded") {
+        el.innerHTML = count > 0 ? `📂 已加载 <b>${count}</b> 天记录` : `📂 暂无数据`;
+        el.style.color = count > 0 ? "#90D0B0" : "#FFDB69";
+      } else if (status === "empty") {
+        el.innerHTML = `⚠️ 暂无数据 — 请尝试📤导入备份或新建记录`;
+        el.style.color = "#DF4C73";
+      } else if (status === "error") {
+        el.innerHTML = `❌ ${count || "保存异常"}`;
+        el.style.color = "#DF4C73";
+      }
+    }
+
+
     function loadFromLocal() {
       try {
-        const entriesJson = localStorage.getItem(LS_KEY_ENTRIES);
+        // ★ 优先从 localStorage 主键加载
+        let entriesJson = localStorage.getItem(LS_KEY_ENTRIES);
+        let source = "localStorage";
+
+        // ★ 兜底1：主键为空时尝试从 sessionStorage 恢复
+        if (!entriesJson) {
+          entriesJson = sessionStorage.getItem(LS_KEY_ENTRIES);
+          if (entriesJson) source = "sessionStorage(兜底)";
+        }
+
+        // ★ 兜底2：主键和 sessionStorage 都为空时，从上次备份恢复
+        if (!entriesJson) {
+          entriesJson = localStorage.getItem(LS_KEY_BACKUP);
+          if (entriesJson) source = "localStorage备份(兜底)";
+        }
+
         if (entriesJson) {
           const parsed = JSON.parse(entriesJson);
           Object.keys(parsed).forEach(key => {
             allEntries[key] = parsed[key];
           });
+          console.log("📂 从" + source + "加载数据，共 " + Object.keys(parsed).length + " 天记录");
+          updateDataStatusBar("loaded", Object.keys(parsed).length);
+        } else {
+          console.log("📂 本地无数据（首次访问）");
+          updateDataStatusBar("empty", 0);
         }
+
         const metaJson = localStorage.getItem(LS_KEY_META);
         if (metaJson) {
           const meta = JSON.parse(metaJson);
@@ -2976,43 +3125,55 @@
         }
         if (calendarNote) calendarNote.value = calendarNoteText;
         updateLocationHistory();
-        console.log("从本地存储加载数据完成");
+        console.log("从本地存储加载数据完成，共 " + Object.keys(allEntries).length + " 天");
       } catch (e) {
         console.warn("localStorage 加载失败:", e.message);
       }
     }
 
     async function initCloudBase() {
-      let cloudLoaded = false;
+      // ★ 本地数据已在页面初始化时加载（loadFromLocal），这里直接使用
+      const localDateCount = Object.keys(allEntries).length;
 
-      // SDK 未就绪，直接跳过
-      if (!cloudBaseReady) {
-        showCloudError(lastCloudError || "CloudBase SDK 未初始化");
-        loadFromLocal();
-        if (Object.keys(allEntries).length === 0) showEmptyTip();
+      // ★ 离线/无网快速走出：不阻塞渲染
+      if (!isOnline) {
+        enterOfflineMode(localDateCount);
         return;
       }
 
-      const pagePwd = sessionStorage.getItem("_pwd") || "";
-      const maxRetries = 3;
+      // SDK 未就绪，直接 skip（依赖本地数据）
+      if (!cloudBaseReady) {
+        showCloudError(lastCloudError || "CloudBase SDK 未初始化");
+        if (localDateCount === 0) showEmptyTip();
+        return;
+      }
+
+      let cloudLoaded = false;
+      const maxRetries = 1;
 
       for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        const loggedIn = await doCloudLogin(pagePwd, attempt, maxRetries);
+        const loggedIn = await doCloudLogin("", attempt, maxRetries);
         if (loggedIn) {
-          await loadFromCloud();
-          cloudLoaded = true;
-          lastCloudError = "";
-          document.getElementById("syncCloudBtn").style.display = "none";
-          break;
-        }
-        if (attempt < maxRetries) {
-          await new Promise(r => setTimeout(r, 1000 * attempt));
+          cloudLoggedIn = true;
+          try {
+            await loadFromCloud();
+            cloudLoaded = true;
+            lastCloudError = "";
+            document.getElementById("syncCloudBtn").style.display = "none";
+            // ★ 自愈：把云端缺失但本地存在的日期补推回云端
+            syncLocalToCloudIfNeeded();
+            break;
+          } catch (e) {
+            lastCloudError = e.message || String(e);
+            console.warn("云端数据加载失败:", lastCloudError);
+          }
         }
       }
 
       if (!cloudLoaded) {
         showCloudError(lastCloudError || "云端连接失败");
-        loadFromLocal();
+        // 离线时标记待同步
+        if (!navigator.onLine) pendingCloudSync = true;
       }
 
       if (Object.keys(allEntries).length === 0) {
@@ -3020,60 +3181,118 @@
       }
     }
 
-    // 共享的 CloudBase 登录逻辑（用户名密码 > 注册 > 匿名回退）
-    async function doCloudLogin(pagePwd, attempt, maxRetries) {
-      const SHARED_USERNAME = "owner";
-      const tag = maxRetries ? ` (${attempt}/${maxRetries})` : "";
+    function enterOfflineMode(localDateCount) {
+      pendingCloudSync = true;
+      if (localDateCount === 0) showEmptyTip();
+      updateOfflineIndicator();
+      const btn = document.getElementById("syncCloudBtn");
+      btn.style.display = "inline-block";
+      btn.textContent = "📴 离线中";
+      btn.style.background = "#FFF3E0";
+      btn.style.color = "#E65100";
+      btn.style.border = "1px solid #E65100";
+    }
 
-      if (!pagePwd) {
-        try {
-          const { error } = await auth.signInAnonymously();
-          if (error) throw new Error(typeof error === "string" ? error : JSON.stringify(error));
-          console.log("匿名登录成功");
-          return true;
-        } catch (e) {
-          lastCloudError = e.message || String(e);
-          return false;
-        }
-      }
-
-      // 用户名密码登录
+    // ★ 自愈机制：把本地有但云端没有的条目推回云端
+    let _pendingLocalSync = false;
+    // ★ 回联全量同步：网络恢复后把本地数据推回云端
+    async function fullCloudSync() {
+      if (!cloudBaseReady || !isOnline) return;
+      const btn = document.getElementById("syncCloudBtn");
+      btn.textContent = "⏳ 同步中…";
+      btn.style.display = "inline-block";
+      btn.style.background = "#E3F2FD";
+      btn.style.color = "#1565C0";
+      btn.style.border = "1px solid #1565C0";
       try {
-        const loginRes = await auth.signIn({ username: SHARED_USERNAME, password: pagePwd });
-        if (loginRes && loginRes.error) throw new Error(typeof loginRes.error === "string" ? loginRes.error : JSON.stringify(loginRes.error));
-        console.log("用户名密码登录成功" + tag);
+        // 先匿名登录
+        const loggedIn = await doCloudLogin("", 1, 1);
+        if (!loggedIn) throw new Error("登录失败");
+        cloudLoggedIn = true;
+        // 上传本地数据
+        const res = await withTimeout(
+          app.callFunction({
+            name: "cloudDataProxy",
+            data: {
+              action: "save",
+              allEntries: { ...allEntries },
+              calendarNoteText,
+              rememberedLocations: [...rememberedLocations]
+            }
+          }),
+          10000,
+          "回联同步"
+        );
+        if (!res || !res.result || res.result.code !== 0) {
+          throw new Error(res && res.result ? res.result.message : "返回异常");
+        }
+        pendingCloudSync = false;
+        lastCloudError = "";
+        btn.textContent = "✅ 已同步";
+        btn.style.background = "#E8F5E9";
+        btn.style.color = "#2E7D32";
+        btn.style.border = "1px solid #2E7D32";
+        setTimeout(() => { btn.style.display = "none"; }, 3000);
+        console.log("回联同步完成，云端数据已更新");
+      } catch (e) {
+        pendingCloudSync = true;
+        btn.textContent = "🔄 同步失败（点击重试）";
+        btn.style.background = "#FFF0F0";
+        btn.style.color = "#DF4C73";
+        btn.style.border = "1px solid #DF4C73";
+        console.warn("回联同步失败:", e.message);
+      }
+      updateOfflineIndicator();
+    }
+
+    function syncLocalToCloudIfNeeded() {
+      if (_pendingLocalSync) return;
+      _pendingLocalSync = true;
+      // 异步执行，不阻塞渲染
+      setTimeout(async () => {
+        try {
+          const res = await withTimeout(
+            app.callFunction({
+              name: "cloudDataProxy",
+              data: {
+                action: "save",
+                allEntries: { ...allEntries },
+                calendarNoteText,
+                rememberedLocations: [...rememberedLocations]
+              }
+            }),
+            15000,
+            "本地同步补推"
+          );
+          if (res && res.result && res.result.code === 0) {
+            console.log("本地数据已自愈同步到云端");
+          }
+        } catch (e) {
+          console.warn("自愈同步失败（不影响使用）:", e.message);
+        }
+        _pendingLocalSync = false;
+      }, 2000); // 延迟 2 秒，等页面渲染完再同步
+    }
+
+    // 带超时的异步包装
+    function withTimeout(promise, ms, label) {
+      return Promise.race([
+        promise,
+        new Promise((_, reject) => setTimeout(() => reject(new Error(label + " 超时(" + ms + "ms)")), ms))
+      ]);
+    }
+
+    // 云函数用 Admin SDK 操作数据库，无视 _openid 隔离 → 只需匿名登录即可跨设备共享
+    async function doCloudLogin(pagePwd, attempt, maxRetries) {
+      const tag = maxRetries ? ` (${attempt}/${maxRetries})` : "";
+      try {
+        const { error } = await withTimeout(auth.signInAnonymously(), 8000, "匿名登录");
+        if (error) throw new Error(typeof error === "string" ? error : JSON.stringify(error));
+        console.log("匿名登录成功" + tag);
         return true;
       } catch (e) {
-        const errMsg = (e && (e.message || e.code)) || String(e);
-        // 用户不存在 -> 注册
-        if (errMsg.includes("not found") || errMsg.includes("not exist") || errMsg.includes("UserNotExist") || errMsg.includes("not registered")) {
-          try {
-            const signUpRes = await auth.signUp({ username: SHARED_USERNAME, password: pagePwd });
-            if (signUpRes && signUpRes.error) throw new Error("注册失败: " + (typeof signUpRes.error === "string" ? signUpRes.error : JSON.stringify(signUpRes.error)));
-            console.log("注册成功，自动登录...");
-            const reLoginRes = await auth.signIn({ username: SHARED_USERNAME, password: pagePwd });
-            if (reLoginRes && reLoginRes.error) throw new Error("登录失败: " + (typeof reLoginRes.error === "string" ? reLoginRes.error : JSON.stringify(reLoginRes.error)));
-            console.log("用户名密码登录成功" + tag);
-            return true;
-          } catch (regErr) {
-            lastCloudError = "注册失败: " + (regErr.message || String(regErr));
-            console.warn("用户注册失败" + tag + ":", lastCloudError);
-          }
-        } else {
-          lastCloudError = "登录失败: " + errMsg;
-          console.warn("用户名密码登录失败" + tag + ":", lastCloudError);
-        }
-      }
-
-      // 回退匿名登录
-      try {
-        const { error } = await auth.signInAnonymously();
-        if (error) throw new Error(typeof error === "string" ? error : JSON.stringify(error));
-        console.log("匿名登录成功（回退）" + tag);
-        return true;
-      } catch (anonErr) {
-        lastCloudError = anonErr.message || String(anonErr);
-        console.warn("匿名登录也失败" + tag + ":", lastCloudError);
+        lastCloudError = e.message || String(e);
+        console.warn("匿名登录失败" + tag + ":", lastCloudError);
         return false;
       }
     }
@@ -3103,19 +3322,46 @@
 
     async function loadFromCloud() {
       try {
-        // 加载条目
-        const entriesRes = await db.collection("calendar_entries").limit(1000).get();
-        if (entriesRes.data && entriesRes.data.length > 0) {
-          entriesRes.data.forEach((doc) => {
-            allEntries[doc.dateKey] = doc.entries || [];
-          });
+        const res = await withTimeout(
+          app.callFunction({ name: "cloudDataProxy", data: { action: "load" } }),
+          12000,
+          "云函数调用"
+        );
+        if (!res || !res.result || res.result.code !== 0) {
+          throw new Error(res && res.result ? res.result.message : "云函数返回异常");
         }
-        // 加载元数据
-        const metaRes = await db.collection("calendar_meta").where({ _id: "app_meta" }).get();
-        if (metaRes.data && metaRes.data.length > 0) {
-          const meta = metaRes.data[0];
-          calendarNoteText = meta.calendarNoteText || "";
-          if (meta.rememberedLocations) {
+        const { entries, meta } = res.result.data;
+        // ★ 合并模式：云端数据按日期合并，并用 updatedAt 比较避免旧数据覆盖新数据
+        if (entries && entries.length > 0) {
+          let mergedCount = 0;
+          let keptLocalCount = 0;
+          entries.forEach((doc) => {
+            const cloudList = doc.entries || [];
+            const cloudUpdated = doc.updatedAt ? new Date(doc.updatedAt).getTime() : 0;
+            const localList = allEntries[doc.dateKey];
+            if (!localList) {
+              // 本地无该日期 → 直接使用云端数据
+              allEntries[doc.dateKey] = cloudList;
+              mergedCount++;
+            } else {
+              // 本地有该日期 → 计算本地最大更新时间，与云端比较
+              const localUpdated = Math.max(0, ...localList.map(e => e.updatedAt ? new Date(e.updatedAt).getTime() : 0));
+              if (cloudUpdated > localUpdated) {
+                // 云端更新（最新一次保存时间更晚）→ 覆盖本地
+                allEntries[doc.dateKey] = cloudList;
+                mergedCount++;
+              } else {
+                // 本地更新 → 保留本地
+                keptLocalCount++;
+              }
+            }
+          });
+          console.log(`☁️ 云端合并完成：新增/覆盖 ${mergedCount} 天，保留本地 ${keptLocalCount} 天`);
+        }
+        // 加载元数据（仅在本地为空时覆盖）
+        if (meta) {
+          if (!calendarNoteText) calendarNoteText = meta.calendarNoteText || "";
+          if ((!rememberedLocations || rememberedLocations.length === 0) && meta.rememberedLocations) {
             rememberedLocations.length = 0;
             rememberedLocations.push(...meta.rememberedLocations);
           }
@@ -3125,55 +3371,69 @@
         console.log("从云端加载数据完成");
       } catch (e) {
         console.warn("云端数据加载失败:", e.message);
-        throw e; // 向上抛出以便 initCloudBase 判断
+        throw e;
       }
     }
 
     async function saveToCloud() {
+      const saved = saveToLocal(); // ★ 先存本地，确保刷新不丢数据（同步、瞬时完成）
+      if (saved) showSaveToast();  // 保存成功则提示
+
+      // 离线时只存本地，标记待同步
+      if (!isOnline || !cloudBaseReady || !cloudLoggedIn) {
+        if (!isOnline) {
+          pendingCloudSync = true;
+          updateOfflineIndicator();
+        }
+        return;
+      }
+
+      // 云端保存异步执行，不阻塞用户操作
+      backgroundCloudSave();
+    }
+
+    let _cloudSaveBusy = false;
+    let _cloudSaveQueued = false;
+    async function backgroundCloudSave() {
+      if (_cloudSaveBusy) { _cloudSaveQueued = true; return; }
+      _cloudSaveBusy = true;
       try {
-        // 保存条目（按日期键逐条 upsert）
-        for (const dateKey in allEntries) {
-          if (allEntries[dateKey] && allEntries[dateKey].length > 0) {
-            const existing = await db.collection("calendar_entries").where({ dateKey }).get();
-            if (existing.data && existing.data.length > 0) {
-              await db.collection("calendar_entries").doc(existing.data[0]._id).update({
-                entries: allEntries[dateKey],
-                updatedAt: new Date()
-              });
-            } else {
-              await db.collection("calendar_entries").add({
-                dateKey,
-                entries: allEntries[dateKey],
-                createdAt: new Date(),
-                updatedAt: new Date()
-              });
+        const res = await withTimeout(
+          app.callFunction({
+            name: "cloudDataProxy",
+            data: {
+              action: "save",
+              allEntries: { ...allEntries },
+              calendarNoteText,
+              rememberedLocations: [...rememberedLocations]
             }
-          }
+          }),
+          8000,
+          "云端保存"
+        );
+        if (!res || !res.result || res.result.code !== 0) {
+          throw new Error(res && res.result ? res.result.message : "云函数返回异常");
         }
-        // 保存元数据
-        const metaData = {
-          calendarNoteText,
-          rememberedLocations: [...rememberedLocations]
-        };
-        const metaRes = await db.collection("calendar_meta").where({ _id: "app_meta" }).get();
-        if (metaRes.data && metaRes.data.length > 0) {
-          await db.collection("calendar_meta").doc(metaRes.data[0]._id).update(metaData);
-        } else {
-          await db.collection("calendar_meta").add({ _id: "app_meta", ...metaData });
-        }
+        pendingCloudSync = false;
+        updateOfflineIndicator();
         console.log("数据已保存到云端");
-        saveToLocal(); // 同时保存到本地，防止刷新丢失
       } catch (e) {
-        console.error("云端保存失败:", e.message);
-        saveToLocal(); // 即使云端失败，也要保存到本地
+        pendingCloudSync = true;
+        updateOfflineIndicator();
+        console.warn("云端保存失败（数据已存本地，联网后自动同步）:", e.message);
+      }
+      _cloudSaveBusy = false;
+      if (_cloudSaveQueued) {
+        _cloudSaveQueued = false;
+        backgroundCloudSave();
       }
     }
 
     async function deleteDateFromCloud(dateKey) {
       try {
-        const existing = await db.collection("calendar_entries").where({ dateKey }).get();
-        if (existing.data && existing.data.length > 0) {
-          await db.collection("calendar_entries").doc(existing.data[0]._id).remove();
+        const res = await app.callFunction({ name: "cloudDataProxy", data: { action: "deleteDate", dateKey } });
+        if (!res || !res.result || res.result.code !== 0) {
+          throw new Error(res && res.result ? res.result.message : "云函数返回异常");
         }
       } catch (e) {
         console.warn("云端删除失败:", e.message);
@@ -3956,6 +4216,8 @@
       const found = editingId ? findEntryById(editingId) : null;
       const existingEntry = found ? found.entry : null;
       const newEntry = builder(existingEntry);
+      // ★ 给每条记录打上 updatedAt 时间戳（用于云端合并时比较新旧）
+      newEntry.updatedAt = new Date().toISOString();
       const targetDateKey = newEntry.date || selectedDateKey;
 
       if (editingId && found) {
@@ -3979,7 +4241,9 @@
       saveToCloud();
       renderCalendar();
       renderStats();
+      renderDayRecordList(selectedDateKey);
       showListView();
+      console.log("✏️ 新增/编辑记录:", kind, targetDateKey, newEntry.name || newEntry.category || newEntry.title || "");
     }
 
     function getEntryTitle(entry) {
@@ -4436,6 +4700,7 @@
       target.convertedAt = Date.now();
 
       sortDateEntries(found.dateKey);
+      saveToCloud(); // ★ 保存到本地+云端，防止刷新丢失
       renderDayRecordList(selectedDateKey);
       renderCalendar();
       renderStats();
@@ -5795,18 +6060,89 @@
       setTimeout(() => { this.disabled = false; }, 2000);
     });
 
-    // ===== 初始化：先从云端加载数据，再渲染 =====
+    // ===== 初始化：本地数据立即渲染，云端后台加载 =====
+    const spinnerEl = document.getElementById("loadingSpinner");
+    const forceHide = () => { if (spinnerEl) spinnerEl.style.display = "none"; };
+    setTimeout(forceHide, 5000);
+    setTimeout(forceHide, 15000);
+    function safeHideSpinner() {
+      if (spinnerEl) {
+        spinnerEl.style.display = "none";
+        spinnerEl.classList.add("hidden");
+      }
+    }
+
+    // 1. 本地数据立即渲染（离线也能用）
+    loadFromLocal();
+    safeHideSpinner();
+    updateLocationHistory();
+    renderCalendar();
+    renderStats();
+    populateRaceYearOptions();
+    renderRaceList();
+    if (Object.keys(allEntries).length === 0) showEmptyTip();
+    updateOfflineIndicator();
+
+    // 2. 云端后台加载（不阻塞用户操作）
     initCloudBase().then(() => {
-      document.getElementById("loadingSpinner").classList.add("hidden");
       if (!lastCloudError) {
         document.getElementById("syncCloudBtn").style.display = "none";
       }
+      // 云端加载后有新数据则刷新渲染
       updateLocationHistory();
       renderCalendar();
       renderStats();
       populateRaceYearOptions();
       renderRaceList();
+    }).catch(err => {
+      console.error("云端初始化异常:", err);
+    });
+
+    // ★ 全局诊断函数：在浏览器控制台输入 diagnose() 即可查看数据状态
+    window.diagnose = function() {
+      const lsEntries = localStorage.getItem(LS_KEY_ENTRIES);
+      const lsBackup = localStorage.getItem(LS_KEY_BACKUP);
+      const ssEntries = sessionStorage.getItem(LS_KEY_ENTRIES);
+      const info = {
+        "内存中 allEntries": Object.keys(allEntries).length + " 天",
+        "localStorage 主键大小": lsEntries ? (lsEntries.length / 1024).toFixed(1) + "KB" : "❌ 为空",
+        "localStorage 主键日期数": lsEntries ? Object.keys(JSON.parse(lsEntries)).length + " 天" : "0",
+        "localStorage 备份": lsBackup ? "✅ 有备份" : "❌ 无",
+        "sessionStorage 兜底": ssEntries ? "✅ " + (ssEntries.length / 1024).toFixed(1) + "KB" : "❌ 无",
+        "isOnline": isOnline,
+        "cloudBaseReady": cloudBaseReady,
+        "cloudLoggedIn": cloudLoggedIn,
+        "pendingCloudSync": pendingCloudSync,
+        "lastCloudError": lastCloudError || "无"
+      };
+      console.table(info);
+      console.log("💡 提示：可在控制台执行 forceLocalSave() 强制保存，或 forceLoadLocal() 强制从本地恢复");
+      return info;
+    };
+
+    window.forceLocalSave = function() {
+      const ok = saveToLocal();
+      console.log(ok ? "✅ 强制保存成功" : "❌ 强制保存失败");
+      return ok;
+    };
+
+    window.forceLoadLocal = function() {
+      Object.keys(allEntries).forEach(k => delete allEntries[k]);
+      loadFromLocal();
+      renderCalendar();
+      renderStats();
+      console.log("✅ 已强制从本地恢复，重新渲染完成");
+    };
+
+    // ★ 页面关闭/刷新前强制保存数据到 localStorage，防止数据丢失
+    window.addEventListener("beforeunload", () => {
+      // 同步保存（beforeunload 中不能使用异步操作）
+      saveToLocal();
+    });
+
+    // ★ 页面隐藏时也尝试保存（移动端切换 App 时）
+    window.addEventListener("pagehide", () => {
+      saveToLocal();
     });
   </script>
-
 </body></html>
