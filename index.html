@@ -27,7 +27,7 @@
       --today-text: #78350F;
 
       /* ===== 节假日 / 调休 ===== */
-      --holiday: #5A9A6A;
+      --holiday: #3D8B37;
       --holiday-soft: #D8F0E0;
 
       --workday: #8A8A8A;
@@ -78,6 +78,10 @@
       --health-bg: #E0E0E0;
       --health-border: #C0C0C0;
       --health-text: #555555;
+
+      /* 运动康复：暖绿 */
+      --health-rehab-bg: #C5D4B6;
+      --health-rehab-text: #5A6B4A;
 
       /* 行程：天蓝 */
       --traffic-bg: #80C0E8;
@@ -404,7 +408,7 @@
     .month-title-row {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 6px;
     }
 
     .month-title-row .icon-btn {
@@ -437,25 +441,26 @@
     }
 
     .icon-btn {
-      height: 40px;
-      border-radius: 999px;
-      background: var(--primary-soft);
-      color: var(--text-secondary);
+      border-radius: 0;
+      background: transparent;
+      color: #999;
       transition: 0.16s ease;
     }
 
     .today-btn {
       height: 40px;
       border-radius: 8px;
-      background: var(--primary-soft);
-      color: var(--text-secondary);
+      background: #E3ECF2;
+      color: #4A6B8A;
       transition: 0.16s ease;
     }
 
     .icon-btn {
-      width: 40px;
-      font-size: 22px;
-      line-height: 0;
+      width: 28px;
+      height: 28px;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 28px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -468,10 +473,14 @@
       font-weight: 600;
     }
 
-    .icon-btn:hover,
+    .icon-btn:hover {
+      background: #f0f0f0;
+      color: #666;
+    }
+
     .today-btn:hover {
-      background: var(--muted-light);
-      color: var(--text-secondary);
+      background: #CFDFEC;
+      color: #3A5A78;
     }
 
     .calendar-scroll,
@@ -538,32 +547,38 @@
 
     .date-zone {
       position: absolute;
-      top: 9px;
+      top: 6px;
       left: 9px;
       right: 9px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 6px;
       z-index: 3;
       min-width: 0;
       pointer-events: none;
-      padding-right: 38px;
+    }
+
+    .date-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      flex: 0 0 auto;
     }
 
     .date-badge {
       flex: 0 0 auto;
       min-width: 28px;
-      height: 28px;
-      font-weight: 700;
+      height: auto;
       padding: 0 9px;
-      border-radius: 999px;
-      background: var(--normal-badge);
-      color: var(--normal-text);
+      border-radius: 0;
+      background: transparent;
+      color: #333333;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       line-height: 1;
     }
 
@@ -606,26 +621,21 @@
     }
 
     .holiday-label {
-      position: absolute;
-      top: 16px;
-      right: 10px;
       display: none;
-      max-width: 42px;
+      max-width: 56px;
       color: var(--holiday);
-      font-size: 12px;
-      font-weight: 600;
-      line-height: 1;
-      text-align: right;
+      font-size: 8px;
+      font-weight: 400;
+      line-height: 1.2;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      z-index: 2;
       pointer-events: none;
     }
 
     .day.weekend .date-badge,
     .day.holiday .date-badge {
-      background: var(--holiday-soft);
+      background: transparent;
       color: var(--holiday);
     }
 
@@ -635,7 +645,7 @@
     }
 
     .day.workday .date-badge {
-      background: var(--workday-soft);
+      background: transparent;
       color: var(--workday);
     }
 
@@ -646,8 +656,9 @@
     }
 
     .day.today .date-badge {
-      background: var(--today-border);
-      color: #ffffff;
+      background: transparent;
+      color: var(--today-border);
+      font-weight: 800;
     }
 
     .day.today .holiday-label {
@@ -729,6 +740,11 @@
     .event-badge.health {
       background: var(--health-bg);
       color: var(--health-text);
+    }
+
+    .event-badge.health-rehab {
+      background: var(--health-rehab-bg);
+      color: var(--health-rehab-text);
     }
 
     .event-badge.journey {
@@ -1922,8 +1938,11 @@
       }
 
       .icon-btn {
-        width: 36px;
-        font-size: 20px;
+        width: 28px;
+        height: 28px;
+        font-size: 18px;
+        font-weight: 300;
+        line-height: 28px;
       }
 
       .today-btn {
@@ -1960,9 +1979,9 @@
 
       .date-badge {
         min-width: 25px;
-        height: 25px;
+        height: auto;
         padding: 0 7px;
-        font-size: 12px;
+        font-size: 13px;
       }
 
       .important-inline-badge {
@@ -1976,10 +1995,8 @@
       }
 
       .holiday-label {
-        top: 13px;
-        right: 7px;
         max-width: 36px;
-        font-size: 11px;
+        font-size: 7px;
       }
 
       .event-list {
@@ -2860,6 +2877,10 @@
                 <span>心理咨询</span>
               </label>
               <label class="radio-card">
+                <input type="radio" name="healthCategory" value="运动康复">
+                <span>运动康复</span>
+              </label>
+              <label class="radio-card">
                 <input type="radio" name="healthCategory" value="其他">
                 <span>其他</span>
               </label>
@@ -2931,15 +2952,10 @@
   <input type="file" id="importFileInput" accept=".json" style="display:none;">
 
   <!-- ★ 数据状态指示器（始终可见） -->
-  <div id="dataStatusBar" style="position:fixed;bottom:0;left:0;right:0;background:#1a2a3a;color:#fff;padding:6px 16px;font-size:12px;z-index:99998;display:flex;align-items:center;justify-content:space-between;gap:12px;opacity:0.95;">
-    <span style="display:flex;align-items:center;gap:8px;">
-      <span id="dsbStatus">⌛ 正在初始化…</span>
-      <span style="color:#aaa;">|</span>
-      <span>v25.6.30</span>
-    </span>
-    <span style="display:flex;align-items:center;gap:8px;">
-      <button onclick="if(window.exportBackup)exportBackup()" style="background:#286FB4;color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;">📥 导出备份</button>
-    </span>
+  <div id="dataStatusBar" style="position:fixed;bottom:0;left:0;right:0;background:#1a2a3a;color:#fff;padding:6px 16px;font-size:12px;z-index:99998;display:flex;align-items:center;justify-content:flex-start;gap:12px;opacity:0.95;">
+    <span id="dsbStatus">⌛ 正在初始化…</span>
+    <span style="color:#aaa;">|</span>
+    <span>v25.6.30</span>
   </div>
 
   <div id="badgeTooltip" class="badge-tooltip"></div>
@@ -4418,7 +4434,7 @@
       }
 
       if (entry.kind === "health") {
-        return "health";
+        return entry.category === "运动康复" ? "health-rehab" : "health";
       }
 
       if (entry.kind === "traffic") {
@@ -4872,10 +4888,12 @@
 
         day.innerHTML = `
           <span class="date-zone">
-            <span class="date-badge">${dayDate.getDate()}</span>
+            <span class="date-col">
+              <span class="date-badge">${dayDate.getDate()}</span>
+              <span class="holiday-label">${labelText}</span>
+            </span>
             ${renderImportantInlineBadges(key)}
           </span>
-          <span class="holiday-label">${labelText}</span>
           ${renderEventBadges(key)}
         `;
 
